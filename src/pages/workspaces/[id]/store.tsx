@@ -1,95 +1,131 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import useSWR from "swr";
-import Component from "../../../components/Container";
 import Header from "@/components/Header";
-import StoreCard from "@/components/store/StoreCard";
-import { SearchOutlined } from "@ant-design/icons";
-import { FilterStoreType } from "@/types/store";
-import { SearchStoreQueryDto } from "@/types/store.dto";
-import useDebounce from "@/hooks/useDebounce";
+import Component from "@/components/Container";
+import { Button, Table, Tag } from "antd";
+import { useCallback, useMemo, useState } from "react";
+import { useRouter } from "next/router";
+import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
-import { StoreAPI } from "@/pages/api/store";
+import { StoreFilters, StoreType } from "@/types/store";
+import { useStore } from "@/hooks/quries/useStore";
+import StoreDrawer from "@/components/store/StoreDrawer";
+import CreateStoreDrawer from "@/components/store/CreateStoreDrawer";
 
-const parseQuery = (query) => ({
-  workspaceId: query.id as string,
-  ...query,
-});
+export default function StoreList() {
+  const router = useRouter();
+  const workspaceId = Number(router.query.id);
+  const storeId = Number(router.query.storeId) || null;
 
-const useStoreData = (workspaceId, filter) => {
-  const debouncedFilter = useDebounce(filter);
-  const { data, error, mutate } = useSWR(
-    workspaceId ? `/workspace/${workspaceId}/store` : null,
-    () => StoreAPI.findMany(workspaceId, debouncedFilter),
-    { revalidateOnFocus: false }
+  const [filters, setFilters] = useState<StoreFilters>({ page: 1, size: 15 });
+  const { data, isLoading, error } = useStore(workspaceId, filters);
+  const [createStoreDrawerOpen, setCreateStoreDrawerOpen] = useState(false);
+
+  const setSelectedStoreId = useCallback(
+    (id: number | null) => {
+      router.push(
+        {
+          query: {
+            ...router.query,
+            storeId: id,
+          },
+        },
+        undefined,
+        { shallow: true }
+      );
+    },
+    [router]
   );
 
-  useEffect(() => {
-    if (workspaceId) mutate();
-  }, [debouncedFilter, mutate, workspaceId]);
+  const handleCloseStoreDrawer = useCallback(() => {
+    setSelectedStoreId(null);
+  }, [setSelectedStoreId]);
 
-  return { data, error };
-};
-
-export default function Store() {
-  const router = useRouter();
-  const query = parseQuery(router.query);
-  const workspaceId = parseInt(query.workspaceId);
-  const [filter, setFilter] = useState(query);
-
-  const { data, error } = useStoreData(workspaceId, filter);
-
-  const onSearchChange = (e) => {
-    setFilter((prevFilter) => ({ ...prevFilter, name: e.target.value }));
-  };
+  const columns = useMemo(
+    () => [
+      {
+        title: "아이디",
+        dataIndex: "id",
+        width: "70px",
+      },
+      {
+        title: "유형",
+        dataIndex: "type",
+        render: (type: StoreType) => StoreType[type],
+        width: "120px",
+      },
+      {
+        title: "이름",
+        dataIndex: "name",
+      },
+      {
+        title: "상태",
+        dataIndex: "enabled",
+        render: (enabled: boolean) => {
+          return enabled ? (
+            <Tag color="green">활성화</Tag>
+          ) : (
+            <Tag color="red">비활성화</Tag>
+          );
+        },
+      },
+    ],
+    []
+  );
 
   if (error) {
     errorHandler(error, router);
-    return <Component>에러가 발생했습니다.</Component>;
   }
 
-  if (!data) return <Component>로딩 중...</Component>;
+  if (isLoading) return <Loading />;
+  if (error) return <div>Error</div>;
 
   return (
     <Component>
-      <Header title="스토어" description="스토어 목록" />
-      <div className="flex-col">
-        <button className="mr-3 bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-xl shadow-sm cursor-pointer hover:shadow-lg duration-75">
-          스토어 연동
-        </button>
-        <div className="flex gap-1">
-          <div className="rounded-xl bg-white border-2 px-4 py-2 flex items-center">
-            <SearchOutlined className="text-gray-500 mr-2" />
-            <input
-              type="text"
-              placeholder="검색어를 입력하세요."
-              onChange={onSearchChange}
-              className="outline-none"
-            />
-          </div>
-          <select
-            className="rounded-xl bg-white border-2 px-4 py-2 cursor-pointer"
-            onChange={(e) =>
-              setFilter((prevFilter) => ({
-                ...prevFilter,
-                type: e.target.value,
-              }))
-            }
-          >
-            <option value="">전체</option>
-            {Object.entries(FilterStoreType).map(([key, value]) => (
-              <option key={value} value={key}>
-                {key}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-      <div className="grid gap-6 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-4">
-        {data.nodes.map((store) => (
-          <StoreCard key={store.id} workspaceId={workspaceId} {...store} />
-        ))}
-      </div>
+      <Header title="스토어 목록" description="워크스페이스의 스토어 목록" />
+
+      {storeId && (
+        <StoreDrawer
+          workspaceId={workspaceId}
+          storeId={storeId}
+          isOpen={!!storeId}
+          setIsOpen={handleCloseStoreDrawer}
+        />
+      )}
+      <CreateStoreDrawer
+        workspaceId={workspaceId}
+        isOpen={createStoreDrawerOpen}
+        setIsOpen={setCreateStoreDrawerOpen}
+      />
+
+      <Button
+        type="primary"
+        onClick={() => setCreateStoreDrawerOpen(true)}
+        className="mb-4"
+      >
+        스토어 생성
+      </Button>
+
+      <Table
+        scroll={{ x: "1000px" }}
+        columns={columns}
+        dataSource={data?.nodes || []}
+        rowKey="id"
+        rowClassName={"cursor-pointer"}
+        onRow={(record) => ({
+          onClick: () => {
+            setSelectedStoreId(record.id);
+          },
+        })}
+        pagination={{
+          current: filters.page,
+          pageSize: filters.size,
+          total: data?.total,
+          showSizeChanger: true,
+          pageSizeOptions: ["15", "20", "30", "40"],
+          showTotal: (total) => `총 ${total} 건`,
+          onChange: (page, pageSize) =>
+            setFilters({ ...filters, page, size: pageSize }),
+        }}
+      />
     </Component>
   );
 }

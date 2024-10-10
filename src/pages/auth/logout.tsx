@@ -1,25 +1,38 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import toast from "react-hot-toast";
-import Container from "@/components/Container";
-import { deleteCookie } from "cookies-next";
-import { AuthAPI } from "../api/auth";
+import { useLogout } from "@/hooks/quries/useAuth";
+import errorHandler from "@/utils/error";
 
-export default function Logout() {
+const LogoutPage = () => {
+  const hasLoggedOut = useRef(false);
+
+  const { mutateAsync: logoutMutation } = useLogout();
   const router = useRouter();
 
-  const logout = async () => {
-    await AuthAPI.logout();
-    deleteCookie("accessToken");
-    deleteCookie("refreshToken");
+  const handleLogout = useCallback(() => {
+    if (hasLoggedOut.current) return; // 이미 로그아웃 시도했다면 중단
 
-    toast.success("로그아웃 되었습니다.");
-    router.push("/auth/login");
-  };
+    hasLoggedOut.current = true; // 로그아웃 시도 표시
+    toast.promise(logoutMutation(), {
+      loading: "로그아웃 처리중...",
+      success: () => {
+        router.push("/auth/login");
+        return "로그아웃 완료";
+      },
+      error: (err) => {
+        hasLoggedOut.current = false; // 에러 시 재시도 가능하도록 리셋
+        errorHandler(err, router);
+        return "로그아웃 실패";
+      },
+    });
+  }, [logoutMutation, router]);
 
   useEffect(() => {
-    logout();
-  });
+    handleLogout();
+  }, [handleLogout]);
 
-  return <Container>로그아웃 처리중입니다.</Container>;
-}
+  return null; // 또는 로그아웃 중임을 나타내는 UI
+};
+
+export default LogoutPage;

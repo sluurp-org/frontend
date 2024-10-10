@@ -1,44 +1,31 @@
 import Image from "next/image";
-import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
-import { AuthAPI } from "../api/auth";
-import {
-  ArrowLeftOutlined,
-  CaretLeftOutlined,
-  LeftOutlined,
-} from "@ant-design/icons";
+import { LeftOutlined } from "@ant-design/icons";
+import { LoginDto } from "@/types/auth";
+import { useLogin } from "@/hooks/quries/useAuth";
 
 export default function Login() {
   const router = useRouter();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
 
-  const onSubmit = async (event: FormEvent) => {
-    event.preventDefault();
+  const [credentials, setCredentials] = useState<LoginDto>({
+    email: "",
+    password: "",
+  });
+  const loginMutation = useLogin();
 
-    try {
-      await AuthAPI.loginByEmail({ email, password });
-      const redirect = router.query.redirect as string | undefined;
-
-      toast.success("로그인 되었습니다.");
-      router.push(redirect ?? "/workspaces");
-    } catch (error: any) {
-      const message = error.response.data.message;
-      toast.error(message);
-    }
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    loginMutation.mutate(credentials);
   };
-
-  const onReturnClick = () => {
-    router.push("/");
-  };
+  const handleReturn = () => router.back();
 
   return (
     <div className="flex items-center justify-center h-screen select-none">
       <div className="w-screen p-8 sm:p-0 sm:w-[400px]">
         <div className="items-center justify-center mt-6">
           <button
-            onClick={onReturnClick}
+            onClick={handleReturn}
             className="text-indigo-400 font-bold mb-2"
           >
             <LeftOutlined className="mr-1" />
@@ -52,13 +39,15 @@ export default function Login() {
           </p>
         </div>
         <div>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={handleLogin}>
             <div>
               <label className="block mt-6 text-gray-600">이메일</label>
               <input
                 type="email"
                 required
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) =>
+                  setCredentials({ ...credentials, email: e.target.value })
+                }
                 className="w-full mt-2 p-3 border border-gray-200 rounded-md"
               />
             </div>
@@ -67,7 +56,9 @@ export default function Login() {
               <input
                 type="password"
                 required
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) =>
+                  setCredentials({ ...credentials, password: e.target.value })
+                }
                 className="w-full mt-2 p-3 border border-gray-200 rounded-md"
               />
             </div>

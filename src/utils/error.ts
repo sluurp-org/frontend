@@ -35,6 +35,12 @@ const errorHandler = async (error: unknown, router: NextRouter) => {
       return;
     }
 
+    if (error.message === "NoRefreshToken") {
+      toast.error("로그인이 만료되었습니다. 다시 로그인해주세요.");
+      router.push("/auth/login");
+      return;
+    }
+
     toast.error(error.message);
     return;
   }

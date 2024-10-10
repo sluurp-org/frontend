@@ -1,16 +1,9 @@
-import { AuthAPI } from "@/pages/api/auth";
-import axios, {
-  AxiosError,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-  isAxiosError,
-} from "axios";
-import { getCookie } from "cookies-next";
+import { AxiosError, InternalAxiosRequestConfig, isAxiosError } from "axios";
 
 import axiosClient from "./axios";
 
 export const addAuthInterceptor = (req: InternalAxiosRequestConfig) => {
-  const token = getCookie("accessToken") || "";
+  const token = localStorage.getItem("accessToken") || "";
   req.headers.Authorization = `Bearer ${token}`;
 
   return req;
@@ -23,10 +16,14 @@ export const refreshIntercepter = async (err: AxiosError | Error) => {
   if (response?.status !== 401) return Promise.reject(err);
   if (config?.url === "/auth/refresh") return Promise.reject(err);
 
-  const refreshToken = getCookie("refreshToken") || "";
-  if (!refreshToken) return Promise.reject(err);
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (!refreshToken) throw new Error("NoRefreshToken");
 
-  await AuthAPI.refresh({ refreshToken });
+  const { data } = await axiosClient.post("/auth/refresh", {
+    refreshToken,
+  });
+  localStorage.setItem("accessToken", data.accessToken);
+  localStorage.setItem("refreshToken", data.refreshToken);
 
   if (config) {
     return axiosClient.request(config);

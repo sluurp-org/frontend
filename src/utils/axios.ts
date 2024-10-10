@@ -2,7 +2,7 @@ import axios, { CreateAxiosDefaults } from "axios";
 import { addAuthInterceptor, refreshIntercepter } from "./intercepters";
 
 export const axiosOptions: CreateAxiosDefaults = {
-  baseURL: "http://localhost:3000",
+  baseURL: process.env.NEXT_PUBLIC_API_HOST,
   headers: {
     "Content-Type": "application/json",
   },

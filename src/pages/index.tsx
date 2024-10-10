@@ -113,7 +113,7 @@ export default function Home() {
         </div>
       </section>
       <Section className=" bg-gradient-to-br from-indigo-400 to-indigo-500 text-white">
-        <h1 className="text-5xl font-bold text-left">
+        <h1 className="text-4xl text-center font-bold sm:text-5xl sm:text-left">
           왜 스르륵을 사용해야 할까요?
         </h1>
 
@@ -154,7 +154,7 @@ export default function Home() {
         </div>
       </Section>
       <Section>
-        <h1 className="text-3xl font-bold text-center sm:text-left sm:leading-[1.3] sm:text-5xl break-keep">
+        <h1 className="text-3xl font-bold text-center sm:leading-[1.3] sm:text-5xl break-keep">
           <span
             className={`text-indigo-400 text-slide ${animate ? "animate" : ""}`}
           >
@@ -162,7 +162,7 @@ export default function Home() {
           </span>
           에 자동으로 메시지를 발송하세요.
         </h1>
-        <p className="mt-3 text-gray-500 sm:text-left text-center break-words">
+        <p className="mt-3 text-gray-500 text-center break-words">
           주문, 배송, 환불, 구매 확정 등의 이벤트에 따라 고객에게 자동으로
           메시지를 발송하세요.
         </p>
@@ -208,8 +208,8 @@ export default function Home() {
               주문 즉시 자동 발송
             </h2>
             <p className="mt-1">
-              네이버 스마트스토어, 카페24, 샵바이, 고도몰등 다양한 플랫폼에서
-              구매한 디지털 상품은 최대 3분 이내에 자동으로 발송됩니다.
+              네이버 스마트스토어(스토어팜) 에서 구매한 디지털 상품은 최대 3분
+              이내에 자동으로 발송됩니다.
             </p>
             <p className="mt-2 text-gray-400 text-sm">
               호스팅 업체 다운, 외부 스토어 정책 변경으로 인한 발송 지연이 있을
@@ -254,7 +254,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="p-10 bg-white text-black rounded-lg shadow-lg hover:shadow-xl duration-75">
+          {/* <div className="p-10 bg-white text-black rounded-lg shadow-lg hover:shadow-xl duration-75">
             <h2 className="text-2xl font-bold">
               <FolderOpenFilled className="text-indigo-500 mr-2" />
               외부 플랫폼 연동
@@ -264,7 +264,7 @@ export default function Home() {
               서버와 스르륵을 연동하실 경우 스르륵을 통해 상품을 불러와 자동
               발송할 수 있습니다.
             </p>
-          </div>
+          </div> */}
 
           <div className="p-10 bg-white text-black rounded-lg shadow-lg hover:shadow-xl duration-75">
             <h2 className="text-2xl font-bold">
@@ -280,7 +280,7 @@ export default function Home() {
         </div>
       </Section>
       <Section autoWidth={false}>
-        <div className="bg-gradient-to-br from-indigo-400 to-indigo-600 animated-background text-center text-white p-32 rounded-2xl shadow-lg hover:shadow-xl duration-75">
+        <div className="bg-gradient-to-br from-indigo-400 to-indigo-600 animated-background text-center text-white py-24 sm:p-32 rounded-2xl shadow-lg hover:shadow-xl duration-75">
           <h1 className="text-3xl font-bold sm:leading-[1.3] sm:text-5xl">
             아직 결정하지 못했나요?
             <br />

@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { MenuOutlined } from "@ant-design/icons";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [menu, setMenu] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,6 +33,10 @@ export default function Navigation() {
     router.push("/pricing");
   };
 
+  const onTemplateClick = () => {
+    router.push("/templates");
+  };
+
   return (
     <div
       className={`fixed top-0 left-0 right-0 bg-white z-10 duration-150 ${
@@ -47,6 +53,43 @@ export default function Navigation() {
           className="cursor-pointer"
         />
         <div className="flex gap-5 items-center">
+          <div className="sm:flex gap-5 hidden">
+            <button
+              onClick={navigateToPricing}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              요금 안내
+            </button>
+            <a
+              href="https://docs.sluurp.io"
+              target="_blank"
+              className="text-gray-500 hover:text-gray-700"
+            >
+              이용 가이드
+            </a>
+            <button
+              className="text-gray-500 hover:text-gray-700"
+              onClick={onTemplateClick}
+            >
+              알림톡 예제
+            </button>
+          </div>
+          <div
+            className="sm:hidden cursor-pointer"
+            onClick={() => setMenu((prev) => !prev)}
+          >
+            <MenuOutlined className="text-2xl" />
+          </div>
+          <button
+            onClick={navigateToAuth}
+            className="px-4 p-3 bg-indigo-400 text-white rounded-xl text-sm font-semibold hover:bg-indigo-600"
+          >
+            무료로 시작하기
+          </button>
+        </div>
+      </div>
+      {menu && (
+        <div className="mx-auto pt-3 pb-5 flex flex-col gap-5 text-center shadow-lg w-screen sm:hidden">
           <button
             onClick={navigateToPricing}
             className="text-gray-500 hover:text-gray-700"
@@ -61,13 +104,13 @@ export default function Navigation() {
             이용 가이드
           </a>
           <button
-            onClick={navigateToAuth}
-            className="px-4 p-3 bg-indigo-400 text-white rounded-xl text-sm font-semibold hover:bg-indigo-600"
+            className="text-gray-500 hover:text-gray-700"
+            onClick={onTemplateClick}
           >
-            무료로 시작하기
+            알림톡 예제
           </button>
         </div>
-      </div>
+      )}
     </div>
   );
 }

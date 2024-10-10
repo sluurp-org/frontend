@@ -42,11 +42,16 @@ function PricingCard({
 }
 
 export default function Pricing() {
+  const router = useRouter();
+  const onClick = () => {
+    router.push("/auth/login");
+  };
+
   return (
     <div>
       <Navigation />
-      <Section className="mt-32">
-        <h1 className="text-5xl font-bold text-center">
+      <Section className="h-[1000px]">
+        <h1 className="text-4xl sm:text-5xl font-bold text-center">
           <span className="text-indigo-400">스르륵</span> 서비스 이용 요금
         </h1>
         <p className="mt-3 text-center text-gray-600">
@@ -62,8 +67,9 @@ export default function Pricing() {
               "무제한 메시지 전송",
               "알림톡 제작 및 검수 대행",
               "최대 1개의 스토어 연동",
+              "최대 5개의 메세지 템플릿",
             ]}
-            onClick={() => {}}
+            onClick={onClick}
           />
           <PricingCard
             title="Standard"
@@ -74,8 +80,9 @@ export default function Pricing() {
               "최대 5개의 스토어 연동",
               "디지털 상품 판매 가능",
               "알림톡 빠른 검수 대행",
+              "최대 10개의 메세지 템플릿",
             ]}
-            onClick={() => {}}
+            onClick={onClick}
           />
           <PricingCard
             title="Premium"
@@ -84,10 +91,11 @@ export default function Pricing() {
             features={[
               "Standard 요금제 기능 포함",
               "무제한 스토어 연동",
+              "무제한 메세지 템플릿 등록",
               "외부 디지털 상품 연동 가능",
               "고객센터 우선 지원",
             ]}
-            onClick={() => {}}
+            onClick={onClick}
           />
         </div>
       </Section>

@@ -26,14 +26,21 @@ export default function Sidebar() {
   return (
     <div className="sm:h-screen border-gray-100 sm:border-none sm:shadow-lg sm:w-[270px] w-screen">
       <div className="flex justify-between sm:pt-9 px-9 py-5">
-        <Image alt="스르륵" src="/logo.png" width={60} height={80} />
+        <Image
+          alt="스르륵"
+          src="/logo.png"
+          width={60}
+          height={80}
+          onClick={() => router.push("/workspaces")}
+          className="cursor-pointer"
+        />
         <MenuOutlined
           className="sm:hidden cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         />
       </div>
       <div
-        className={`px-9 sm:block w-full shadow-lg sm:shadow-none absolute sm:static bg-white ${
+        className={`sm:block w-full shadow-lg sm:shadow-none absolute sm:static z-50 bg-white ${
           isOpen ? "" : "hidden"
         }`}
       >
@@ -61,7 +68,7 @@ export default function Sidebar() {
               setClose={setClose}
               url="content"
               icon={<ReadOutlined />}
-              text="발송 컨텐츠"
+              text="발송 콘텐츠"
             />
             <SidebarButton
               setClose={setClose}
@@ -75,7 +82,7 @@ export default function Sidebar() {
               icon={<SettingOutlined />}
               text="워크스페이스 설정"
             />
-            <div className="border-b-2 border-gray-100" />
+            <div className="border-b-2 border-gray-100 mx-9" />
           </>
         )}
         <SidebarButton

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
-import { UserAPI } from "../api/user";
+// import { UserAPI } from "../api/user";
 import toast from "react-hot-toast";
 import { LeftOutlined } from "@ant-design/icons";
 
@@ -15,7 +15,7 @@ export default function Login() {
     event.preventDefault();
 
     try {
-      await UserAPI.register({ name, email, password });
+      // await UserAPI.register({ name, email, password });
 
       toast.success("회원가입이 완료되었습니다.");
       router.push("/auth/login");

@@ -26,8 +26,8 @@ export default function SidebarButton({
 
   return (
     <div
-      className={`flex items-center w-full space-x-4 my-3 hover:bg-gray-100 hover:pl-4 focus:bg-gray-400 rounded-lg pr-4 py-3 cursor-pointer select-none duration-75 ${
-        isActive ? "bg-gray-100 pl-4" : ""
+      className={`flex items-center w-auto space-x-4 my-3 hover:bg-gray-100 pl-4 mx-9 focus:bg-gray-400 rounded-lg py-3 cursor-pointer select-none duration-75 ${
+        isActive ? "bg-gray-100" : ""
       }`}
       onClick={onClick}
     >

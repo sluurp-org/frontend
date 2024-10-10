@@ -1,43 +1,73 @@
 import Container from "@/components/Container";
-import useSWR from "swr";
-import { UserAPI } from "../api/user";
 import errorHandler from "@/utils/error";
 import { useRouter } from "next/router";
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-
+import { Button, Form, Input } from "antd";
+import { useUserMe, useUserUpdate } from "@/hooks/quries/useUser";
+import { UserMeDto, UserUpdateDto } from "@/types/user";
+import Loading from "@/components/Loading";
 export default function Profile() {
   const router = useRouter();
-  const { register, handleSubmit, setValue } = useForm();
+  const [form] = Form.useForm();
+
+  const { data, isLoading, error } = useUserMe();
+  const { mutateAsync: updateMe } = useUserUpdate();
 
   useEffect(() => {
-    const fetchDefaultValues = async () => {
-      try {
-        const data = await UserAPI.me();
-        setValue("name", data.name);
-        setValue("email", data.email);
-      } catch (error) {
-        errorHandler(error, router);
-      }
-    };
+    if (data) {
+      form.setFieldsValue(data);
+    }
+  }, [data, form]);
 
-    fetchDefaultValues();
-  }, [setValue, router]);
+  if (isLoading) return <Loading />;
+  if (error) {
+    errorHandler(error, router);
+    router.back();
+    return null;
+  }
 
-  const onSubmit = async (data: {}) => {
+  const onSubmit = async () => {
     try {
+      const formData = form.getFieldsValue();
       const processedData = Object.fromEntries(
-        Object.entries(data).map(([key, value]) => [
+        Object.entries(formData).map(([key, value]) => [
           key,
           value === "" ? null : value,
         ])
       );
 
-      await UserAPI.update(processedData);
-      toast.success("프로필이 수정되었습니다.");
-      router.push("/profile");
+      if (processedData.password !== processedData.passwordConfirm) {
+        toast.error("비밀번호가 일치하지 않습니다.");
+        return;
+      }
+
+      if (
+        processedData.password &&
+        (processedData.password as string).length < 8
+      ) {
+        toast.error("비밀번호는 8자 이상이어야 합니다.");
+        return;
+      }
+
+      const updateBody = processedData as UserUpdateDto;
+
+      toast.promise(
+        updateMe({
+          name: updateBody.name,
+          email: updateBody.email,
+          password: updateBody.password,
+        }),
+        {
+          loading: "프로필 수정중...",
+          success: "프로필 수정 완료",
+          error: (error) => {
+            errorHandler(error, router);
+            return "프로필 수정 실패";
+          },
+        }
+      );
     } catch (error) {
       errorHandler(error, router);
     }
@@ -46,40 +76,28 @@ export default function Profile() {
   return (
     <Container>
       <Header title="프로필" description="프로필 정보" />
-      <form className="w-full sm:w-[450px]" onSubmit={handleSubmit(onSubmit)}>
-        <div className="mt-4">
-          <label className="block text-gray-600">이름</label>
-          <input
-            type="text"
-            required
-            {...register("name", { required: true })}
-            className="w-full mt-2 p-3 border border-gray-200 rounded-md"
-          />
-        </div>
-        <div className="mt-4">
-          <label className="block text-gray-600">이메일</label>
-          <input
-            type="email"
-            required
-            {...register("email", { required: true })}
-            className="w-full mt-2 p-3 border border-gray-200 rounded-md"
-          />
-        </div>
-        <div className="mt-4">
-          <label className="block text-gray-600">비밀번호</label>
-          <input
-            type="password"
-            {...register("password")}
-            className="w-full mt-2 p-3 border border-gray-200 rounded-md"
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full mt-6 p-3 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 duration-75"
-        >
-          프로필 수정
-        </button>
-      </form>
+      <Form
+        form={form}
+        onFinish={onSubmit}
+        className="w-full sm:w-[450px]"
+        layout="vertical"
+      >
+        <Form.Item name="name" label="이름">
+          <Input />
+        </Form.Item>
+        <Form.Item name="email" label="이메일">
+          <Input />
+        </Form.Item>
+        <Form.Item name="password" label="비밀번호">
+          <Input type="password" />
+        </Form.Item>
+        <Form.Item name="passwordConfirm" label="비밀번호 확인">
+          <Input type="password" />
+        </Form.Item>
+        <Button type="primary" htmlType="submit">
+          수정
+        </Button>
+      </Form>
     </Container>
   );
 }

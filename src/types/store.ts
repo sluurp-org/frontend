@@ -1,31 +1,62 @@
-export enum StoreType {
-  SMARTSTORE = "SMARTSTORE",
+export type StoreType = "SMARTSTORE";
+export const StoreType = {
+  SMARTSTORE: "스마트스토어",
+} as const;
+
+export interface CreateSmartStoreCredentialsDto {
+  applicationId: string;
+  applicationSecret: string;
 }
 
-export enum FilterStoreType {
-  "스마트스토어" = "SMARTSTORE",
+export interface CreateStoreDto {
+  name: string;
+  type: StoreType;
+  smartStoreCredentials: CreateSmartStoreCredentialsDto;
 }
 
-interface StoreBase {
+export interface StoresDto {
   id: number;
   name: string;
   type: StoreType;
   enabled: boolean;
 }
 
-interface SmartStoreCredentials {
-  name: string;
-  channelId: number;
-  applicationId: string;
-  applicationSecret: string;
+export interface UpdateSmartStoreCredentialsDto {
+  applicationId?: string;
+  applicationSecret?: string;
 }
 
-type Store = StoreBase & {
-  type: StoreType.SMARTSTORE;
-  smartStoreCredentials: SmartStoreCredentials;
-};
+export interface UpdateStoreDto {
+  id?: number;
+  name?: string;
+  enabled?: boolean;
+  smartStoreCredentials?: UpdateSmartStoreCredentialsDto;
+}
 
-export interface StoreList {
-  nodes: Store[];
+export interface StoreFilters {
+  page?: number;
+  size?: number;
+  name?: string;
+}
+
+export interface PaginatedStoreDto {
   total: number;
+  nodes: StoresDto[];
+}
+
+export interface SmartStoreCredentialsDto {
+  applicationId: string;
+  applicationSecret: string;
+  name: string;
+  channelId: number;
+}
+
+export interface StoreDetailDto {
+  id: number;
+  name: string;
+  type: StoreType;
+  enabled: boolean;
+  lastProductSyncAt: Date;
+  lastOrderSyncAt: Date;
+  smartStoreCredentials: SmartStoreCredentialsDto;
 }
