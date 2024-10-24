@@ -70,7 +70,7 @@ export function PricingCard({
         <ul className="list-disc list-inside">
           {sendPrice.map((price) => (
             <li key={price.name}>
-              {price.name} 발송당 {price.price.toLocaleString("ko-KR")}원
+              {price.name} 발송당 {price.price.toLocaleString("ko-KR")} 크레딧
             </li>
           ))}
         </ul>
@@ -100,7 +100,7 @@ export default function Pricing() {
         }}
       />
       <Navigation />
-      <Section className="h-[1000px] h-min-[1000px]">
+      <Section className="mt-32 h-min-[1000px]">
         <h1 className="text-4xl sm:text-5xl font-bold text-center">
           <span className="text-indigo-400">스르륵</span> 서비스 이용 요금
         </h1>
