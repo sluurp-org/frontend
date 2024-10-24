@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { useOrderHistory } from "@/hooks/quries/useOrder";
+import { useOrderHistory } from "@/hooks/queries/useOrder";
 import Loading from "../Loading";
 import { Button, Empty, Pagination, Timeline } from "antd";
-import {
-  OrderHistoryDto,
-  OrderHistoryEventStatus,
-  OrderHistoryFilters,
-} from "@/types/order-history";
+import { OrderHistoryDto, OrderHistoryFilters } from "@/types/order-history";
+import { EventHistoryStatusMap } from "@/types/event-history";
 import moment from "moment";
 import { OrderStatus } from "@/types/orders";
 import {
@@ -21,19 +18,7 @@ import {
 import { getJosaPicker } from "josa";
 import toast from "react-hot-toast";
 import errorHandler from "@/utils/error";
-
-interface Order {
-  id: string;
-  type: "EVENT" | "MESSAGE" | "STATUS_CHANGE";
-  createdAt: string;
-  message?: string;
-  changedStatus?: string;
-  eventHistory?: {
-    status: "PROCESSING" | "SUCCESS" | "FAILURE";
-    message?: string;
-    processedAt?: string;
-  };
-}
+import EventHistoryModal from "../event-history/EventHistoryModal";
 
 interface Props {
   orderId: number;
@@ -42,6 +27,8 @@ interface Props {
 
 const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
   const router = useRouter();
+  const [eventHistoryModalOpen, setEventHistoryModalOpen] = useState(false);
+  const [eventHistoryId, setEventHistoryId] = useState<string | null>(null);
   const [filters, setFilters] = useState<OrderHistoryFilters>({
     page: 1,
     size: 5,
@@ -66,10 +53,13 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
       if (order.eventHistory) {
         switch (order.eventHistory.status) {
           case "PROCESSING":
+          case "CONTENT_READY":
+          case "PENDING":
+          case "READY":
             return <LoadingOutlined />;
           case "SUCCESS":
             return <CheckCircleOutlined className="text-green-400" />;
-          case "FAIL":
+          case "FAILED":
             return <CloseCircleOutlined className="text-red-400" />;
           default:
             return <CloseCircleOutlined className="text-red-400" />;
@@ -87,6 +77,11 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
     }
 
     return null;
+  };
+
+  const handleOpenEventHistoryModal = (id: string) => {
+    setEventHistoryId(id);
+    setEventHistoryModalOpen(true);
   };
 
   const renderTimelineContent = (order: OrderHistoryDto) => {
@@ -136,7 +131,10 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
         return (
           <>
             <p className="text-xs mb-2">{formattedDate}</p>
-            <div className="flex flex-col bg-white border rounded-lg p-4 cursor-pointer hover:shadow-lg duration-150">
+            <div
+              className="flex flex-col bg-white border rounded-lg p-4 cursor-pointer hover:shadow-lg duration-150"
+              onClick={() => handleOpenEventHistoryModal(order.eventHistory.id)}
+            >
               <h4 className="mb-2 text-base font-semibold">
                 <MessageOutlined className="mr-1" /> 메세지 발송
               </h4>
@@ -144,7 +142,7 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
                 <>
                   <p className="text-sm font-light">
                     진행 상태:{" "}
-                    {OrderHistoryEventStatus[order.eventHistory.status]}
+                    {EventHistoryStatusMap[order.eventHistory.status]}
                   </p>
                   {order.eventHistory.message && (
                     <p className="text-sm font-light">
@@ -189,6 +187,14 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
 
   return (
     <div>
+      {eventHistoryId && (
+        <EventHistoryModal
+          open={eventHistoryModalOpen}
+          onClose={() => setEventHistoryModalOpen(false)}
+          workspaceId={workspaceId}
+          eventHistoryId={eventHistoryId}
+        />
+      )}
       <div className="flex justify-between items-center mb-3">
         <Button
           className="bg-indigo-400 text-white border-none duration-150"

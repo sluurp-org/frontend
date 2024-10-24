@@ -8,6 +8,7 @@ import {
   message,
   Popover,
   Switch,
+  Alert,
 } from "antd";
 import React, { useState, useEffect } from "react";
 import {
@@ -15,15 +16,16 @@ import {
   useStoreDetail,
   useSyncStoreProduct,
   useUpdateStore,
-} from "@/hooks/quries/useStore";
+} from "@/hooks/queries/useStore";
 import Loading from "../Loading";
 import errorHandler from "@/utils/error";
 import { useRouter } from "next/router";
 import InfoRow from "@/components/InfoRow";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { StoreType, UpdateStoreDto } from "@/types/store";
 import moment from "moment";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 const { Text } = Typography;
 
@@ -217,6 +219,28 @@ export default function StoreDrawer({
           <h3 className="text-lg font-semibold mb-2">
             네이버 스마트스토어 설정
           </h3>
+
+          <Form.Item noStyle>
+            <Alert
+              icon={<InfoCircleOutlined />}
+              showIcon
+              className="mb-3"
+              message={
+                <div>
+                  <p>아래 문서를 참고해서 스마트스토어 연동을 진행해주세요.</p>
+                  <Link
+                    className="text-blue-500"
+                    target="_blank"
+                    href="https://docs.sluurp.io/ko/articles/d180665d"
+                  >
+                    스마트 스토어(스토어팜) 연동 방법
+                  </Link>
+                </div>
+              }
+              type="info"
+            />
+          </Form.Item>
+
           <Form.Item
             name={["smartStoreCredentials", "applicationId"]}
             label="애플리케이션 아이디"

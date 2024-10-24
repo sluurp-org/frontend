@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Component from "../../../../components/Container";
 import { useRouter } from "next/router";
-import { useProduct } from "@/hooks/quries/useProduct";
+import { useProduct } from "@/hooks/queries/useProduct";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import Image from "next/image";

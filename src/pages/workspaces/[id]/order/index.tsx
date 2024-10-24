@@ -4,7 +4,7 @@ import { Button, Table } from "antd";
 import { useState } from "react";
 import { OrdersFilters, OrderStatus } from "@/types/orders";
 import { useRouter } from "next/router";
-import { useOrders } from "@/hooks/quries/useOrder";
+import { useOrders } from "@/hooks/queries/useOrder";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import CreateOrderDrawer from "@/components/order/CreateOrderDrawer";

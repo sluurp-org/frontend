@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Component from "../../../../components/Container";
 import { useRouter } from "next/router";
-import { useOrder } from "@/hooks/quries/useOrder";
+import { useOrder } from "@/hooks/queries/useOrder";
 import Loading from "@/components/Loading";
 import { OrderStatus } from "@/types/orders";
 import OrderHistory from "@/components/order/OrderHistory";

@@ -2,11 +2,14 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { MenuOutlined } from "@ant-design/icons";
+import { useUserMe } from "@/hooks/queries/useUser";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
   const router = useRouter();
+  const { data, isLoading, error } = useUserMe();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,7 +29,11 @@ export default function Navigation() {
   };
 
   const navigateToAuth = () => {
-    router.push("/auth/login");
+    if (isLoggedIn) {
+      router.push("/workspaces");
+    } else {
+      router.push("/auth/login");
+    }
   };
 
   const navigateToPricing = () => {
@@ -36,6 +43,14 @@ export default function Navigation() {
   const onTemplateClick = () => {
     router.push("/templates");
   };
+
+  useEffect(() => {
+    if (!isLoading && !error) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [isLoading, error]);
 
   return (
     <div
@@ -80,12 +95,21 @@ export default function Navigation() {
           >
             <MenuOutlined className="text-2xl" />
           </div>
-          <button
-            onClick={navigateToAuth}
-            className="px-4 p-3 bg-indigo-400 text-white rounded-xl text-sm font-semibold hover:bg-indigo-600"
-          >
-            무료로 시작하기
-          </button>
+          {isLoggedIn ? (
+            <button
+              onClick={navigateToAuth}
+              className="px-4 p-3 bg-indigo-400 text-white rounded-xl text-sm font-semibold hover:bg-indigo-600"
+            >
+              워크스페이스 목록
+            </button>
+          ) : (
+            <button
+              onClick={navigateToAuth}
+              className="px-4 p-3 bg-indigo-400 text-white rounded-xl text-sm font-semibold hover:bg-indigo-600"
+            >
+              무료로 시작하기
+            </button>
+          )}
         </div>
       </div>
       {menu && (

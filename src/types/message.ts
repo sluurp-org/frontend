@@ -53,6 +53,7 @@ export interface MessageDto {
   id: number;
   name: string;
   contentGroupId?: number;
+  completeDelivery: boolean;
   contentGroup?: {
     id: number;
     name: string;
@@ -107,6 +108,7 @@ export interface KakaoTemplateCreateDto {
 export interface MessageCreateDto {
   name: string;
   contentGroupId: number;
+  completeDelivery?: boolean;
   variables: {
     key: string;
     value: string;
@@ -130,6 +132,7 @@ export interface KakaoTemplateUpdateDto {
 export interface MessageUpdateDto {
   name?: string | undefined;
   contentGroupId?: number | undefined;
+  completeDelivery?: boolean;
   variables?:
     | {
         key: string;

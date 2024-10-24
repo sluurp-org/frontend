@@ -1,3 +1,4 @@
+import { EventHistoryStatus } from "./event-history";
 import { OrderStatus } from "./orders";
 
 export interface OrderHistoryFilters {
@@ -6,18 +7,6 @@ export interface OrderHistoryFilters {
 }
 
 export type OrderHistoryType = "STATUS_CHANGE" | "MESSAGE" | "EVENT";
-
-export const OrderHistoryEventStatus = {
-  PROCESSING: "처리중",
-  SUCCESS: "성공",
-  FAIL: "실패",
-} as const;
-
-export type OrderHistoryEventStatus =
-  | "PROCESSING"
-  | "SUCCESS"
-  | "FAIL";
-
 export type OrderHistoryDto =
   | {
       id: number;
@@ -36,12 +25,13 @@ export type OrderHistoryDto =
       type: "EVENT";
       createdAt: Date;
       eventHistory: {
+        id: string;
         expiredAt?: Date;
         downloadCount: number;
         message?: string;
-        status: OrderHistoryEventStatus;
+        status: EventHistoryStatus;
         processedAt: Date;
-      }
+      };
     };
 
 export interface PaginatedOrderHistoryResponse {

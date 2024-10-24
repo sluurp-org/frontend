@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import errorHandler from "@/utils/error";
 import WorkspaceCard from "@/components/workspace/WorkspaceCard";
 import Header from "@/components/Header";
-import { useWorkspaces } from "@/hooks/quries/useWorkspace";
+import { useWorkspaces } from "@/hooks/queries/useWorkspace";
 import { Button } from "antd";
 import WorkspaceDrawer from "@/components/workspace/WorkspaceDrawer";
 import { useState } from "react";

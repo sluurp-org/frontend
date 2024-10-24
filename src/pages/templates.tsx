@@ -3,6 +3,7 @@ import Footer from "@/components/main/Footer";
 import Section from "@/components/main/Section";
 import AlimTalk, { AlimTalkProps } from "@/components/kakao/AlimTalk";
 import { useState } from "react";
+import { NextSeo } from "next-seo";
 
 interface AlimTalkTemplate extends AlimTalkProps {
   name: string;
@@ -77,39 +78,47 @@ const alimTalkTemplate: AlimTalkTemplate[] = [
   },
 ];
 
-export default function Pricing() {
-  const [template, setTemplate] = useState<AlimTalkProps>(alimTalkTemplate[0]);
-
+export default function Templates() {
   return (
-    <div>
-      <Navigation />
-      <Section className="mt-32  h-">
-        <h1 className="text-5xl font-bold text-center">
-          <span className="text-indigo-400">알림톡 예제</span>
-        </h1>
-        <p className="mt-3 text-center text-gray-600 break-words px-5">
-          예시로 제공되는 알림톡 템플릿입니다. 실제 서비스에서는 사용자가 직접
-          템플릿을 생성하실 수 있습니다.
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-10">
-          {alimTalkTemplate.map((template, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <h1 className="text-2xl font-bold text-indigo-400 mb-3 mt-10">
-                {template.name}
-              </h1>
-              <AlimTalk
-                key={index}
-                content={template.content}
-                buttons={template.buttons}
-                image={template.image}
-                channelAddButton={template.channelAddButton}
-                extra={template.extra}
-              />
-            </div>
-          ))}
-        </div>
-      </Section>
-      <Footer />
-    </div>
+    <>
+      <NextSeo
+        title="스르륵 | 알림톡 예제"
+        description="스르륵 알림톡 예제 페이지입니다."
+        openGraph={{
+          title: "알림톡 예제",
+          description: "스르륵 알림톡 예제 페이지입니다.",
+        }}
+      />
+      <div>
+        <Navigation />
+        <Section className="mt-32  h-">
+          <h1 className="text-5xl font-bold text-center">
+            <span className="text-indigo-400">알림톡 예제</span>
+          </h1>
+          <p className="mt-3 text-center text-gray-600 break-words px-5">
+            예시로 제공되는 알림톡 템플릿입니다. 실제 서비스에서는 사용자가 직접
+            템플릿을 생성하실 수 있습니다.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-10">
+            {alimTalkTemplate.map((template, index) => (
+              <div key={index} className="flex flex-col items-center">
+                <h1 className="text-2xl font-bold text-indigo-400 mb-3 mt-10">
+                  {template.name}
+                </h1>
+                <AlimTalk
+                  key={index}
+                  content={template.content}
+                  buttons={template.buttons}
+                  image={template.image}
+                  channelAddButton={template.channelAddButton}
+                  extra={template.extra}
+                />
+              </div>
+            ))}
+          </div>
+        </Section>
+        <Footer />
+      </div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 export interface WorkspaceDto {
   id: number;
   name: string;
+  credit: number;
   createdAt: string;
   updatedAt: string;
 }

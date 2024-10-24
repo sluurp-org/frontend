@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import * as ChannelService from "@channel.io/channel-web-sdk-loader";
-import { useUserMe } from "@/hooks/quries/useUser";
+import { useUserMe } from "@/hooks/queries/useUser";
 
 export default function ChannelTalk() {
   const { data } = useUserMe();

@@ -1,4 +1,4 @@
-import { useCreateWorkspace } from "@/hooks/quries/useWorkspace";
+import { useCreateWorkspace } from "@/hooks/queries/useWorkspace";
 import { CreateWorkspaceDto } from "@/types/workspace";
 import errorHandler from "@/utils/error";
 import { Button, Drawer, Form, Input } from "antd";

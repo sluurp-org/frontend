@@ -22,13 +22,14 @@ import {
   useKakaoTemplateCategories,
   useMessage,
   useRequestInspection,
-} from "@/hooks/quries/useMessage";
+} from "@/hooks/queries/useMessage";
 import AlimTalk from "@/components/kakao/AlimTalk";
 import { KakaoButtonMapping, KakaoTemplateStatus } from "@/types/message";
 import { Alert, Button, Popover, Tag } from "antd";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { isAxiosError } from "axios";
+import Error from "@/components/Error";
 
 function Variable({
   variable,
@@ -103,8 +104,7 @@ export default function WorkspaceMessageDetail() {
   if (isLoading || isKakaoTemplateCategoriesLoading) return <Loading />;
   if (error || !data || kakaoTemplateCategoriesError) {
     errorHandler(error, router);
-    router.back();
-    return null;
+    return <Error />;
   }
 
   const onRequestInspection = () => {
@@ -243,7 +243,7 @@ export default function WorkspaceMessageDetail() {
     toast.promise(deleteMessage(), {
       loading: "메세지 삭제중...",
       success: () => {
-        router.back();
+        router.push(`/workspaces/${workspaceId}/message`);
         return "메세지 삭제 완료";
       },
       error: "메세지 삭제 실패",
@@ -390,6 +390,11 @@ export default function WorkspaceMessageDetail() {
                   ))}
                   {data.variables.length === 0 && <span>변수가 없습니다.</span>}
                 </div>
+              </InfoRow>
+              <InfoRow label="배송 완료 처리">
+                {data.completeDelivery
+                  ? "메세지 발송시 배송 완료 처리됨"
+                  : "수동으로 배송 완료 처리 필요"}
               </InfoRow>
               <InfoRow label="메세지 생성일">
                 {moment(data.createdAt).format(

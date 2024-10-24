@@ -1,7 +1,7 @@
-import { useDeleteEvent, useEvents } from "@/hooks/quries/useEvent";
+import { useDeleteEvent, useEvents } from "@/hooks/queries/useEvent";
 import { EventsDto, EventsFilters } from "@/types/events";
 import errorHandler from "@/utils/error";
-import { Button, Pagination, Popover, Table } from "antd";
+import { Button, Popover, Table } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { OrderStatus } from "@/types/orders";
@@ -215,39 +215,6 @@ export function Events({
           onChange: (page) => setFilters({ ...filters, page }),
         }}
       />
-      {/* <div className="flex gap-3 flex-col sm:flex-row">
-        <Button type="primary" onClick={handleRefetch}>
-          <ReloadOutlined />
-          메세지 새로고침
-        </Button>
-        <Pagination
-          current={filters.page}
-          total={data?.total}
-          pageSize={filters.size}
-          onChange={(page) => setFilters({ ...filters, page })}
-          className="mb-4"
-          showTotal={(total) => `총 ${total}개의 메세지`}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-        {data?.nodes.map((event) => (
-          <EventItem
-            key={event.id}
-            event={event}
-            workspaceId={workspaceId}
-            refetch={refetch}
-          />
-        ))}
-        <Button
-          type="dashed"
-          className="mb-4 w-full h-full font-semibold text-xl text-indigo-400 hover:text-indigo-800 hover:shadow-lg"
-          onClick={() => setIsModalOpen(true)}
-        >
-          <PlusOutlined />
-          메세지 연결
-        </Button>
-      </div> */}
     </div>
   );
 }

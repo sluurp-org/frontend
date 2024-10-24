@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Button, Form, Input } from "antd";
-import { useUserMe, useUserUpdate } from "@/hooks/quries/useUser";
+import { useUserMe, useUserUpdate } from "@/hooks/queries/useUser";
 import { UserMeDto, UserUpdateDto } from "@/types/user";
 import Loading from "@/components/Loading";
 export default function Profile() {

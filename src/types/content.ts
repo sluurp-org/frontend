@@ -45,16 +45,8 @@ export interface ContentGroupFilters {
 
 export interface ContentDto {
   id: number;
-  name: string;
-  type: ContentType;
-  oneTime: boolean;
-  expireMinute: number;
-  downloadLimit: number;
-}
-
-export interface ContentDto {
-  id: number;
   text: string;
+  name: string;
   used: boolean;
 }
 
@@ -73,6 +65,27 @@ export interface CreateContentDto {
   text: string[];
 }
 
+export interface CreateFileContentDto {
+  name: string;
+  size: number;
+  mimeType: string;
+  extension: string;
+}
+
+export enum ContentStatus {
+  READY = "READY",
+  PENDING = "PENDING",
+}
+
 export interface UpdateContentDto {
-  text: string;
+  text?: string;
+  status?: ContentStatus;
+}
+
+export interface FileContentDto extends ContentDto {
+  url: string;
+}
+
+export interface DownloadFileContentDto {
+  url: string;
 }

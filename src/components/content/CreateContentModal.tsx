@@ -1,4 +1,4 @@
-import { useCreateContent } from "@/hooks/quries/useContent";
+import { useCreateContent } from "@/hooks/queries/useContent";
 import { ContentType } from "@/types/content";
 import { Alert, Button, Form, Image, Input, Modal } from "antd";
 import errorHandler from "@/utils/error";
@@ -105,10 +105,8 @@ export default function CreateContentModal({
                 붙여넣기 할 수 있습니다.
               </p>
               <Image
-                src="/alert/content-copy-alert.png"
+                src="/guide/upload-texts.gif"
                 alt="content-add"
-                width={100}
-                height={100}
                 className="w-full"
               />
               <p className="text-sm text-gray-500">눌러서 이미지 크게 보기</p>

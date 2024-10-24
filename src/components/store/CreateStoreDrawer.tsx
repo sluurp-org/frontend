@@ -1,10 +1,12 @@
-import { Drawer, Button, Form, Input, Typography, Select } from "antd";
+import { Drawer, Button, Form, Input, Typography, Select, Alert } from "antd";
 import React from "react";
-import { useCreateStore, useSyncStoreProduct } from "@/hooks/quries/useStore";
+import { useCreateStore, useSyncStoreProduct } from "@/hooks/queries/useStore";
 import errorHandler from "@/utils/error";
 import { useRouter } from "next/router";
 import { CreateStoreDto, StoreType } from "@/types/store";
 import toast from "react-hot-toast";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import Link from "next/link";
 
 export default function CreateStoreDrawer({
   workspaceId,
@@ -37,6 +39,7 @@ export default function CreateStoreDrawer({
         loading: "스토어 생성중...",
         success: (data) => {
           syncProduct(data.id);
+          setIsOpen(false);
           return "스토어 생성 완료";
         },
         error: (error) => {
@@ -44,7 +47,6 @@ export default function CreateStoreDrawer({
           return "스토어 생성 실패";
         },
       });
-      setIsOpen(false);
     } catch (error) {
       errorHandler(error, router);
     }
@@ -64,7 +66,7 @@ export default function CreateStoreDrawer({
           label="스토어 이름"
           rules={[{ required: true, message: "스토어 이름을 입력해주세요" }]}
         >
-          <Input />
+          <Input placeholder="스토어 이름을 입력해주세요" />
         </Form.Item>
         <Form.Item
           name="type"
@@ -72,13 +74,32 @@ export default function CreateStoreDrawer({
           rules={[{ required: true, message: "스토어 타입을 선택해주세요" }]}
           initialValue={"SMARTSTORE"}
         >
-          <Select defaultValue={"SMARTSTORE"}>
+          <Select placeholder="스토어 타입을 선택해주세요">
             {Object.entries(StoreType).map(([key, value]) => (
               <Select.Option key={key} value={key}>
                 {value}
               </Select.Option>
             ))}
           </Select>
+        </Form.Item>
+        <Form.Item noStyle>
+          <Alert
+            icon={<InfoCircleOutlined />}
+            showIcon
+            className="mb-3"
+            message={
+              <div>
+                <p>아래 문서를 참고해서 스마트스토어 연동을 진행해주세요.</p>
+                <Link
+                  className="text-blue-500"
+                  href="https://docs.sluurp.io/ko/articles/d180665d"
+                >
+                  스마트 스토어(스토어팜) 연동 방법
+                </Link>
+              </div>
+            }
+            type="info"
+          />
         </Form.Item>
         <Form.Item
           name={["smartStoreCredentials", "applicationId"]}
@@ -90,7 +111,7 @@ export default function CreateStoreDrawer({
             },
           ]}
         >
-          <Input />
+          <Input placeholder="스마트스토어 애플리케이션 ID를 입력해주세요" />
         </Form.Item>
         <Form.Item
           name={["smartStoreCredentials", "applicationSecret"]}
@@ -102,7 +123,7 @@ export default function CreateStoreDrawer({
             },
           ]}
         >
-          <Input.Password />
+          <Input.Password placeholder="스마트스토어 애플리케이션 시크릿을 입력해주세요" />
         </Form.Item>
         <Form.Item>
           <div className="flex gap-3">

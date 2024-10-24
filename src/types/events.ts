@@ -1,3 +1,4 @@
+import { EventHistoryStatus } from "./event-history";
 import { MessageType } from "./message";
 import { OrderStatus } from "./orders";
 
@@ -13,7 +14,7 @@ export interface EventsDto {
     type: MessageType;
     variables: Record<string, string>;
     contentGroupId: number;
-    status: string;
+    status: EventHistoryStatus;
     webhookUrl: string;
     webhookHeaders: Record<string, string>;
     webhookBody: string;

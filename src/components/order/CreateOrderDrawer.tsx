@@ -1,6 +1,6 @@
-import { useCreateOrder } from "@/hooks/quries/useOrder";
-import { useProductOptions, useProducts } from "@/hooks/quries/useProduct";
-import { useStore } from "@/hooks/quries/useStore";
+import { useCreateOrder } from "@/hooks/queries/useOrder";
+import { useProductOptions, useProducts } from "@/hooks/queries/useProduct";
+import { useStore } from "@/hooks/queries/useStore";
 import { CreateOrderDto } from "@/types/order";
 import { OrderStatus } from "@/types/orders";
 import { ProductsFilters } from "@/types/product";
@@ -188,7 +188,6 @@ export default function CreateOrderDrawer({
             ))}
           </Select>
         </Form.Item>
-
         <Form.Item
           name="ordererName"
           label="주문자 이름"

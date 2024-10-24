@@ -1,5 +1,5 @@
 import DurationInput from "../common/DurationInput";
-import { useCreateContentGroup } from "@/hooks/quries/useContent";
+import { useCreateContentGroup } from "@/hooks/queries/useContent";
 import { ContentType, CreateContentGroupDto } from "@/types/content";
 import errorHandler from "@/utils/error";
 import { ExclamationCircleOutlined } from "@ant-design/icons";

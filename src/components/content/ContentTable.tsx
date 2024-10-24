@@ -1,17 +1,20 @@
 import {
+  fetchDownloadFileContent,
   useContents,
   useDeleteContent,
   useUpdateContent,
-} from "@/hooks/quries/useContent";
+} from "@/hooks/queries/useContent";
 import { ContentDto, ContentFilters, ContentType } from "@/types/content";
-import { Button, Checkbox, Popover, Table, Tag, Typography } from "antd";
+import { Button, Popover, Table, Tag, Typography } from "antd";
 import Loading from "../Loading";
 import errorHandler from "@/utils/error";
 import router from "next/router";
 import { useState } from "react";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, DownloadOutlined } from "@ant-design/icons";
 import CreateContentModal from "./CreateContentModal";
 import toast from "react-hot-toast";
+import CreateFileContentModal from "./CreateFileContentModal";
+import Error from "@/components/Error";
 
 export default function ContentTable({
   workspaceId,
@@ -44,7 +47,7 @@ export default function ContentTable({
   if (!data) return <Loading isFullPage={false} />;
   if (error) {
     errorHandler(error, router);
-    router.back();
+    return <Error />;
   }
 
   const handleDeleteContent = async (id: number) => {
@@ -73,6 +76,27 @@ export default function ContentTable({
     });
   };
 
+  const downloadFile = async (url: string) => {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "";
+    a.click();
+  };
+
+  const handleDownloadFileContent = async (id: number) => {
+    toast.promise(fetchDownloadFileContent(workspaceId, contentGroupId, id), {
+      loading: "파일 다운로드 대기중...",
+      success: ({ url }) => {
+        downloadFile(url);
+        return "파일 다운로드가 시작되었습니다.";
+      },
+      error: (error) => {
+        errorHandler(error, router);
+        return "파일 다운로드에 실패하였습니다.";
+      },
+    });
+  };
+
   const columns = [
     {
       title: "콘텐츠 아이디",
@@ -83,6 +107,20 @@ export default function ContentTable({
       title: "콘텐츠 내용",
       dataIndex: "text",
       render: (text: string, content: ContentDto) => {
+        if (contentType === "FILE") {
+          return (
+            <div className="flex items-center gap-3">
+              <Typography.Text>{content.name}</Typography.Text>
+              <Button
+                icon={<DownloadOutlined />}
+                onClick={() => handleDownloadFileContent(content.id)}
+              >
+                다운로드
+              </Button>
+            </div>
+          );
+        }
+
         return (
           <Typography.Text
             editable={{
@@ -136,13 +174,22 @@ export default function ContentTable({
 
   return (
     <>
-      <CreateContentModal
-        open={open}
-        onClose={() => setOpen(false)}
-        workspaceId={workspaceId}
-        contentGroupId={contentGroupId}
-        contentType={contentType}
-      />
+      {contentType === "FILE" ? (
+        <CreateFileContentModal
+          open={open}
+          onClose={() => setOpen(false)}
+          workspaceId={workspaceId}
+          contentGroupId={contentGroupId}
+        />
+      ) : (
+        <CreateContentModal
+          open={open}
+          onClose={() => setOpen(false)}
+          workspaceId={workspaceId}
+          contentGroupId={contentGroupId}
+          contentType={contentType}
+        />
+      )}
       <div className="flex mb-3 gap-3 items-center">
         <Button className="" type="primary" onClick={() => setOpen(true)}>
           콘텐츠 추가
@@ -151,6 +198,7 @@ export default function ContentTable({
       <Table
         dataSource={data.nodes}
         loading={isLoading}
+        scroll={{ x: 450 }}
         pagination={{
           total: data.total,
           current: filter.page,

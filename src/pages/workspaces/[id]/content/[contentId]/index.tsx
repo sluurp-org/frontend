@@ -6,7 +6,7 @@ import {
   useContentGroup,
   useDeleteContentGroup,
   useUpdateContentGroup,
-} from "@/hooks/quries/useContent";
+} from "@/hooks/queries/useContent";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import InfoRow from "@/components/InfoRow";

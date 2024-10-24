@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import { ContentGroupFilters, ContentType } from "@/types/content";
-import { useContentGroups } from "@/hooks/quries/useContent";
+import { useContentGroups } from "@/hooks/queries/useContent";
 import CreateContentGroupDrawer from "@/components/content/CreateContentGroupDrawer";
 
 export default function WorkspaceContent() {

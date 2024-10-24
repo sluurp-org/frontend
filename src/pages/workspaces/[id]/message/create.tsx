@@ -38,12 +38,13 @@ import {
   useKakaoTemplateCategories,
   useRequestInspection,
   useVariables,
-} from "@/hooks/quries/useMessage";
+} from "@/hooks/queries/useMessage";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import { UploadChangeParam } from "antd/es/upload";
 import axiosClient from "@/utils/axios";
-import { useContentGroups } from "@/hooks/quries/useContent";
+import { useContentGroups } from "@/hooks/queries/useContent";
+import Error from "@/components/Error";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -302,8 +303,7 @@ const MessageForm = ({
       categoriesError || variablesError || contentGroupError,
       router
     );
-    router.back();
-    return null;
+    return <Error />;
   }
 
   const onFileChange = (info: UploadChangeParam) => {
@@ -616,6 +616,9 @@ const MessageForm = ({
             <Empty description="변수가 없습니다." />
           )}
         </div>
+      </Form.Item>
+      <Form.Item label="배송 완료" name="completeDelivery">
+        <Checkbox>메세지 발송 완료 시 배송 완료 처리</Checkbox>
       </Form.Item>
       <Form.Item>
         <Checkbox

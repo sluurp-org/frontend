@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useCallback, useRef } from "react";
 import toast from "react-hot-toast";
-import { useLogout } from "@/hooks/quries/useAuth";
+import { useLogout } from "@/hooks/queries/useAuth";
 import errorHandler from "@/utils/error";
 
 const LogoutPage = () => {

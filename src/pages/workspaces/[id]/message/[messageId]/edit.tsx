@@ -14,7 +14,7 @@ import {
   useMessage,
   useRequestInspection,
   useUpdateMessage,
-} from "@/hooks/quries/useMessage";
+} from "@/hooks/queries/useMessage";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import { NextRouter } from "next/router";
@@ -49,10 +49,11 @@ import { isURL } from "validator";
 import {
   useKakaoTemplateCategories,
   useVariables,
-} from "@/hooks/quries/useMessage";
+} from "@/hooks/queries/useMessage";
 import axiosClient from "@/utils/axios";
 import { UploadChangeParam } from "antd/es/upload";
-import { useContentGroup, useContentGroups } from "@/hooks/quries/useContent";
+import { useContentGroup, useContentGroups } from "@/hooks/queries/useContent";
+import Error from "@/components/Error";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -272,8 +273,7 @@ const MessageForm = ({
       categoriesError || variablesError || contentGroupError,
       router
     );
-    router.back();
-    return null;
+    return <Error />;
   }
 
   const onFinish = () => {
@@ -644,6 +644,14 @@ const MessageForm = ({
           )}
         </div>
       </Form.Item>
+      <Form.Item label="배송 완료" name="completeDelivery">
+        <Checkbox
+          checked={form.watch("completeDelivery")}
+          onChange={(e) => form.setValue("completeDelivery", e.target.checked)}
+        >
+          메세지 발송 완료 시 배송 완료 처리
+        </Checkbox>
+      </Form.Item>
       <Form.Item>
         {!disableKakaoTemplate && (
           <Checkbox
@@ -755,6 +763,7 @@ export default function MessageEdit() {
         name: data.name || undefined,
         variables: data.variables || undefined,
         contentGroupId: data.contentGroupId || undefined,
+        completeDelivery: data.completeDelivery || undefined,
         kakaoTemplate: {
           content: data.kakaoTemplate?.content || undefined,
           buttons: data.kakaoTemplate?.buttons || undefined,
@@ -778,8 +787,7 @@ export default function MessageEdit() {
 
   if (error || !data) {
     errorHandler(error, router);
-    router.back();
-    return null;
+    return <Error />;
   }
 
   const onInspection = () => {
@@ -796,11 +804,13 @@ export default function MessageEdit() {
   };
 
   const onSubmit = (formData: MessageUpdateDto, withInspection: boolean) => {
-    const { name, variables, kakaoTemplate, contentGroupId } = formData;
+    const { name, variables, kakaoTemplate, contentGroupId, completeDelivery } =
+      formData;
     const parsedData = {
       name,
       variables,
       contentGroupId,
+      completeDelivery,
       kakaoTemplate: disableKakaoTemplate ? undefined : kakaoTemplate,
     };
 
@@ -808,7 +818,7 @@ export default function MessageEdit() {
       loading: "메세지 수정중...",
       success: () => {
         if (withInspection) onInspection();
-        router.back();
+        router.push(`/workspaces/${workspaceId}/message/${messageId}`);
         return "메세지 수정 완료";
       },
       error: (error) => {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import {
   useProductOptions,
   useSyncProductOptions,
-} from "@/hooks/quries/useProduct";
+} from "@/hooks/queries/useProduct";
 import { ProductOptionFilters } from "@/types/product";
 import toast from "react-hot-toast";
 import { isAxiosError } from "axios";

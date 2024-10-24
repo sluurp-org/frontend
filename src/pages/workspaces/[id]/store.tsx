@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import { StoreFilters, StoreType } from "@/types/store";
-import { useStore } from "@/hooks/quries/useStore";
+import { useStore } from "@/hooks/queries/useStore";
 import StoreDrawer from "@/components/store/StoreDrawer";
 import CreateStoreDrawer from "@/components/store/CreateStoreDrawer";
 

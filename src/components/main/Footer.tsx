@@ -1,8 +1,21 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Footer() {
+export default function Footer({
+  className,
+  children,
+}: {
+  className?: string;
+  children?: React.ReactNode;
+}) {
   return (
-    <footer className="flex justify-center items-center bg-indigo-400 text-white py-10">
+    <footer
+      className={cn(
+        "flex justify-center items-center bg-indigo-400 text-white py-10",
+        className
+      )}
+    >
       <div className="container w-11/12 mx-auto text-left">
         <Image src={"/logo.png"} alt="스르륵" width={80} height={80} />
         <div className="flex-col flex gap-1 mt-6">
@@ -16,6 +29,13 @@ export default function Footer() {
           <a href="mailto:contact@sluurp.io" target="_blank">
             고객센터: contact@sluurp.io
           </a>
+          <Link href="https://docs.sluurp.io/ko/articles/e7388652">
+            서비스 이용약관
+          </Link>
+          <Link href="https://docs.sluurp.io/ko/articles/4ebd780f">
+            개인정보 처리방침
+          </Link>
+          {children}
         </div>
       </div>
     </footer>

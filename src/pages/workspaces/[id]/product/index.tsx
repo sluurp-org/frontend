@@ -3,7 +3,7 @@ import Component from "../../../../components/Container";
 import { useRouter } from "next/router";
 import { Table, Input } from "antd";
 import { useState } from "react";
-import { useProducts } from "@/hooks/quries/useProduct";
+import { useProducts } from "@/hooks/queries/useProduct";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 

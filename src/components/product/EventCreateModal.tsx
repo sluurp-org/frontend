@@ -12,8 +12,8 @@ import {
 import toast from "react-hot-toast";
 import Loading from "../Loading";
 import Search from "antd/es/input/Search";
-import { useMessages } from "@/hooks/quries/useMessage";
-import { useCreateEvent } from "@/hooks/quries/useEvent";
+import { useMessages } from "@/hooks/queries/useMessage";
+import { useCreateEvent } from "@/hooks/queries/useEvent";
 import errorHandler from "@/utils/error";
 
 function MessageItem({

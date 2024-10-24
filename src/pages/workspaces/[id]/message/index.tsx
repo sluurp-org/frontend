@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import { MessageFilters } from "@/types/message";
-import { useMessages } from "@/hooks/quries/useMessage";
+import { useMessages } from "@/hooks/queries/useMessage";
 
 export default function MessageList() {
   const router = useRouter();

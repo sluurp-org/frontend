@@ -1,0 +1,12 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /workspaces
+Disallow: /auth/*
+Disallow: /workspaces/*
+
+# Host
+Host: https://sluurp.io
+
+# Sitemaps
+Sitemap: https://sluurp.io/sitemap.xml

@@ -10,7 +10,7 @@ const ERROR_MESSAGE: { [key: number]: string } = {
   500: "알 수 없는 에러가 발생했습니다.",
 };
 
-const errorHandler = async (error: unknown, router: NextRouter) => {
+const errorHandler = async (error: unknown, router?: NextRouter) => {
   if (error instanceof Error) {
     if (isAxiosError(error)) {
       const status = error.response?.status ?? 500;
@@ -20,12 +20,12 @@ const errorHandler = async (error: unknown, router: NextRouter) => {
 
       toast.error(message);
       if (status === 401) {
-        const currentPath = router.asPath;
-        router.push(`/auth/login?redirect=${currentPath}`);
+        const currentPath = router?.asPath;
+        router?.push(`/auth/login?redirect=${currentPath}`);
       }
 
       if (status === 403) {
-        router.back();
+        router?.push("/workspaces");
       }
       return;
     }
@@ -37,7 +37,7 @@ const errorHandler = async (error: unknown, router: NextRouter) => {
 
     if (error.message === "NoRefreshToken") {
       toast.error("로그인이 만료되었습니다. 다시 로그인해주세요.");
-      router.push("/auth/login");
+      router?.push("/auth/login");
       return;
     }
 

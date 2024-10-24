@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import {
   ClockCircleFilled,
   FileDoneOutlined,
   FilterFilled,
-  FolderOpenFilled,
   HeartFilled,
   LockFilled,
   MergeFilled,
   MoonFilled,
   TruckFilled,
-  UserOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import AlimTalk from "@/components/kakao/AlimTalk";

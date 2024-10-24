@@ -1,12 +1,14 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
-// import { UserAPI } from "../api/user";
 import toast from "react-hot-toast";
 import { LeftOutlined } from "@ant-design/icons";
+import { useRegister } from "@/hooks/queries/useAuth";
+import errorHandler from "@/utils/error";
 
 export default function Login() {
   const router = useRouter();
+  const { mutateAsync: register } = useRegister();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -15,10 +17,17 @@ export default function Login() {
     event.preventDefault();
 
     try {
-      // await UserAPI.register({ name, email, password });
-
-      toast.success("회원가입이 완료되었습니다.");
-      router.push("/auth/login");
+      toast.promise(register({ name, email, password }), {
+        loading: "회원가입 중...",
+        success: () => {
+          router.push("/auth/login");
+          return "회원가입이 완료되었습니다.";
+        },
+        error: (error) => {
+          errorHandler(error, router);
+          return "회원가입에 실패하였습니다.";
+        },
+      });
     } catch (error: any) {
       const message = error.response.data.message;
       toast.error(message);

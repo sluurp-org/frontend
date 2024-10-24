@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { LeftOutlined } from "@ant-design/icons";
 import { LoginDto } from "@/types/auth";
-import { useLogin } from "@/hooks/quries/useAuth";
+import { useLogin } from "@/hooks/queries/useAuth";
 
 export default function Login() {
   const router = useRouter();
@@ -18,7 +18,7 @@ export default function Login() {
     e.preventDefault();
     loginMutation.mutate(credentials);
   };
-  const handleReturn = () => router.back();
+  const handleReturn = () => router.push("/");
 
   return (
     <div className="flex items-center justify-center h-screen select-none">
@@ -76,7 +76,7 @@ export default function Login() {
         >
           계정이 없으신가요? 회원가입
         </p>
-        <div className="border-b-2 border-gray-200 w-full mt-6"></div>
+        {/* <div className="border-b-2 border-gray-200 w-full mt-6"></div>
         <button className="w-full mt-6 p-3 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 duration-75">
           구글 계정으로 로그인
         </button>
@@ -85,7 +85,7 @@ export default function Login() {
         </button>
         <button className="w-full mt-6 p-3 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 duration-75">
           구글 계정으로 로그인
-        </button>
+        </button> */}
       </div>
     </div>
   );
