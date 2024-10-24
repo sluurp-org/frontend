@@ -32,7 +32,7 @@ export function PricingCard({
         {price.toLocaleString("ko-KR")}원
         <span className="text-sm text-gray-500"> / 월</span>
       </h2>
-      <p className="mt-1 text-gray-500">{description || "요금제"}</p>
+      <p className="mt-1 text-gray-500 h-20">{description || "요금제"}</p>
 
       <button
         onClick={onClick}
