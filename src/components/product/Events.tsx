@@ -15,6 +15,7 @@ import Loading from "../Loading";
 import toast from "react-hot-toast";
 import { EventCreateModal } from "./EventCreateModal";
 import { getJosaPicker } from "josa";
+import Link from "next/link";
 
 export function EventItem({
   event,
@@ -149,6 +150,11 @@ export function Events({
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
       />
+      <p className="text-sm text-gray-500 whitespace-pre-line mb-3">
+        해당 {productVariantId ? "옵션" : "상품"}을 구매한 사용자의 배송상태가
+        변경될 때 연결된 메세지를 발송합니다.{"\n"}
+        아래에서 메세지를 연결해주세요.
+      </p>
 
       <div className="flex gap-3 flex-col sm:flex-row mb-3">
         <Button type="primary" onClick={() => setIsModalOpen(true)}>
@@ -165,7 +171,17 @@ export function Events({
           {
             title: "메세지",
             dataIndex: "message",
-            render: (message) => message.name,
+            render: (message) => {
+              return (
+                <Link
+                  href={`/workspaces/${workspaceId}/message/${message.id}`}
+                  className="text-indigo-500"
+                >
+                  <MessageOutlined className="mr-1" />
+                  {message.name}
+                </Link>
+              );
+            },
           },
           {
             title: "주문 상태",
@@ -181,6 +197,11 @@ export function Events({
                 content={
                   <div className="flex flex-col gap-2">
                     <p>정말 해제하시겠습니까?</p>
+                    <p className="w-[200px] text-left text-sm text-gray-500">
+                      해제할경우 해당 {productVariantId ? "옵션" : "상품"}을
+                      구매한 사용자의 배송상태가 변경될 때 메세지가 발송되지
+                      않습니다.
+                    </p>
                     <Button
                       type="primary"
                       danger

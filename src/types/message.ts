@@ -8,6 +8,7 @@ export const MessageType = {
 export interface MessageListItem {
   id: number;
   name: string;
+  isGlobal: boolean;
 }
 
 export interface MessageFilters {
@@ -52,6 +53,7 @@ export interface KakaoTemplateDto {
 export interface MessageDto {
   id: number;
   name: string;
+  isGlobal: boolean;
   contentGroupId?: number;
   completeDelivery: boolean;
   contentGroup?: {

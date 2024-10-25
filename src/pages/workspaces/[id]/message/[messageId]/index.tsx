@@ -278,40 +278,47 @@ export default function WorkspaceMessageDetail() {
             extra={data.kakaoTemplate.extra}
             image={data.kakaoTemplate.imageUrl || ""}
           />
-          <Button
-            type="primary"
-            className="w-[280px]"
-            onClick={() =>
-              router.push(
-                `/workspaces/${workspaceId}/message/${messageId}/edit`
-              )
-            }
-          >
-            <EditOutlined />
-            메세지 수정
-          </Button>
-          <Popover
-            open={isPopoverOpen}
-            onOpenChange={setIsPopoverOpen}
-            content={
-              <div className="flex flex-col gap-2">
-                <p>정말 삭제하시겠습니까?</p>
-                <Button type="primary" danger onClick={handleDeleteMessage}>
-                  네 삭제합니다
+          {!data.isGlobal && (
+            <>
+              <Button
+                type="primary"
+                className="w-[280px]"
+                onClick={() =>
+                  router.push(
+                    `/workspaces/${workspaceId}/message/${messageId}/edit`
+                  )
+                }
+              >
+                <EditOutlined />
+                메세지 수정
+              </Button>
+              <Popover
+                open={isPopoverOpen}
+                onOpenChange={setIsPopoverOpen}
+                content={
+                  <div className="flex flex-col gap-2">
+                    <p>정말 삭제하시겠습니까?</p>
+                    <Button type="primary" danger onClick={handleDeleteMessage}>
+                      네 삭제합니다
+                    </Button>
+                    <Button
+                      type="primary"
+                      onClick={() => setIsPopoverOpen(false)}
+                    >
+                      아니오
+                    </Button>
+                  </div>
+                }
+                trigger="click"
+                title="연결 삭제"
+              >
+                <Button type="primary" danger className="w-[280px]">
+                  <DeleteOutlined />
+                  메세지 삭제
                 </Button>
-                <Button type="primary" onClick={() => setIsPopoverOpen(false)}>
-                  아니오
-                </Button>
-              </div>
-            }
-            trigger="click"
-            title="연결 삭제"
-          >
-            <Button type="primary" danger className="w-[280px]">
-              <DeleteOutlined />
-              메세지 삭제
-            </Button>
-          </Popover>
+              </Popover>
+            </>
+          )}
         </div>
         <div className="w-full">
           <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -334,25 +341,27 @@ export default function WorkspaceMessageDetail() {
                   )?.name
                 }
               </InfoRow>
-              <InfoRow label="연결된 콘텐츠">
-                <div className="flex gap-1 flex-col">
-                  {data.contentGroupId ? (
-                    <span
-                      className="hover:underline text-blue-500 cursor-pointer"
-                      onClick={() =>
-                        router.push(
-                          `/workspaces/${workspaceId}/content/${data.contentGroupId}`
-                        )
-                      }
-                    >
-                      <ReadOutlined className="mr-1" />
-                      {data.contentGroup?.name}
-                    </span>
-                  ) : (
-                    <span>연결된 콘텐츠가 없습니다.</span>
-                  )}
-                </div>
-              </InfoRow>
+              {!data.isGlobal && (
+                <InfoRow label="연결된 콘텐츠">
+                  <div className="flex gap-1 flex-col">
+                    {data.contentGroupId ? (
+                      <span
+                        className="hover:underline text-blue-500 cursor-pointer"
+                        onClick={() =>
+                          router.push(
+                            `/workspaces/${workspaceId}/content/${data.contentGroupId}`
+                          )
+                        }
+                      >
+                        <ReadOutlined className="mr-1" />
+                        {data.contentGroup?.name}
+                      </span>
+                    ) : (
+                      <span>연결된 콘텐츠가 없습니다.</span>
+                    )}
+                  </div>
+                </InfoRow>
+              )}
               <InfoRow
                 label="메세지 내용"
                 copyable
@@ -375,7 +384,7 @@ export default function WorkspaceMessageDetail() {
               )}
               <InfoRow label="메세지 버튼">
                 <div className="flex gap-1 flex-col">
-                  {data.kakaoTemplate.buttons.map((button) => (
+                  {data.kakaoTemplate?.buttons.map((button) => (
                     <KakaoButton key={button.name} button={button} />
                   ))}
                   {data.kakaoTemplate.buttons.length === 0 && (

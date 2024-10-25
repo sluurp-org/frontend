@@ -18,7 +18,8 @@ export function CreateBillingModal({
   const onFinish = (values: any) => {
     const {
       number,
-      expirationDate,
+      expiryMonth,
+      expiryYear,
       birthOrBusinessRegistrationNumber,
       passwordTwoDigits,
     } = values;
@@ -26,8 +27,8 @@ export function CreateBillingModal({
     toast.promise(
       createBilling({
         number,
-        expiryYear: expirationDate.year().toString().slice(-2),
-        expiryMonth: (expirationDate.month() + 1).toString().padStart(2, "0"),
+        expiryYear: expiryYear.slice(-2),
+        expiryMonth,
         birthOrBusinessRegistrationNumber,
         passwordTwoDigits,
       }),
@@ -63,16 +64,30 @@ export function CreateBillingModal({
           <Input placeholder="카드번호를 입력해주세요." name="card" />
         </Form.Item>
         <Form.Item
-          label="만료일"
-          name="expirationDate"
-          rules={[{ required: true, message: "만료일을 선택해주세요." }]}
+          label="만료 월"
+          name="expiryMonth"
+          rules={[
+            { required: true, message: "2자리 만료 월을 입력해주세요." },
+            {
+              pattern: /^(0[1-9]|1[0-2])$/,
+              message: "만료 월을 입력해주세요.",
+            },
+          ]}
         >
-          <DatePicker
-            picker="month"
-            placeholder="만료일을 선택해주세요."
-            className="w-full"
-            format="YYYY-MM"
-          />
+          <Input placeholder="2자리 만료 월을 입력해주세요." />
+        </Form.Item>
+        <Form.Item
+          label="만료 연도"
+          name="expiryYear"
+          rules={[
+            { required: true, message: "4자리 만료 연도를 입력해주세요." },
+            {
+              pattern: /^(20[2-9][0-9]|2100)$/,
+              message: "만료 연도를 입력해주세요.",
+            },
+          ]}
+        >
+          <Input placeholder="4자리 만료 연도를 입력해주세요." />
         </Form.Item>
         <Form.Item
           label="생년월일 6자리 또는 사업자번호"
@@ -99,7 +114,7 @@ export function CreateBillingModal({
             { min: 2, max: 2, message: "카드 비밀번호 두자리를 입력해주세요." },
           ]}
         >
-          <Input placeholder="카드 비밀번호 두자리를 입력해주세요." />
+          <Input.Password placeholder="카드 비밀번호 두자리를 입력해주세요." />
         </Form.Item>
       </Form>
     </Modal>

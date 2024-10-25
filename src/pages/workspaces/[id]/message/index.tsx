@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Component from "@/components/Container";
-import { Button, Table } from "antd";
+import { Button, Table, Tag } from "antd";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
@@ -27,6 +27,17 @@ export default function MessageList() {
       width: "100px",
     },
     {
+      title: "형식",
+      dataIndex: "isGlobal",
+      key: "isGlobal",
+      render: (isGlobal: boolean) => (
+        <Tag color={isGlobal ? "blue" : "green"}>
+          {isGlobal ? "빠른시작형" : "고급형"}
+        </Tag>
+      ),
+      width: "100px",
+    },
+    {
       title: "메세지 제목",
       dataIndex: "name",
       key: "name",
@@ -48,7 +59,7 @@ export default function MessageList() {
         메세지 생성
       </Button>
       <Table
-        scroll={{ x: "1500px" }}
+        scroll={{ x: "700px" }}
         columns={columns}
         dataSource={data?.nodes || []}
         rowKey="id"

@@ -60,7 +60,7 @@ export default function SubscriptionCurrent({
         open={open}
         onClose={() => setOpen(false)}
         workspaceId={workspaceId}
-        isSubscribed={data?.currentSubscription !== undefined}
+        isSubscribed={data?.currentSubscription !== null}
         isFree={isFree ?? false}
         currentSubscriptionId={data?.nextSubscription?.subscription.id}
       />

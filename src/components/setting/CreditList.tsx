@@ -20,7 +20,7 @@ export default function CreditList({ workspaceId }: { workspaceId: number }) {
 
   if (isError) {
     errorHandler(error);
-    return <Error />;
+    return <Error isFullPage={false} />;
   }
 
   const columns: ColumnsType<CreditDto> = [
