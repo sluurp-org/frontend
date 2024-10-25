@@ -9,28 +9,37 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import {
+  useAdditionalPayment,
   useCreateWorkspaceSubscription,
   useSubscriptions,
   useUpdateWorkspaceSubscription,
 } from "@/hooks/queries/useSubscription";
 import { SubscriptionDto } from "@/types/subscription";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function SubscriptionItem({
+  workspaceId,
   onClick,
   isCurrent,
   isSubscribed,
   disabled,
   subscription,
+  isFree,
 }: {
+  workspaceId: number;
   onClick: () => void;
   isCurrent: boolean;
   isSubscribed: boolean;
   disabled: boolean;
   subscription: SubscriptionDto;
+  isFree: boolean;
 }) {
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const {
+    data: additionalSubscriptionPrice,
+    refetch: refetchAdditionalPayment,
+  } = useAdditionalPayment(workspaceId, subscription.id);
 
   const {
     isContentEnabled,
@@ -81,6 +90,10 @@ export function SubscriptionItem({
       : { value: "디지털 콘텐츠 등록 불가", isEnabled: false },
   ];
 
+  useEffect(() => {
+    refetchAdditionalPayment();
+  }, [popoverOpen, refetchAdditionalPayment]);
+
   return (
     <div className="p-5 border border-gray-200 rounded-lg">
       <div className="flex justify-between items-center">
@@ -94,17 +107,25 @@ export function SubscriptionItem({
           title="구독하기"
           open={popoverOpen}
           onOpenChange={setPopoverOpen}
+          trigger="click"
           content={
             <div>
               <p className="mb-2">
                 {isSubscribed
-                  ? "구독을 변경하시겠습니까?"
-                  : "구독을 시작하시겠습니까?"}
+                  ? "플랜을 정말 변경하시겠습니까?"
+                  : "플랜을 정말 시작하시겠습니까?"}
+                {additionalSubscriptionPrice &&
+                additionalSubscriptionPrice > 0 ? (
+                  <p className="text-sm text-gray-500">
+                    추가 결제 금액은{" "}
+                    {additionalSubscriptionPrice.toLocaleString()}원 입니다.
+                  </p>
+                ) : null}
               </p>
 
               <div className="flex gap-2 w-full">
                 <Button className="w-full" type="primary" onClick={onClick}>
-                  {isSubscribed ? "변경" : "시작"}
+                  {isSubscribed ? "플랜 변경" : "플랜 시작"}
                 </Button>
                 <Button
                   className="w-full"
@@ -118,7 +139,7 @@ export function SubscriptionItem({
           }
         >
           <Button type="primary" disabled={disabled || isCurrent}>
-            {isCurrent ? "현재 구독중" : "구독하기"}
+            {isCurrent ? "현재 구독중" : isFree ? "무료 체험 시작" : "구독하기"}
           </Button>
         </Popover>
       </div>
@@ -165,11 +186,15 @@ export default function CreateSubscriptionModal({
   onClose,
   workspaceId,
   currentSubscriptionId,
+  isSubscribed,
+  isFree,
 }: {
   open: boolean;
   onClose: () => void;
   workspaceId: number;
   currentSubscriptionId?: number;
+  isSubscribed: boolean;
+  isFree: boolean;
 }) {
   const {
     data: billing,
@@ -197,7 +222,7 @@ export default function CreateSubscriptionModal({
     return <Loading isFullPage={false} />;
 
   const createSubscription = async (subscriptionId: number) => {
-    if (currentSubscriptionId) {
+    if (isSubscribed) {
       toast.promise(updateWorkspaceSubscription(subscriptionId), {
         loading: "플랜 변경중...",
         success: "플랜 변경 완료",
@@ -240,9 +265,11 @@ export default function CreateSubscriptionModal({
         {subscription?.map((subscription) => (
           <SubscriptionItem
             key={subscription.id}
+            workspaceId={workspaceId}
             disabled={!billing}
             subscription={subscription}
-            isSubscribed={currentSubscriptionId !== undefined}
+            isFree={isFree}
+            isSubscribed={isSubscribed}
             isCurrent={currentSubscriptionId === subscription.id}
             onClick={() => createSubscription(subscription.id)}
           />

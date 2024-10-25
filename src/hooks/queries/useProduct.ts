@@ -96,7 +96,7 @@ export const useProductOptions = (
   filters: ProductOptionFilters = {}
 ) => {
   return useQuery(
-    ["productOptions", workspaceId, productId],
+    ["productOptions", workspaceId, productId, filters],
     () => fetchProductOptions(workspaceId, productId ?? 0, filters),
     {
       keepPreviousData: true,

@@ -125,12 +125,7 @@ export function Events({
       success: "메세지 연결 해제이 해제되었습니다.",
       error: "메세지 연결 해제 실패",
     });
-    refetch();
   };
-
-  useEffect(() => {
-    refetch();
-  }, [isModalOpen, refetch]);
 
   if (isLoading) return <Loading isFullPage={false} />;
   if (error) {
@@ -212,7 +207,8 @@ export function Events({
           total: data?.total,
           showTotal: (total) => `총 ${total}개의 메세지`,
           position: ["bottomCenter"],
-          onChange: (page) => setFilters({ ...filters, page }),
+          onChange: (page, pageSize) =>
+            setFilters({ ...filters, page, size: pageSize }),
         }}
       />
     </div>
