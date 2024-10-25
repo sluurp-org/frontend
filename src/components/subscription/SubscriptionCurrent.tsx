@@ -1,11 +1,16 @@
-import { useWorkspaceSubscription } from "@/hooks/queries/useSubscription";
+import {
+  useDeleteWorkspaceSubscription,
+  useIsFree,
+  useWorkspaceSubscription,
+} from "@/hooks/queries/useSubscription";
 import errorHandler from "@/utils/error";
 import Error from "../Error";
 import moment from "moment";
-import { Button } from "antd";
+import { Alert, Button, Popover } from "antd";
 import CreateSubscriptionModal from "./CreateSubscriptionModal";
 import Loading from "../Loading";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function SubscriptionCurrent({
   workspaceId,
@@ -13,14 +18,41 @@ export default function SubscriptionCurrent({
   workspaceId: number;
 }) {
   const { data, isLoading, error } = useWorkspaceSubscription(workspaceId);
+  const { mutateAsync: deleteSubscription } =
+    useDeleteWorkspaceSubscription(workspaceId);
+  const {
+    data: isFree,
+    isLoading: isFreeLoading,
+    error: isFreeError,
+  } = useIsFree(workspaceId);
   const [open, setOpen] = useState(false);
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
 
-  if (error) {
-    errorHandler(error);
+  if (error || isFreeError) {
+    errorHandler(error || isFreeError);
     return <Error isFullPage={false} />;
   }
 
-  if (isLoading) return <Loading isFullPage={false} />;
+  if (isLoading || isFreeLoading) {
+    return (
+      <div className="p-5 bg-white rounded-lg shadow-md w-max-[300px] relative">
+        <Loading isFullPage={false} />
+      </div>
+    );
+  }
+
+  const onCancelSubscription = () => {
+    toast.promise(deleteSubscription(), {
+      loading: "구독 취소중...",
+      success: "구독 취소 완료",
+      error: (err) => {
+        errorHandler(err);
+        return err?.response?.data?.message ?? "구독 취소 실패";
+      },
+    });
+
+    setIsCancelOpen(false);
+  };
 
   return (
     <>
@@ -28,9 +60,11 @@ export default function SubscriptionCurrent({
         open={open}
         onClose={() => setOpen(false)}
         workspaceId={workspaceId}
-        currentSubscriptionId={data?.currentSubscription?.subscription.id}
+        isSubscribed={data?.currentSubscription !== undefined}
+        isFree={isFree ?? false}
+        currentSubscriptionId={data?.nextSubscription?.subscription.id}
       />
-      <div className="p-5 bg-white rounded-lg shadow-md w-max-[300px] relative">
+      <div className="p-5 bg-white rounded-lg shadow-md w-max-[300px] relative h-[230px] lg:h-full">
         {data?.currentSubscription ? (
           <>
             <p className="text-[16px] text-gray-600">
@@ -50,6 +84,18 @@ export default function SubscriptionCurrent({
                   {moment(data.nextSubscription.startedAt).format("YYYY-MM-DD")}
                 </p>
               )}
+              {!data.nextSubscription && (
+                <Alert
+                  className="mt-2 whitespace-pre-line"
+                  message={`${moment(data.currentSubscription.startedAt)
+                    .add(1, "month")
+                    .format(
+                      "YYYY년 MM월 DD일"
+                    )}에 구독이 만료됩니다.\n만료시 등록된 모든 스토어가 비활성화됩니다.`}
+                  type="warning"
+                  showIcon
+                />
+              )}
             </div>
           </>
         ) : (
@@ -60,13 +106,43 @@ export default function SubscriptionCurrent({
             </div>
           </>
         )}
-        <Button
-          type="primary"
-          className="mt-4 absolute bottom-0 right-0 left-0 m-5"
-          onClick={() => setOpen(true)}
-        >
-          구독 변경
-        </Button>
+        <div className="flex flex-col gap-2 absolute bottom-0 left-0 right-0 m-5">
+          <Button type="primary" onClick={() => setOpen(true)}>
+            {isFree ? "무료 플랜 시작" : "플랜 변경"}
+          </Button>
+          {data?.nextSubscription && (
+            <Popover
+              title="구독 취소"
+              open={isCancelOpen}
+              onOpenChange={setIsCancelOpen}
+              trigger="click"
+              content={
+                <div>
+                  <p>구독을 취소하시겠습니까?</p>
+                  <div className="flex gap-1 mt-3">
+                    <Button
+                      type="primary"
+                      onClick={() => setIsCancelOpen(false)}
+                    >
+                      구독 유지
+                    </Button>
+                    <Button
+                      type="primary"
+                      danger
+                      onClick={() => onCancelSubscription()}
+                    >
+                      구독 취소
+                    </Button>
+                  </div>
+                </div>
+              }
+            >
+              <Button danger type="primary">
+                구독 취소
+              </Button>
+            </Popover>
+          )}
+        </div>
       </div>
     </>
   );

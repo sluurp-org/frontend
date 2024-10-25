@@ -75,7 +75,7 @@ export function CreateBillingModal({
           />
         </Form.Item>
         <Form.Item
-          label="생년월일 또는 사업자번호"
+          label="생년월일 6자리 또는 사업자번호"
           name="birthOrBusinessRegistrationNumber"
           rules={[
             {

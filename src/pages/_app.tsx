@@ -25,6 +25,12 @@ const DEFAULT_SEO = {
   title: "스르륵 | 고객과 가까워지는 스토어 메세징",
   description: "스마트 스토어(스토어팜) 카카오 알림톡 자동 발송 지원",
   canonical: "https://www.sluurp.io",
+  additionalLinkTags: [
+    {
+      rel: "icon",
+      href: "/favicon.ico",
+    },
+  ],
   openGraph: {
     type: "website",
     locale: "ko_KR",

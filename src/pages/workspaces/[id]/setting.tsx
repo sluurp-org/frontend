@@ -13,7 +13,7 @@ export default function WorkspaceSetting() {
   const items: TabsProps["items"] = [
     {
       key: "subscription",
-      label: "구독 관리",
+      label: "결제 / 구독 관리",
       children: <Subscription workspaceId={workspaceId} />,
     },
     {

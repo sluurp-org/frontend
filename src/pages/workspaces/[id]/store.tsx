@@ -9,6 +9,7 @@ import { StoreFilters, StoreType } from "@/types/store";
 import { useStore } from "@/hooks/queries/useStore";
 import StoreDrawer from "@/components/store/StoreDrawer";
 import CreateStoreDrawer from "@/components/store/CreateStoreDrawer";
+import Error from "@/components/Error";
 
 export default function StoreList() {
   const router = useRouter();
@@ -71,12 +72,11 @@ export default function StoreList() {
     []
   );
 
+  if (isLoading) return <Loading />;
   if (error) {
     errorHandler(error, router);
+    return <Error />;
   }
-
-  if (isLoading) return <Loading />;
-  if (error) return <div>Error</div>;
 
   return (
     <Component>

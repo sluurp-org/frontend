@@ -41,6 +41,24 @@ const updateWorkspaceSubscription = async (
   return data;
 };
 
+const fetchIsFree = async (workspaceId: number) => {
+  const { data } = await axiosClient.get<boolean>(
+    `/workspace/${workspaceId}/purchase/able-free-trial`
+  );
+  return data;
+};
+
+const fetchAdditionalPayment = async (
+  workspaceId: number,
+  subscriptionId: number
+) => {
+  const { data } = await axiosClient.get<number>(
+    `/workspace/${workspaceId}/purchase/additional-payment`,
+    { params: { subscriptionId } }
+  );
+  return data;
+};
+
 const deleteWorkspaceSubscription = async (workspaceId: number) => {
   const { data } = await axiosClient.delete(
     `/workspace/${workspaceId}/purchase`
@@ -57,6 +75,23 @@ export const useWorkspaceSubscription = (workspaceId: number) =>
     () => fetchWorkspaceSubscription(workspaceId),
     {
       enabled: !!workspaceId,
+    }
+  );
+
+export const useIsFree = (workspaceId: number) =>
+  useQuery<boolean>(["workspace", workspaceId, "isFree"], () =>
+    fetchIsFree(workspaceId)
+  );
+
+export const useAdditionalPayment = (
+  workspaceId: number,
+  subscriptionId: number
+) =>
+  useQuery<number>(
+    ["workspace", workspaceId, "additionalPayment", subscriptionId],
+    () => fetchAdditionalPayment(workspaceId, subscriptionId),
+    {
+      enabled: false,
     }
   );
 

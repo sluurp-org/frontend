@@ -44,15 +44,18 @@ export const useEvents = (workspaceId: number, filters: EventsFilters = {}) => {
   return useQuery(
     ["event", workspaceId, filters],
     () => fetchEvents(workspaceId, filters),
-    {
-      keepPreviousData: true,
-    }
+    {}
   );
 };
 
 export const useCreateEvent = (workspaceId: number) => {
-  return useMutation((newEvent: CreateEventDto) =>
-    createEvent(workspaceId, newEvent)
+  return useMutation(
+    (newEvent: CreateEventDto) => createEvent(workspaceId, newEvent),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["event", workspaceId]);
+      },
+    }
   );
 };
 
