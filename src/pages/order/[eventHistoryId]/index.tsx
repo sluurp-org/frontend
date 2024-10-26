@@ -5,7 +5,7 @@ import {
   useUserEventHistory,
   useUserEventHistoryDownload,
 } from "@/hooks/queries/useUserEventHistory";
-import { UserEventHistoryDownloadDto } from "@/types/event-history";
+import { ContentDto, UserEventHistoryDownloadDto } from "@/types/event-history";
 import {
   CopyOutlined,
   DownloadOutlined,
@@ -144,31 +144,88 @@ const ContentDownloadRendering = ({
   );
 };
 
-export default function Order() {
-  const router = useRouter();
-  const eventHistoryId = router.query.eventHistoryId as string;
-  const { data, isLoading, error } = useUserEventHistory(eventHistoryId);
-
+function OrderItem({
+  index,
+  content,
+  eventHistoryId,
+}: {
+  index: number;
+  content: ContentDto;
+  eventHistoryId: string;
+}) {
   const {
     data: downloadData,
     isLoading: downloadIsLoading,
     error: downloadError,
     refetch: downloadRefetch,
-  } = useUserEventHistoryDownload(eventHistoryId);
+  } = useUserEventHistoryDownload(
+    eventHistoryId,
+    content.downloadAvailable ? content.connectionId : 0
+  );
 
-  if ((!isLoading && error) || (!downloadIsLoading && downloadError)) {
+  if (!content.downloadAvailable) {
+    return (
+      <Alert
+        icon={<ExclamationCircleOutlined />}
+        showIcon
+        type="error"
+        className="whitespace-pre-line"
+        message={content.error}
+      />
+    );
+  }
+
+  if (downloadError) {
+    return (
+      <Alert
+        icon={<ExclamationCircleOutlined />}
+        showIcon
+        type="error"
+        className="whitespace-pre-line"
+        message={
+          isAxiosError(downloadError)
+            ? downloadError.response?.data.message
+            : "콘텐츠를 열람할 수 없습니다."
+        }
+      />
+    );
+  }
+
+  const contentDownloadText =
+    content.type === "FILE" ? "다운로드 주소 생성" : "열람";
+
+  return (
+    <div>
+      {!downloadData && (
+        <Button
+          type="primary"
+          size="large"
+          className="w-full"
+          onClick={() => downloadRefetch()}
+          loading={downloadIsLoading}
+        >
+          #{index + 1} 상품 {contentDownloadText}
+        </Button>
+      )}
+      {downloadData && !downloadIsLoading && (
+        <ContentDownloadRendering data={downloadData} />
+      )}
+    </div>
+  );
+}
+
+export default function Order() {
+  const router = useRouter();
+  const eventHistoryId = router.query.eventHistoryId as string;
+  const { data, isLoading, error } = useUserEventHistory(eventHistoryId);
+
+  if (!isLoading && error) {
     return (
       <UserEventContainer>
         <Result
           status="error"
           title="주문 정보를 불러올 수 없습니다."
-          subTitle={
-            isAxiosError(error)
-              ? error.response?.data.message
-              : isAxiosError(downloadError)
-              ? downloadError.response?.data.message
-              : ""
-          }
+          subTitle={isAxiosError(error) ? error.response?.data.message : ""}
         />
         <p className="text-sm text-gray-500">
           오류라고 판단될 시 우측 하단 고객센터로 문의 부탁드립니다.
@@ -177,61 +234,27 @@ export default function Order() {
     );
   }
 
-  if (!isLoading && data?.downloadAvailable === false) {
-    return (
-      <UserEventContainer>
-        <Result
-          status="error"
-          title="다운로드가 불가능한 주문입니다."
-          subTitle={data?.downloadError}
-        />
-        <p className="text-sm text-gray-500">
-          오류라고 판단될 시 우측 하단 고객센터로 문의 부탁드립니다.
-        </p>
-      </UserEventContainer>
-    );
-  }
-
-  const onDownload = () => {
-    if (downloadIsLoading) return;
-    downloadRefetch();
-  };
-
-  const contentDownlaodText =
-    data?.contentType === "FILE" ? "다운로드 주소 생성" : "열람";
   return (
     <UserEventContainer isLoading={isLoading}>
       <div className="mb-5 w-full">
-        <p className="text-lg font-bold">상품 {contentDownlaodText}</p>
-        <p className="text-sm text-gray-500 whitespace-pre-line w-[340px] mb-4">
-          아래 버튼을 눌러 상품을 {contentDownlaodText} 할 수 있습니다.{"\n"}
+        <p className="text-lg font-bold">상품 다운로드</p>
+        <p className="text-sm text-gray-500 whitespace-pre-line mb-4">
+          아래 버튼을 눌러 상품을 다운로드 할 수 있습니다.{"\n"}
           판매자가 지정해둔 정책에 따라 상품 다운로드 횟수 제한이 있을 수
           있습니다.
         </p>
-        {!downloadData && !downloadIsLoading && (
-          <Button
-            type="primary"
-            size="large"
-            className="w-full"
-            onClick={onDownload}
-          >
-            상품 {contentDownlaodText}
-          </Button>
-        )}
-        {downloadIsLoading && (
-          <div className="mb-4 mt-16 flex flex-col items-center">
-            <Loading isFullPage={false} />
-            <p className="text-sm text-gray-500 mt-3">
-              상품을 불러오는 중입니다.
-            </p>
-          </div>
-        )}
-        {downloadData && !downloadIsLoading && (
-          <div>
-            <p className="text-sm text-gray-800 mb-1">상품이 준비되었습니다.</p>
-            <ContentDownloadRendering data={downloadData} />
-          </div>
-        )}
+        <div className="flex flex-col gap-3">
+          {data?.contents.map((content, index) => (
+            <div key={index}>
+              <p className="text-sm text-gray-800 mb-1">#{index + 1} 상품</p>
+              <OrderItem
+                index={index}
+                content={content}
+                eventHistoryId={eventHistoryId}
+              />
+            </div>
+          ))}
+        </div>
       </div>
       <div className="w-full">
         <p className="text-lg font-bold">

@@ -13,9 +13,12 @@ const fetchUserEventHistory = async (eventHistoryId: string) => {
   return data;
 };
 
-const fetchUserEventHistoryDownload = async (eventHistoryId: string) => {
+const fetchUserEventHistoryDownload = async (
+  eventHistoryId: string,
+  eventHistoryContentId: number
+) => {
   const { data } = await axiosClient.get<UserEventHistoryDownloadDto>(
-    `/event-history/${eventHistoryId}/download`
+    `/event-history/${eventHistoryId}/${eventHistoryContentId}/download`
   );
   return data;
 };
@@ -42,10 +45,18 @@ export const useUserEventHistory = (eventHistoryId: string) => {
   });
 };
 
-export const useUserEventHistoryDownload = (eventHistoryId: string) => {
+export const useUserEventHistoryDownload = (
+  eventHistoryId: string,
+  eventHistoryContentId: number
+) => {
   return useQuery({
-    queryKey: ["user-event-history-download", eventHistoryId],
-    queryFn: () => fetchUserEventHistoryDownload(eventHistoryId),
+    queryKey: [
+      "user-event-history-download",
+      eventHistoryId,
+      eventHistoryContentId,
+    ],
+    queryFn: () =>
+      fetchUserEventHistoryDownload(eventHistoryId, eventHistoryContentId),
     enabled: false,
   });
 };

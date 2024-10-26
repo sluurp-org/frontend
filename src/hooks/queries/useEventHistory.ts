@@ -15,11 +15,11 @@ const fetchEventHistory = async (
 
 const updateEventHistory = async (
   workspaceId: number,
-  eventHistoryId: string,
+  eventHistoryContentId: number,
   dto: UpdateEventHistoryDto
 ): Promise<EventHistory> => {
   const { data } = await axiosClient.patch<EventHistory>(
-    `/workspace/${workspaceId}/event-history/${eventHistoryId}`,
+    `/workspace/${workspaceId}/event-history/${eventHistoryContentId}`,
     dto
   );
   return data;
@@ -27,10 +27,10 @@ const updateEventHistory = async (
 
 const resetEventHistoryDownloadCount = async (
   workspaceId: number,
-  eventHistoryId: string
+  eventHistoryContentId: number
 ): Promise<EventHistory> => {
   const { data } = await axiosClient.put<EventHistory>(
-    `/workspace/${workspaceId}/event-history/${eventHistoryId}/reset-download-count`
+    `/workspace/${workspaceId}/event-history/${eventHistoryContentId}/reset-download-count`
   );
   return data;
 };
@@ -50,16 +50,16 @@ export const useEventHistory = (
 
 export const useUpdateEventHistory = (
   workspaceId: number,
-  eventHistoryId: string
+  eventHistoryContentId: number
 ) => {
   return useMutation({
     mutationFn: (dto: UpdateEventHistoryDto) =>
-      updateEventHistory(workspaceId, eventHistoryId, dto),
+      updateEventHistory(workspaceId, eventHistoryContentId, dto),
     onSuccess: () => {
       queryClient.invalidateQueries([
         "event-history",
         workspaceId,
-        eventHistoryId,
+        eventHistoryContentId,
       ]);
     },
   });
@@ -67,17 +67,13 @@ export const useUpdateEventHistory = (
 
 export const useResetEventHistoryDownloadCount = (
   workspaceId: number,
-  eventHistoryId: string
+  eventHistoryContentId: number
 ) => {
   return useMutation({
     mutationFn: () =>
-      resetEventHistoryDownloadCount(workspaceId, eventHistoryId),
+      resetEventHistoryDownloadCount(workspaceId, eventHistoryContentId),
     onSuccess: () => {
-      queryClient.invalidateQueries([
-        "event-history",
-        workspaceId,
-        eventHistoryId,
-      ]);
+      queryClient.invalidateQueries(["event-history", workspaceId]);
     },
   });
 };

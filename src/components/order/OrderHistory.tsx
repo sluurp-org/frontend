@@ -133,7 +133,9 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
             <p className="text-xs mb-2">{formattedDate}</p>
             <div
               className="flex flex-col bg-white border rounded-lg p-4 cursor-pointer hover:shadow-lg duration-150"
-              onClick={() => handleOpenEventHistoryModal(order.eventHistory.id)}
+              onClick={() =>
+                handleOpenEventHistoryModal(order?.eventHistory?.id)
+              }
             >
               <h4 className="mb-2 text-base font-semibold">
                 <MessageOutlined className="mr-1" /> 메세지 발송
