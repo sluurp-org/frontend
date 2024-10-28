@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { PagesTopLoader } from "nextjs-toploader/pages";
 import { QueryClient, QueryClientProvider } from "react-query";
-import ChannelTalk from "@/components/ChannelTalk";
+import ChannelTalk from "@/components/common/ChannelTalk";
 import { ConfigProvider } from "antd";
 import ko_KR from "antd/es/locale/ko_KR";
 import "moment/locale/ko";

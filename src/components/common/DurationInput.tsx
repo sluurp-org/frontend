@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, InputNumber, Space } from "antd";
+import { InputNumber, Space } from "antd";
 
 interface DurationInputProps {
   value?: number;

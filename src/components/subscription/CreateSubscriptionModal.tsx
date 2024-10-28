@@ -151,7 +151,7 @@ export function SubscriptionItem({
           </Button>
         </Popover>
       </div>
-      <p className="text-sm text-gray-500">{description}</p>
+      <p className="text-sm text-gray-500 mt-1">{description}</p>
       <div className="mt-5">
         <p className="text-indigo-500 text-lg font-bold mb-1">플랜 기능</p>
         <div className="flex flex-col gap-1">
@@ -255,10 +255,10 @@ export default function CreateSubscriptionModal({
   return (
     <Modal
       open={open}
-      title="구독 변경"
       onCancel={onClose}
       destroyOnClose
-      width={600}
+      width={800}
+      title="구독 가능한 플랜"
       footer={null}
     >
       {!billing && (
@@ -270,8 +270,11 @@ export default function CreateSubscriptionModal({
           className="mb-4"
         />
       )}
-      <p className="text-lg font-bold mb-2 mt-4">구독 가능한 플랜</p>
-      <div className="grid grid-cols-2 gap-2">
+      <p className="text-sm text-gray-500 mb-2">
+        구독은 1개월(30일) 단위로 진행됩니다. 구독 변경시 추가로 결제하여야하는
+        금액은 즉시 청구됩니다.
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {subscription?.map((subscription) => (
           <SubscriptionItem
             key={subscription.id}

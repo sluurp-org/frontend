@@ -2,41 +2,19 @@ import Component from "@/components/Container";
 import Header from "@/components/Header";
 import WorkspaceDrawer from "@/components/workspace/WorkspaceDrawer";
 import { useState } from "react";
-import { Button } from "antd";
-import { useTour } from "@/components/common/TourContext";
+import SubscriptionAlert from "@/components/workspace-home/SubscriptionAlert";
 import { useRouter } from "next/router";
+import StoreAlert from "@/components/workspace-home/StoreAlert";
+import CreditCurrent from "@/components/setting/CreditCurrent";
+import { Card } from "@/components/common/Card";
+import SubscriptionCurrent from "@/components/subscription/SubscriptionCurrent";
+import Link from "next/link";
+import GuideAlert from "@/components/workspace-home/GuideAlert";
 
 export default function Workspace() {
-  const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const workspaceId = router.query.id;
-
-  const { startTour } = useTour();
-  const test = () => {
-    startTour(
-      [
-        {
-          target: "#setting-sidebar-button",
-          content: "Page 1의 첫 단계입니다!",
-          data: {
-            next: `/workspaces/${workspaceId}/setting`,
-          },
-          disableBeacon: true,
-          disableScrolling: true,
-        },
-        {
-          target: "#subscription-current",
-          content: "다음 페이지로 이동합니다.",
-          data: {
-            prev: true,
-            next: `/workspaces/${workspaceId}/setting`,
-          },
-        },
-      ],
-      "home"
-    );
-    console.log("test");
-  };
+  const router = useRouter();
+  const workspaceId = Number(router.query.id);
 
   return (
     <Component>
@@ -44,8 +22,28 @@ export default function Workspace() {
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
       />
-      <Header title="워크스페이스" description="워크스페이스 홈" />
-      <Button onClick={test}>투어 시작</Button>
+      <Header title="워크스페이스 홈" description="워크스페이스 홈" />
+      <SubscriptionAlert workspaceId={workspaceId} />
+      <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <Link target="_blank" href={`https://docs.sluurp.io`}>
+          <Card className="h-[200px] cursor-pointer">
+            <GuideAlert />
+          </Card>
+        </Link>
+        <Card className="h-[200px]">
+          <StoreAlert workspaceId={workspaceId} />
+        </Card>
+        <Link href={`/workspaces/${workspaceId}/setting`}>
+          <Card className="relative h-[200px] hover:shadow-lg duration-100">
+            <CreditCurrent workspaceId={workspaceId} />
+          </Card>
+        </Link>
+        <Link href={`/workspaces/${workspaceId}/setting`}>
+          <Card className="h-[200px] hover:shadow-lg duration-100">
+            <SubscriptionCurrent workspaceId={workspaceId} showButton={false} />
+          </Card>
+        </Link>
+      </div>
     </Component>
   );
 }

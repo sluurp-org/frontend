@@ -14,8 +14,10 @@ import toast from "react-hot-toast";
 
 export default function SubscriptionCurrent({
   workspaceId,
+  showButton = true,
 }: {
   workspaceId: number;
+  showButton?: boolean;
 }) {
   const { data, isLoading, error } = useWorkspaceSubscription(workspaceId);
   const { mutateAsync: deleteSubscription } =
@@ -101,40 +103,45 @@ export default function SubscriptionCurrent({
           </div>
         </>
       )}
-      <div className="flex flex-col gap-2 absolute bottom-0 left-0 right-0 m-5">
-        <Button type="primary" onClick={() => setOpen(true)}>
-          {isFree ? "무료 플랜 시작" : "플랜 변경"}
-        </Button>
-        {data?.nextSubscription && (
-          <Popover
-            title="구독 취소"
-            open={isCancelOpen}
-            onOpenChange={setIsCancelOpen}
-            trigger="click"
-            content={
-              <div>
-                <p>구독을 취소하시겠습니까?</p>
-                <div className="flex gap-1 mt-3">
-                  <Button type="primary" onClick={() => setIsCancelOpen(false)}>
-                    구독 유지
-                  </Button>
-                  <Button
-                    type="primary"
-                    danger
-                    onClick={() => onCancelSubscription()}
-                  >
-                    구독 취소
-                  </Button>
+      {showButton && (
+        <div className="flex flex-col gap-2 absolute bottom-0 left-0 right-0 m-5">
+          <Button type="primary" onClick={() => setOpen(true)}>
+            {isFree ? "무료 플랜 시작" : "플랜 변경"}
+          </Button>
+          {data?.nextSubscription && (
+            <Popover
+              title="구독 취소"
+              open={isCancelOpen}
+              onOpenChange={setIsCancelOpen}
+              trigger="click"
+              content={
+                <div>
+                  <p>구독을 취소하시겠습니까?</p>
+                  <div className="flex gap-1 mt-3">
+                    <Button
+                      type="primary"
+                      onClick={() => setIsCancelOpen(false)}
+                    >
+                      구독 유지
+                    </Button>
+                    <Button
+                      type="primary"
+                      danger
+                      onClick={() => onCancelSubscription()}
+                    >
+                      구독 취소
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            }
-          >
-            <Button danger type="primary">
-              구독 취소
-            </Button>
-          </Popover>
-        )}
-      </div>
+              }
+            >
+              <Button danger type="primary">
+                구독 취소
+              </Button>
+            </Popover>
+          )}
+        </div>
+      )}
     </>
   );
 }

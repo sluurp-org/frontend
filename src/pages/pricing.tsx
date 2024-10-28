@@ -119,6 +119,7 @@ export default function Pricing() {
               messageLimit,
               alimTalkCredit,
               contentCredit,
+              isCustomKakao,
             } = subscription;
 
             const sendPrice = [
@@ -136,7 +137,7 @@ export default function Pricing() {
               { value: "1분 간격 주문 수집", isEnabled: true },
               { value: "제한 없는 주문 처리", isEnabled: true },
               {
-                value: "최대 3분이내 메세지 발송",
+                value: "최대 2분이내 메세지 발송",
                 isEnabled: true,
               },
               storeLimit > 0
@@ -150,7 +151,7 @@ export default function Pricing() {
                     value: `최대 ${messageLimit}개 메시지 등록 가능`,
                     isEnabled: true,
                   }
-                : { value: "메시지 무제한 등록", isEnabled: true },
+                : { value: "메시지 템플릿 무제한 등록", isEnabled: true },
               isContentEnabled
                 ? contentLimit > 0
                   ? {
@@ -159,6 +160,12 @@ export default function Pricing() {
                     }
                   : { value: "디지털 콘텐츠 무제한 등록", isEnabled: true }
                 : { value: "디지털 콘텐츠 등록 불가", isEnabled: false },
+              {
+                value: isCustomKakao
+                  ? "자체 카카오톡 채널 연동 가능"
+                  : "자체 카카오톡 채널 연동 불가",
+                isEnabled: isCustomKakao,
+              },
             ];
 
             return (
