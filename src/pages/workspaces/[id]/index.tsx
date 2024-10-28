@@ -26,20 +26,18 @@ export default function Workspace() {
       <SubscriptionAlert workspaceId={workspaceId} />
       <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         <Link target="_blank" href={`https://docs.sluurp.io`}>
-          <Card className="h-[200px] cursor-pointer">
+          <Card className="min-h-[240px] cursor-pointer">
             <GuideAlert />
           </Card>
         </Link>
-        <Card className="h-[200px]">
-          <StoreAlert workspaceId={workspaceId} />
-        </Card>
+        <StoreAlert workspaceId={workspaceId} />
         <Link href={`/workspaces/${workspaceId}/setting`}>
-          <Card className="relative h-[200px] hover:shadow-lg duration-100">
+          <Card className="relative min-h-[240px] hover:shadow-lg duration-100">
             <CreditCurrent workspaceId={workspaceId} />
           </Card>
         </Link>
         <Link href={`/workspaces/${workspaceId}/setting`}>
-          <Card className="h-[200px] hover:shadow-lg duration-100">
+          <Card className="min-h-[240px] hover:shadow-lg duration-100">
             <SubscriptionCurrent workspaceId={workspaceId} showButton={false} />
           </Card>
         </Link>

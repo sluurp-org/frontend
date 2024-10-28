@@ -15,8 +15,9 @@ export default function StoreAlert({ workspaceId }: { workspaceId: number }) {
   });
 
   const isStoreNotFound = store?.nodes.length === 0;
+  if (!isStoreNotFound) return null;
   return (
-    <>
+    <Card className="min-h-[240px]">
       <p className="text-lg font-bold text-red-400">
         <AlertOutlined className="mr-1" />
         스토어 연결 안내
@@ -39,6 +40,6 @@ export default function StoreAlert({ workspaceId }: { workspaceId: number }) {
           </Link>
         </div>
       )}
-    </>
+    </Card>
   );
 }
