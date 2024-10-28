@@ -96,6 +96,7 @@ export default function CreateStoreDrawer({
                 >
                   스마트 스토어(스토어팜) 연동 방법
                 </Link>
+                <p>연동이 어려우실 경우 아래 고객센터로 문의 부탁드립니다!</p>
               </div>
             }
             type="info"

@@ -13,6 +13,7 @@ import {
   PurchaseTypeMap,
 } from "@/types/purchase";
 import { usePurchaseList } from "@/hooks/queries/usePurcahse";
+import { Card } from "../common/Card";
 
 export default function SubscriptionList({
   workspaceId,
@@ -82,7 +83,7 @@ export default function SubscriptionList({
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-5">
+    <Card>
       <div className="flex justify-between items-center mb-3">
         <p className="text-lg font-bold">결제 내역</p>
         <Select
@@ -118,6 +119,6 @@ export default function SubscriptionList({
           },
         }}
       />
-    </div>
+    </Card>
   );
 }

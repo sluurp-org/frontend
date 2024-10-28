@@ -6,6 +6,7 @@ import Error from "@/components/Error";
 import { Select, Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "moment";
+import { Card } from "../common/Card";
 
 export default function CreditList({ workspaceId }: { workspaceId: number }) {
   const [creditFilter, setCreditFilter] = useState<CreditFilterDto>({
@@ -78,7 +79,7 @@ export default function CreditList({ workspaceId }: { workspaceId: number }) {
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-5">
+    <Card>
       <div className="flex justify-between items-center mb-3">
         <p className="text-lg font-bold">크레딧 내역</p>
         <Select
@@ -114,6 +115,6 @@ export default function CreditList({ workspaceId }: { workspaceId: number }) {
           },
         }}
       />
-    </div>
+    </Card>
   );
 }

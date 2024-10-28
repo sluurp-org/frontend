@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useProducts } from "@/hooks/queries/useProduct";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
+import { Card } from "@/components/common/Card";
 
 const { Search } = Input;
 
@@ -68,27 +69,30 @@ export default function ProductListPage() {
       </div>
 
       {/* 상품 테이블 */}
-      <Table
-        columns={columns}
-        dataSource={data?.nodes}
-        rowKey="id"
-        scroll={{ x: "1500px" }}
-        rowClassName={"cursor-pointer"}
-        pagination={{
-          total: data?.total,
-          pageSize: filters.size,
-          current: filters.page,
-          onChange: handlePageChange,
-          onShowSizeChange: handlePageChange,
-          pageSizeOptions: ["15", "20", "30", "40"],
-          showSizeChanger: true,
-          showTotal: (total) => `총 ${total} 개`,
-        }}
-        onRow={(record) => ({
-          onClick: () =>
-            router.push(`/workspaces/${workspaceId}/product/${record.id}`),
-        })}
-      />
+      <Card className="p-0">
+        <Table
+          columns={columns}
+          dataSource={data?.nodes}
+          rowKey="id"
+          scroll={{ x: "1500px" }}
+          rowClassName={"cursor-pointer"}
+          pagination={{
+            total: data?.total,
+            pageSize: filters.size,
+            current: filters.page,
+            onChange: handlePageChange,
+            onShowSizeChange: handlePageChange,
+            pageSizeOptions: ["15", "20", "30", "40"],
+            showSizeChanger: true,
+            showTotal: (total) => `총 ${total} 개`,
+            className: "pr-4",
+          }}
+          onRow={(record) => ({
+            onClick: () =>
+              router.push(`/workspaces/${workspaceId}/product/${record.id}`),
+          })}
+        />
+      </Card>
     </Component>
   );
 }

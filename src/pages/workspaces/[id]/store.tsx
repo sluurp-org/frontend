@@ -10,6 +10,7 @@ import { useStore } from "@/hooks/queries/useStore";
 import StoreDrawer from "@/components/store/StoreDrawer";
 import CreateStoreDrawer from "@/components/store/CreateStoreDrawer";
 import Error from "@/components/Error";
+import { Card } from "@/components/common/Card";
 
 export default function StoreList() {
   const router = useRouter();
@@ -104,28 +105,31 @@ export default function StoreList() {
         스토어 생성
       </Button>
 
-      <Table
-        scroll={{ x: "1000px" }}
-        columns={columns}
-        dataSource={data?.nodes || []}
-        rowKey="id"
-        rowClassName={"cursor-pointer"}
-        onRow={(record) => ({
-          onClick: () => {
-            setSelectedStoreId(record.id);
-          },
-        })}
-        pagination={{
-          current: filters.page,
-          pageSize: filters.size,
-          total: data?.total,
-          showSizeChanger: true,
-          pageSizeOptions: ["15", "20", "30", "40"],
-          showTotal: (total) => `총 ${total} 건`,
-          onChange: (page, pageSize) =>
-            setFilters({ ...filters, page, size: pageSize }),
-        }}
-      />
+      <Card className="p-0">
+        <Table
+          scroll={{ x: "1000px" }}
+          columns={columns}
+          dataSource={data?.nodes || []}
+          rowKey="id"
+          rowClassName={"cursor-pointer"}
+          onRow={(record) => ({
+            onClick: () => {
+              setSelectedStoreId(record.id);
+            },
+          })}
+          pagination={{
+            className: "pr-4",
+            current: filters.page,
+            pageSize: filters.size,
+            total: data?.total,
+            showSizeChanger: true,
+            pageSizeOptions: ["15", "20", "30", "40"],
+            showTotal: (total) => `총 ${total} 건`,
+            onChange: (page, pageSize) =>
+              setFilters({ ...filters, page, size: pageSize }),
+          }}
+        />
+      </Card>
     </Component>
   );
 }

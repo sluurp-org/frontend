@@ -14,7 +14,6 @@ import { CreateKakaoConnection } from "./CreateKakaoConnection";
 export function KakaoConnection({ workspaceId }: { workspaceId: number }) {
   const {
     data: kakaoConnection,
-    isLoading,
     isError,
     error,
   } = useKakaoConnection(workspaceId);
@@ -45,7 +44,7 @@ export function KakaoConnection({ workspaceId }: { workspaceId: number }) {
   };
 
   return (
-    <div className="p-5 bg-white rounded-lg shadow-md">
+    <>
       <h2 className="text-lg font-bold text-gray-800">카카오톡 채널 연동</h2>
       <div className="flex flex-col mt-3">
         {kakaoConnection && (
@@ -76,6 +75,6 @@ export function KakaoConnection({ workspaceId }: { workspaceId: number }) {
           </>
         )}
       </div>
-    </div>
+    </>
   );
 }

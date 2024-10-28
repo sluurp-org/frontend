@@ -8,6 +8,7 @@ import errorHandler from "@/utils/error";
 import { ContentGroupFilters, ContentType } from "@/types/content";
 import { useContentGroups } from "@/hooks/queries/useContent";
 import CreateContentGroupDrawer from "@/components/content/CreateContentGroupDrawer";
+import { Card } from "@/components/common/Card";
 
 export default function WorkspaceContent() {
   const router = useRouter();
@@ -70,26 +71,29 @@ export default function WorkspaceContent() {
       >
         콘텐츠 생성
       </Button>
-      <Table
-        columns={columns}
-        dataSource={data?.nodes || []}
-        rowKey="id"
-        rowClassName={"cursor-pointer"}
-        onRow={(record) => ({
-          onClick: () =>
-            router.push(`/workspaces/${workspaceId}/content/${record.id}`),
-        })}
-        pagination={{
-          current: filters.page,
-          pageSize: filters.size,
-          total: data?.total,
-          showSizeChanger: true,
-          pageSizeOptions: ["15", "20", "30", "40"],
-          showTotal: (total) => `총 ${total} 건`,
-          onChange: (page, pageSize) =>
-            setFilters({ ...filters, page, size: pageSize }),
-        }}
-      />
+      <Card className="p-0">
+        <Table
+          columns={columns}
+          dataSource={data?.nodes || []}
+          rowKey="id"
+          rowClassName={"cursor-pointer"}
+          onRow={(record) => ({
+            onClick: () =>
+              router.push(`/workspaces/${workspaceId}/content/${record.id}`),
+          })}
+          pagination={{
+            className: "pr-4",
+            current: filters.page,
+            pageSize: filters.size,
+            total: data?.total,
+            showSizeChanger: true,
+            pageSizeOptions: ["15", "20", "30", "40"],
+            showTotal: (total) => `총 ${total} 건`,
+            onChange: (page, pageSize) =>
+              setFilters({ ...filters, page, size: pageSize }),
+          }}
+        />
+      </Card>
     </Component>
   );
 }

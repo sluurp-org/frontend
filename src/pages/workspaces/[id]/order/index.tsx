@@ -8,6 +8,7 @@ import { useOrders } from "@/hooks/queries/useOrder";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import CreateOrderDrawer from "@/components/order/CreateOrderDrawer";
+import { Card } from "@/components/common/Card";
 
 export default function WorkspaceOrderList() {
   const router = useRouter();
@@ -101,27 +102,30 @@ export default function WorkspaceOrderList() {
       >
         주문 생성
       </Button>
-      <Table
-        scroll={{ x: "1500px" }}
-        columns={columns}
-        dataSource={data?.nodes || []}
-        rowKey="orderId"
-        rowClassName={"cursor-pointer"}
-        onRow={(record) => ({
-          onClick: () =>
-            router.push(`/workspaces/${workspaceId}/order/${record.id}`),
-        })}
-        pagination={{
-          current: filters.page,
-          pageSize: filters.size,
-          total: data?.total,
-          showSizeChanger: true,
-          pageSizeOptions: ["15", "20", "30", "40"],
-          showTotal: (total) => `총 ${total} 건`,
-          onChange: (page, pageSize) =>
-            setFilters({ ...filters, page, size: pageSize }),
-        }}
-      />
+      <Card className="p-0">
+        <Table
+          scroll={{ x: "1500px" }}
+          columns={columns}
+          dataSource={data?.nodes || []}
+          rowKey="orderId"
+          rowClassName={"cursor-pointer"}
+          onRow={(record) => ({
+            onClick: () =>
+              router.push(`/workspaces/${workspaceId}/order/${record.id}`),
+          })}
+          pagination={{
+            className: "pr-4",
+            current: filters.page,
+            pageSize: filters.size,
+            total: data?.total,
+            showSizeChanger: true,
+            pageSizeOptions: ["15", "20", "30", "40"],
+            showTotal: (total) => `총 ${total} 건`,
+            onChange: (page, pageSize) =>
+              setFilters({ ...filters, page, size: pageSize }),
+          }}
+        />
+      </Card>
     </Component>
   );
 }

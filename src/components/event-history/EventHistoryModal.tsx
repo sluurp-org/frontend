@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import errorHandler from "@/utils/error";
 import Link from "next/link";
 import { fetchDownloadFileContent } from "@/hooks/queries/useContent";
+import { Card } from "../common/Card";
 
 function ContentItem({
   item,
@@ -120,7 +121,7 @@ function ContentItem({
 
   return (
     <div key={item.id} className="flex flex-col gap-2">
-      <div className="p-3 rounded-md border shadow-sm">
+      <Card>
         <p className="font-semibold text-indigo-500 text-[16px]">
           컨텐츠 #{index + 1}
         </p>
@@ -221,7 +222,7 @@ function ContentItem({
             )}
           </div>
         </InfoRow>
-      </div>
+      </Card>
     </div>
   );
 }
@@ -250,6 +251,7 @@ export default function EventHistoryModal({
   return (
     <Modal
       destroyOnClose
+      cancelButtonProps={{ hidden: true }}
       open={open}
       onClose={onClose}
       onCancel={onClose}
@@ -273,17 +275,15 @@ export default function EventHistoryModal({
           : "-"}
       </InfoRow>
       {data.eventMessage && (
-        <>
-          <InfoRow label="발송 메세지 상세보기">
-            <Link
-              href={`/workspace/${workspaceId}/message/${data.eventMessage.id}`}
-              className="text-indigo-500"
-            >
-              <MessageOutlined className="mr-1" />
-              {data.eventMessage.name}
-            </Link>
-          </InfoRow>
-        </>
+        <InfoRow label="발송 메세지 상세보기">
+          <Link
+            href={`/workspace/${workspaceId}/message/${data.eventMessage.id}`}
+            className="text-indigo-500"
+          >
+            <MessageOutlined className="mr-1" />
+            {data.eventMessage.name}
+          </Link>
+        </InfoRow>
       )}
       <InfoRow label="발송 메세지">
         <p className="whitespace-pre-wrap p-3 bg-gray-100 rounded-md">

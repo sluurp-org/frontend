@@ -133,7 +133,7 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
           <>
             <p className="text-xs mb-2">{formattedDate}</p>
             <div
-              className="flex flex-col bg-white border rounded-lg p-4 cursor-pointer hover:shadow-lg duration-150"
+              className="flex flex-col bg-white border rounded-lg p-4 cursor-pointer hover:shadow-md duration-150"
               onClick={() =>
                 handleOpenEventHistoryModal(order?.eventHistory?.id)
               }
@@ -149,7 +149,7 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
                   </p>
                   {order.eventHistory.message && (
                     <p className="text-sm font-light">
-                      발송 메세지: {order.eventHistory.message}
+                      발송 안내: {order.eventHistory.message}
                     </p>
                   )}
                   {order.eventHistory.messageTemplate && (
@@ -164,7 +164,7 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
                       </Link>
                     </p>
                   )}
-                  <p>눌러서 상세 정보 보기</p>
+                  <p className="font-semibold">눌러서 상세 정보 보기</p>
                 </>
               ) : (
                 <p className="text-sm font-light">

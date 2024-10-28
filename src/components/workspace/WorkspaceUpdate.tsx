@@ -1,6 +1,6 @@
 import { useUpdateWorkspace, useWorkspace } from "@/hooks/queries/useWorkspace";
 import Loading from "../Loading";
-import { Button, Form, Input } from "antd";
+import { Button, Card, Form, Input } from "antd";
 import toast from "react-hot-toast";
 import { useForm } from "antd/es/form/Form";
 import { KakaoConnection } from "../kakao/KakaoConnection";
@@ -27,8 +27,7 @@ export default function WorkspaceUpdate({
 
   return (
     <div className="max-w-[500px] flex flex-col gap-4">
-      <p className="text-lg font-bold mb-4">워크스페이스 설정</p>
-      <div className="p-5 bg-white rounded-lg shadow-md">
+      <Card>
         <Form
           layout="vertical"
           onFinish={handleUpdate}
@@ -51,8 +50,10 @@ export default function WorkspaceUpdate({
             </Button>
           </Form.Item>
         </Form>
-      </div>
-      <KakaoConnection workspaceId={workspaceId} />
+      </Card>
+      <Card>
+        <KakaoConnection workspaceId={workspaceId} />
+      </Card>
     </div>
   );
 }

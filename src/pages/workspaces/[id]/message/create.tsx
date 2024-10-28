@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Component from "../../../../components/Container";
-import { NextRouter, Router, useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import {
   ArrowLeftOutlined,
   CloseOutlined,
@@ -30,6 +30,7 @@ import {
   Popover,
   Checkbox,
   Upload,
+  Card,
 } from "antd";
 import toast from "react-hot-toast";
 import { isURL } from "validator";
@@ -730,7 +731,7 @@ export default function WorkspaceMessageCreate() {
           </Popover>
         </div>
         <div className="w-full">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
+          <Card>
             <h2 className="text-2xl font-semibold mb-4">메세지 정보</h2>
             <div className="flex flex-col gap-1">
               <MessageForm
@@ -739,7 +740,7 @@ export default function WorkspaceMessageCreate() {
                 router={router}
               />
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </Component>

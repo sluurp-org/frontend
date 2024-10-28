@@ -34,14 +34,7 @@ export default function SubscriptionCurrent({
   }
 
   if (isLoading || isFreeLoading) {
-    return (
-      <div
-        id="subscription-current"
-        className="p-5 bg-white rounded-lg shadow-md w-max-[300px] relative"
-      >
-        <Loading isFullPage={false} />
-      </div>
-    );
+    return <Loading isFullPage={false} />;
   }
 
   const onCancelSubscription = () => {
@@ -67,88 +60,80 @@ export default function SubscriptionCurrent({
         isFree={isFree ?? false}
         currentSubscriptionId={data?.nextSubscription?.subscription.id}
       />
-      <div
-        id="subscription-current"
-        className="p-5 bg-white rounded-lg shadow-md w-max-[300px] relative h-[230px] lg:h-full"
-      >
-        {data?.currentSubscription ? (
-          <>
-            <p className="text-[16px] text-gray-600">
-              <span className="text-indigo-500 font-bold text-2xl">
-                {data.currentSubscription.subscription.name}
-              </span>{" "}
-              플랜 구독중
+      {data?.currentSubscription ? (
+        <>
+          <p className="text-[16px] text-gray-600">
+            <span className="text-indigo-500 font-bold text-2xl">
+              {data.currentSubscription.subscription.name}
+            </span>{" "}
+            플랜 구독중
+          </p>
+          <div className="mt-2">
+            <p>
+              총 결제 금액:{" "}
+              {data.currentSubscription.subscription.price.toLocaleString()}원
             </p>
-            <div className="mt-2">
+            {data.nextSubscription && (
               <p>
-                총 결제 금액:{" "}
-                {data.currentSubscription.subscription.price.toLocaleString()}원
+                다음 결제일:{" "}
+                {moment(data.nextSubscription.startedAt).format("YYYY-MM-DD")}
               </p>
-              {data.nextSubscription && (
-                <p>
-                  다음 결제일:{" "}
-                  {moment(data.nextSubscription.startedAt).format("YYYY-MM-DD")}
-                </p>
-              )}
-              {!data.nextSubscription && (
-                <Alert
-                  className="mt-2 whitespace-pre-line"
-                  message={`${moment(data.currentSubscription.startedAt)
-                    .add(1, "month")
-                    .format(
-                      "YYYY년 MM월 DD일"
-                    )}에 구독이 만료됩니다.\n만료시 등록된 모든 스토어가 비활성화됩니다.`}
-                  type="warning"
-                  showIcon
-                />
-              )}
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="mb-12">
-              <p className="text-lg font-bold">워크스페이스 현재 구독</p>
-              <p className="text-sm text-gray-500">구독 정보가 없습니다.</p>
-            </div>
-          </>
-        )}
-        <div className="flex flex-col gap-2 absolute bottom-0 left-0 right-0 m-5">
-          <Button type="primary" onClick={() => setOpen(true)}>
-            {isFree ? "무료 플랜 시작" : "플랜 변경"}
-          </Button>
-          {data?.nextSubscription && (
-            <Popover
-              title="구독 취소"
-              open={isCancelOpen}
-              onOpenChange={setIsCancelOpen}
-              trigger="click"
-              content={
-                <div>
-                  <p>구독을 취소하시겠습니까?</p>
-                  <div className="flex gap-1 mt-3">
-                    <Button
-                      type="primary"
-                      onClick={() => setIsCancelOpen(false)}
-                    >
-                      구독 유지
-                    </Button>
-                    <Button
-                      type="primary"
-                      danger
-                      onClick={() => onCancelSubscription()}
-                    >
-                      구독 취소
-                    </Button>
-                  </div>
+            )}
+            {!data.nextSubscription && (
+              <Alert
+                className="mt-2 whitespace-pre-line"
+                message={`${moment(data.currentSubscription.startedAt)
+                  .add(1, "month")
+                  .format(
+                    "YYYY년 MM월 DD일"
+                  )}에 구독이 만료됩니다.\n만료시 등록된 모든 스토어가 비활성화됩니다.`}
+                type="warning"
+                showIcon
+              />
+            )}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="mb-12">
+            <p className="text-lg font-bold">워크스페이스 현재 구독</p>
+            <p className="text-sm text-gray-500">구독 정보가 없습니다.</p>
+          </div>
+        </>
+      )}
+      <div className="flex flex-col gap-2 absolute bottom-0 left-0 right-0 m-5">
+        <Button type="primary" onClick={() => setOpen(true)}>
+          {isFree ? "무료 플랜 시작" : "플랜 변경"}
+        </Button>
+        {data?.nextSubscription && (
+          <Popover
+            title="구독 취소"
+            open={isCancelOpen}
+            onOpenChange={setIsCancelOpen}
+            trigger="click"
+            content={
+              <div>
+                <p>구독을 취소하시겠습니까?</p>
+                <div className="flex gap-1 mt-3">
+                  <Button type="primary" onClick={() => setIsCancelOpen(false)}>
+                    구독 유지
+                  </Button>
+                  <Button
+                    type="primary"
+                    danger
+                    onClick={() => onCancelSubscription()}
+                  >
+                    구독 취소
+                  </Button>
                 </div>
-              }
-            >
-              <Button danger type="primary">
-                구독 취소
-              </Button>
-            </Popover>
-          )}
-        </div>
+              </div>
+            }
+          >
+            <Button danger type="primary">
+              구독 취소
+            </Button>
+          </Popover>
+        )}
       </div>
     </>
   );

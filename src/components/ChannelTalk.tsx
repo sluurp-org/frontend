@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import * as ChannelService from "@channel.io/channel-web-sdk-loader";
 import { useUserMe } from "@/hooks/queries/useUser";
+import { useRouter } from "next/router";
 
 export default function ChannelTalk() {
+  const router = useRouter();
   const { data } = useUserMe();
 
   useEffect(() => {
@@ -31,6 +33,10 @@ export default function ChannelTalk() {
       ChannelService.shutdown();
     };
   }, [data]);
+
+  useEffect(() => {
+    ChannelService.setPage(router.pathname);
+  }, [router.pathname]);
 
   return <></>;
 }

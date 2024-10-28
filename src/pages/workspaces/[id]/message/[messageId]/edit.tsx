@@ -54,6 +54,7 @@ import axiosClient from "@/utils/axios";
 import { UploadChangeParam } from "antd/es/upload";
 import { useContentGroup, useContentGroups } from "@/hooks/queries/useContent";
 import Error from "@/components/Error";
+import { Card } from "@/components/common/Card";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -926,20 +927,18 @@ export default function MessageEdit() {
             </Button>
           </Popover>
         </div>
-        <div className="w-full">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h2 className="text-2xl font-semibold mb-4">메세지 정보</h2>
-            <div className="flex flex-col gap-1">
-              <MessageForm
-                form={form}
-                disableKakaoTemplate={disableKakaoTemplate}
-                workspaceId={workspaceId}
-                router={router}
-                onSubmit={onSubmit}
-              />
-            </div>
+        <Card className="w-full">
+          <h2 className="text-2xl font-semibold mb-4">메세지 정보</h2>
+          <div className="flex flex-col gap-1">
+            <MessageForm
+              form={form}
+              disableKakaoTemplate={disableKakaoTemplate}
+              workspaceId={workspaceId}
+              router={router}
+              onSubmit={onSubmit}
+            />
           </div>
-        </div>
+        </Card>
       </div>
     </Component>
   );

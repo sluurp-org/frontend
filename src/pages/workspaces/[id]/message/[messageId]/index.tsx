@@ -30,6 +30,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { isAxiosError } from "axios";
 import Error from "@/components/Error";
+import { Card } from "@/components/common/Card";
 
 function Variable({
   variable,
@@ -320,104 +321,98 @@ export default function WorkspaceMessageDetail() {
             </>
           )}
         </div>
-        <div className="w-full">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h2 className="text-2xl font-semibold mb-4">메세지 정보</h2>
-            <div className="flex flex-col gap-1">
-              <InfoRow label="메세지 이름" copyable>
-                {data.name}
-              </InfoRow>
-              <InfoRow label="메세지 상태">
-                <div className="flex flex-col text-left gap-2">
-                  {InspectionStatus}
-                  {InspectionRejectReason}
-                </div>
-              </InfoRow>
-              <InfoRow label="메세지 카테고리">
-                {
-                  kakaoTemplateCategories?.categories.find(
-                    (category) =>
-                      category.code === data.kakaoTemplate.categoryCode
-                  )?.name
-                }
-              </InfoRow>
-              {!data.isGlobal && (
-                <InfoRow label="연결된 콘텐츠">
-                  <div className="flex gap-1 flex-col">
-                    {data.contentGroupId ? (
-                      <span
-                        className="hover:underline text-blue-500 cursor-pointer"
-                        onClick={() =>
-                          router.push(
-                            `/workspaces/${workspaceId}/content/${data.contentGroupId}`
-                          )
-                        }
-                      >
-                        <ReadOutlined className="mr-1" />
-                        {data.contentGroup?.name}
-                      </span>
-                    ) : (
-                      <span>연결된 콘텐츠가 없습니다.</span>
-                    )}
-                  </div>
-                </InfoRow>
-              )}
-              <InfoRow
-                label="메세지 내용"
-                copyable
-                copytext={data.kakaoTemplate.content}
-              >
-                <p className="whitespace-pre-wrap p-3 bg-gray-100 rounded-md">
-                  {data.kakaoTemplate.content}
-                </p>
-              </InfoRow>
-              {data.kakaoTemplate.extra && (
-                <InfoRow
-                  label="메세지 추가정보"
-                  copyable
-                  copytext={data.kakaoTemplate.extra}
-                >
-                  <p className="whitespace-pre-wrap p-3 bg-gray-100 rounded-md">
-                    {data.kakaoTemplate.extra}
-                  </p>
-                </InfoRow>
-              )}
-              <InfoRow label="메세지 버튼">
+        <Card className="w-full">
+          <h2 className="text-2xl font-semibold mb-4">메세지 정보</h2>
+          <div className="flex flex-col gap-1">
+            <InfoRow label="메세지 이름" copyable>
+              {data.name}
+            </InfoRow>
+            <InfoRow label="메세지 상태">
+              <div className="flex flex-col text-left gap-2">
+                {InspectionStatus}
+                {InspectionRejectReason}
+              </div>
+            </InfoRow>
+            <InfoRow label="메세지 카테고리">
+              {
+                kakaoTemplateCategories?.categories.find(
+                  (category) =>
+                    category.code === data.kakaoTemplate.categoryCode
+                )?.name
+              }
+            </InfoRow>
+            {!data.isGlobal && (
+              <InfoRow label="연결된 콘텐츠">
                 <div className="flex gap-1 flex-col">
-                  {data.kakaoTemplate?.buttons.map((button) => (
-                    <KakaoButton key={button.name} button={button} />
-                  ))}
-                  {data.kakaoTemplate.buttons.length === 0 && (
-                    <span>버튼이 없습니다.</span>
+                  {data.contentGroupId ? (
+                    <span
+                      className="hover:underline text-blue-500 cursor-pointer"
+                      onClick={() =>
+                        router.push(
+                          `/workspaces/${workspaceId}/content/${data.contentGroupId}`
+                        )
+                      }
+                    >
+                      <ReadOutlined className="mr-1" />
+                      {data.contentGroup?.name}
+                    </span>
+                  ) : (
+                    <span>연결된 콘텐츠가 없습니다.</span>
                   )}
                 </div>
               </InfoRow>
-              <InfoRow label="메세지 변수">
-                <div className="flex gap-1 flex-col">
-                  {data.variables.map((variable) => (
-                    <Variable key={variable.key} variable={variable} />
-                  ))}
-                  {data.variables.length === 0 && <span>변수가 없습니다.</span>}
-                </div>
+            )}
+            <InfoRow
+              label="메세지 내용"
+              copyable
+              copytext={data.kakaoTemplate.content}
+            >
+              <p className="whitespace-pre-wrap p-3 bg-gray-100 rounded-md">
+                {data.kakaoTemplate.content}
+              </p>
+            </InfoRow>
+            {data.kakaoTemplate.extra && (
+              <InfoRow
+                label="메세지 추가정보"
+                copyable
+                copytext={data.kakaoTemplate.extra}
+              >
+                <p className="whitespace-pre-wrap p-3 bg-gray-100 rounded-md">
+                  {data.kakaoTemplate.extra}
+                </p>
               </InfoRow>
-              <InfoRow label="배송 완료 처리">
-                {data.completeDelivery
-                  ? "메세지 발송시 배송 완료 처리됨"
-                  : "수동으로 배송 완료 처리 필요"}
-              </InfoRow>
-              <InfoRow label="메세지 생성일">
-                {moment(data.createdAt).format(
-                  "YYYY년 MM월 DD일 HH시 mm분 ss초"
+            )}
+            <InfoRow label="메세지 버튼">
+              <div className="flex gap-1 flex-col">
+                {data.kakaoTemplate?.buttons.map((button) => (
+                  <KakaoButton key={button.name} button={button} />
+                ))}
+                {data.kakaoTemplate.buttons.length === 0 && (
+                  <span>버튼이 없습니다.</span>
                 )}
-              </InfoRow>
-              <InfoRow label="메세지 수정일">
-                {moment(data.updatedAt).format(
-                  "YYYY년 MM월 DD일 HH시 mm분 ss초"
-                )}
-              </InfoRow>
-            </div>
+              </div>
+            </InfoRow>
+            <InfoRow label="메세지 변수">
+              <div className="flex gap-1 flex-col">
+                {data.variables.map((variable) => (
+                  <Variable key={variable.key} variable={variable} />
+                ))}
+                {data.variables.length === 0 && <span>변수가 없습니다.</span>}
+              </div>
+            </InfoRow>
+            <InfoRow label="배송 완료 처리">
+              {data.completeDelivery
+                ? "메세지 발송시 배송 완료 처리됨"
+                : "수동으로 배송 완료 처리 필요"}
+            </InfoRow>
+            <InfoRow label="메세지 생성일">
+              {moment(data.createdAt).format("YYYY년 MM월 DD일 HH시 mm분 ss초")}
+            </InfoRow>
+            <InfoRow label="메세지 수정일">
+              {moment(data.updatedAt).format("YYYY년 MM월 DD일 HH시 mm분 ss초")}
+            </InfoRow>
           </div>
-        </div>
+        </Card>
       </div>
     </Component>
   );

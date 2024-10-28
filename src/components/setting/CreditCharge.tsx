@@ -75,10 +75,11 @@ export default function CreditCharge({ workspaceId }: { workspaceId: number }) {
   };
 
   return (
-    <div className="flex-col flex gap-2 p-5 bg-white rounded-lg shadow-md w-max-[300px]">
+    <>
       <p className="text-lg font-bold">크레딧 충전</p>
+      <p className="text-sm text-gray-500">최소 충전 금액은 1,000원입니다.</p>
       <p className="text-sm text-gray-500 mb-3">
-        최소 충전 금액은 1,000원입니다.
+        충전한 금액은 1년(365일) 동안 사용할 수 있습니다.
       </p>
       <InputNumber
         placeholder="크레딧 충전"
@@ -98,11 +99,11 @@ export default function CreditCharge({ workspaceId }: { workspaceId: number }) {
       <Button
         type="primary"
         onClick={onClick}
-        className="w-full"
+        className="w-full mt-3"
         disabled={!chargeAble}
       >
         크레딧 충전
       </Button>
-    </div>
+    </>
   );
 }

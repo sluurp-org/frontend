@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ContentTable from "@/components/content/ContentTable";
 import DurationInput from "@/components/common/DurationInput";
+import { Card } from "@/components/common/Card";
 
 export default function ContentDetailPage() {
   const router = useRouter();
@@ -118,7 +119,7 @@ export default function ContentDetailPage() {
 
       <Header title="콘텐츠 상세" description={`${data.name} 콘텐츠 상세`} />
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-y-6 xl:gap-6 w-full">
-        <div className="bg-white p-6 rounded-lg shadow-sm w-full flex flex-col justify-between h-min">
+        <Card>
           <div>
             <p className="text-sm text-gray-400">콘텐츠명</p>
             <Typography.Text
@@ -210,16 +211,16 @@ export default function ContentDetailPage() {
               콘텐츠 삭제
             </Button>
           </Popover>
-        </div>
+        </Card>
         <div className="space-y-6 col-span-3">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
+          <Card>
             <h2 className="text-2xl font-semibold mb-4">콘텐츠 목록</h2>
             <ContentTable
               workspaceId={workspaceId}
               contentGroupId={contentId}
               contentType={data.type}
             />
-          </div>
+          </Card>
         </div>
       </div>
     </Component>

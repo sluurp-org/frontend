@@ -7,6 +7,7 @@ import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import { MessageFilters } from "@/types/message";
 import { useMessages } from "@/hooks/queries/useMessage";
+import { Card } from "@/components/common/Card";
 
 export default function MessageList() {
   const router = useRouter();
@@ -58,27 +59,30 @@ export default function MessageList() {
       >
         메세지 생성
       </Button>
-      <Table
-        scroll={{ x: "700px" }}
-        columns={columns}
-        dataSource={data?.nodes || []}
-        rowKey="id"
-        rowClassName={"cursor-pointer"}
-        onRow={(record) => ({
-          onClick: () =>
-            router.push(`/workspaces/${workspaceId}/message/${record.id}`),
-        })}
-        pagination={{
-          current: filters.page,
-          pageSize: filters.size,
-          total: data?.total,
-          showSizeChanger: true,
-          pageSizeOptions: ["15", "20", "30", "40"],
-          showTotal: (total) => `총 ${total} 건`,
-          onChange: (page, pageSize) =>
-            setFilters({ ...filters, page, size: pageSize }),
-        }}
-      />
+      <Card className="p-0">
+        <Table
+          scroll={{ x: "700px" }}
+          columns={columns}
+          dataSource={data?.nodes || []}
+          rowKey="id"
+          rowClassName={"cursor-pointer"}
+          onRow={(record) => ({
+            onClick: () =>
+              router.push(`/workspaces/${workspaceId}/message/${record.id}`),
+          })}
+          pagination={{
+            className: "pr-4",
+            current: filters.page,
+            pageSize: filters.size,
+            total: data?.total,
+            showSizeChanger: true,
+            pageSizeOptions: ["15", "20", "30", "40"],
+            showTotal: (total) => `총 ${total} 건`,
+            onChange: (page, pageSize) =>
+              setFilters({ ...filters, page, size: pageSize }),
+          }}
+        />
+      </Card>
     </Component>
   );
 }

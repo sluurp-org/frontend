@@ -14,6 +14,7 @@ import {
 import ProductOptions from "@/components/product/ProductOptions";
 import { Button } from "antd";
 import { Events } from "@/components/product/Events";
+import { Card } from "@/components/common/Card";
 
 export default function ProductDetailPage() {
   const router = useRouter();
@@ -39,13 +40,13 @@ export default function ProductDetailPage() {
 
       <Header title="상품 상세" description={`${data.name} 상품 상세`} />
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-y-6 xl:gap-6 w-full">
-        <div className="bg-white p-6 rounded-lg shadow-sm w-full flex flex-col justify-between h-min">
+        <Card className="h-min">
           <Image
             src={data?.productImage || "/store/smartstore.png"}
             alt={data.name}
             width={160}
             height={160}
-            className="rounded-lg h-auto shadow-lg w-full mb-6"
+            className="rounded-lg h-auto shadow-md w-full mb-6"
           />
           <div>
             <span className="text-sm text-gray-400">상품명</span>
@@ -69,16 +70,16 @@ export default function ProductDetailPage() {
               </InfoRow>
             </div>
           </div>
-        </div>
+        </Card>
         <div className="space-y-6 col-span-3">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
+          <Card>
             <h2 className="text-2xl font-semibold mb-4">상품 발송 메세지</h2>
             <Events workspaceId={workspaceId} productId={productId} />
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-sm">
+          </Card>
+          <Card>
             <h2 className="text-2xl font-semibold mb-4">상품 옵션</h2>
             <ProductOptions workspaceId={workspaceId} productId={productId} />
-          </div>
+          </Card>
         </div>
       </div>
     </Component>
