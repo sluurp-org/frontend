@@ -24,6 +24,19 @@ export type OrderStatus =
   | "REFUND"
   | "CANCEL_NOPAY";
 
+export const OrderStatusColor: Record<OrderStatus, string> = {
+  PAY_WAITING: "yellow",
+  DELIVERING: "blue",
+  PRODUCT_PREPARE: "purple",
+  CANCEL: "red",
+  REFUND: "red",
+  PURCHASE_CONFIRM: "green",
+  PAYED: "green",
+  DELIVERED: "green",
+  EXCHANGE: "default",
+  CANCEL_NOPAY: "default",
+};
+
 export interface OrderListDto {
   id: number;
   productOrderId: string;

@@ -583,6 +583,9 @@ const MessageForm = ({
                         <span className="text-sm text-gray-500">
                           {serverVariable.description}
                         </span>
+                        <span className="text-xs text-gray-500 mt-3">
+                          예시: {serverVariable.example}
+                        </span>
                       </button>
                     ))}
                   </div>

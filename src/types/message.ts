@@ -144,7 +144,7 @@ export interface MessageUpdateDto {
   kakaoTemplate?: KakaoTemplateUpdateDto;
 }
 
-export interface KakaoMessageCategoryDto {
+export interface KakaoCategoryDto {
   categories: {
     code: string;
     name: string;

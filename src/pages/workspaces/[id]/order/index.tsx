@@ -1,8 +1,8 @@
 import Header from "@/components/Header";
 import Component from "@/components/Container";
-import { Button, Table } from "antd";
+import { Button, Table, Tag } from "antd";
 import { useState } from "react";
-import { OrdersFilters, OrderStatus } from "@/types/orders";
+import { OrdersFilters, OrderStatus, OrderStatusColor } from "@/types/orders";
 import { useRouter } from "next/router";
 import { useOrders } from "@/hooks/queries/useOrder";
 import Loading from "@/components/Loading";
@@ -78,23 +78,7 @@ export default function WorkspaceOrderList() {
       key: "status",
       width: 120,
       render: (status: OrderStatus) => (
-        <span
-          className={`px-2 py-1 rounded-full text-xs ${
-            status === "PAY_WAITING" ||
-            status === "DELIVERING" ||
-            status === "PRODUCT_PREPARE"
-              ? "bg-yellow-200 text-yellow-800"
-              : status === "CANCEL" || status === "REFUND"
-              ? "bg-red-200 text-red-800"
-              : status === "PURCHASE_CONFIRM" ||
-                status === "PAYED" ||
-                status === "DELIVERED"
-              ? "bg-green-200 text-green-800"
-              : "bg-gray-200 text-gray-800"
-          }`}
-        >
-          {OrderStatus[status]}
-        </span>
+        <Tag color={OrderStatusColor[status]}>{OrderStatus[status]}</Tag>
       ),
     },
   ];

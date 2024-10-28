@@ -30,7 +30,7 @@ export function PricingCard({
       <h1 className="text-2xl font-bold">{title}</h1>
       <h2 className="text-3xl font-bold mt-1">
         {price.toLocaleString("ko-KR")}원
-        <span className="text-sm text-gray-500"> / 월</span>
+        <span className="text-sm text-gray-500"> / 1개월 (30일)</span>
       </h2>
       <p className="mt-1 text-gray-500 h-20">{description || "요금제"}</p>
 
@@ -106,6 +106,9 @@ export default function Pricing() {
         </h1>
         <p className="mt-3 text-center text-gray-600">
           스르륵의 서비스 이용 요금은 다음과 같습니다.
+        </p>
+        <p className="text-center text-gray-600">
+          1개월 단위로 결제 되며 30일 동안 사용할 수 있습니다.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-10">
           {subscriptions?.map((subscription) => {

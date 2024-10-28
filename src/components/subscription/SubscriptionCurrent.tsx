@@ -35,7 +35,10 @@ export default function SubscriptionCurrent({
 
   if (isLoading || isFreeLoading) {
     return (
-      <div className="p-5 bg-white rounded-lg shadow-md w-max-[300px] relative">
+      <div
+        id="subscription-current"
+        className="p-5 bg-white rounded-lg shadow-md w-max-[300px] relative"
+      >
         <Loading isFullPage={false} />
       </div>
     );
@@ -64,7 +67,10 @@ export default function SubscriptionCurrent({
         isFree={isFree ?? false}
         currentSubscriptionId={data?.nextSubscription?.subscription.id}
       />
-      <div className="p-5 bg-white rounded-lg shadow-md w-max-[300px] relative h-[230px] lg:h-full">
+      <div
+        id="subscription-current"
+        className="p-5 bg-white rounded-lg shadow-md w-max-[300px] relative h-[230px] lg:h-full"
+      >
         {data?.currentSubscription ? (
           <>
             <p className="text-[16px] text-gray-600">

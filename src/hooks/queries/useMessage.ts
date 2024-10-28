@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "react-query";
 import {
-  KakaoMessageCategoryDto,
+  KakaoCategoryDto,
   MessageCreateDto,
   MessageDto,
   MessageFilters,
@@ -57,7 +57,7 @@ const deleteMessage = async (workspaceId: number, messageId: number) => {
 };
 
 const fetchKakaoTemplateCategories = async (workspaceId: number) => {
-  const { data } = await axiosClient.get<KakaoMessageCategoryDto>(
+  const { data } = await axiosClient.get<KakaoCategoryDto>(
     `/workspace/${workspaceId}/kakao/category/message`
   );
   return data;

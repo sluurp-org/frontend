@@ -3,13 +3,14 @@ import Component from "../../../../components/Container";
 import { useRouter } from "next/router";
 import { useOrder } from "@/hooks/queries/useOrder";
 import Loading from "@/components/Loading";
-import { OrderStatus } from "@/types/orders";
+import { OrderStatus, OrderStatusColor } from "@/types/orders";
 import OrderHistory from "@/components/order/OrderHistory";
 import InfoRow from "@/components/InfoRow";
 import moment from "moment";
 import Image from "next/image";
 import { ArrowLeftOutlined, ProductOutlined } from "@ant-design/icons";
 import errorHandler from "@/utils/error";
+import { Tag } from "antd";
 
 export default function WorkspaceOrderDetail() {
   const router = useRouter();
@@ -48,19 +49,9 @@ export default function WorkspaceOrderDetail() {
               {data.productOrderId}
             </InfoRow>
             <InfoRow label="주문 상태">
-              <span
-                className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  data.status === "PAY_WAITING"
-                    ? "bg-yellow-200 text-yellow-800"
-                    : data.status === "CANCEL" || data.status === "REFUND"
-                    ? "bg-red-200 text-red-800"
-                    : data.status === "PURCHASE_CONFIRM"
-                    ? "bg-green-200 text-green-800"
-                    : "bg-gray-200 text-gray-800"
-                } transition-colors duration-300 ease-in-out`}
-              >
+              <Tag color={OrderStatusColor[data.status]}>
                 {OrderStatus[data.status]}
-              </span>
+              </Tag>
             </InfoRow>
             <InfoRow label="주문 일시">
               {moment(data.orderAt).format("YYYY년 MM월 DD일 HH시 mm분 ss초")}
@@ -124,7 +115,7 @@ export default function WorkspaceOrderDetail() {
                 <InfoRow label="상품 아이디" copyable>
                   {data.product.productId}
                 </InfoRow>
-                <InfoRow label="결제 수량">{data.quantity}</InfoRow>
+                <InfoRow label="결제 수량">{data.quantity}개</InfoRow>
                 <InfoRow label="결제 금액">
                   {data.price?.toLocaleString() || 0}원
                 </InfoRow>

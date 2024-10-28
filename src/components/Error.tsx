@@ -28,7 +28,12 @@ export default function Error({
         </Container>
       ) : (
         <div className="flex items-center justify-center h-full">
-          <LoadingOutlined className="text-5xl text-indigo-400" />
+          <Result
+            status="error"
+            title="에러가 발생했습니다."
+            subTitle={message}
+            extra={<Button onClick={pushToHome}>홈으로 돌아가기</Button>}
+          />
         </div>
       )}
     </>

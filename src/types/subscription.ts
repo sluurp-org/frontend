@@ -12,6 +12,7 @@ export interface SubscriptionDto {
   contentCredit: number;
   alimTalkCredit: number;
   emailCredit: number;
+  isCustomKakao: boolean;
 }
 
 export interface WorkspaceSubscription {

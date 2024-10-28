@@ -29,6 +29,7 @@ export default function Footer({
           <a href="mailto:contact@sluurp.io" target="_blank">
             고객센터: contact@sluurp.io
           </a>
+          <Link href="tel:010-3729-0245">전화번호: 010-3729-0245</Link>
           <Link href="https://docs.sluurp.io/ko/articles/e7388652">
             서비스 이용약관
           </Link>

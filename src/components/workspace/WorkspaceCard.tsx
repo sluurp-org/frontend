@@ -13,8 +13,8 @@ export default function WorkspaceCard({
 
   return (
     <div
-      className="p-6 h-min w-max-[300px] cursor-pointer hover:shadow-xl hover:bg-gray-100 duration-75 bg-white rounded-md shadow-md"
-      onClick={() => router.push(`/workspaces/${id}/order`)}
+      className="p-6 h-min w-max-[300px] cursor-pointer hover:shadow-lg border duration-75 bg-white rounded-md shadow-sm"
+      onClick={() => router.push(`/workspaces/${id}`)}
     >
       <h2 className="text-lg font-bold text-gray-800">{name}</h2>
       <p className="text-gray-400 text-sm mt-3">

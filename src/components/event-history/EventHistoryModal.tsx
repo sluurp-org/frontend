@@ -128,7 +128,7 @@ function ContentItem({
           <div className="flex items-center gap-2">
             <p>{item.content.name || item.content.text || "-"}</p>
             <Link
-              href={`/workspaces/${workspaceId}/content/${item.content.id}`}
+              href={`/workspaces/${workspaceId}/content/${item.content.contentGroupId}`}
               className="text-indigo-500"
             >
               <Button size="small" icon={<FileOutlined />} type="link">
@@ -272,15 +272,19 @@ export default function EventHistoryModal({
           ? moment(data.processedAt).format("YYYY년 MM월 DD일 HH시 mm분 ss초")
           : "-"}
       </InfoRow>
-      <InfoRow label="발송 메세지 상세보기">
-        <Link
-          href={`/workspace/${workspaceId}/message/${data.eventMessage.id}`}
-          className="text-indigo-500"
-        >
-          <MessageOutlined className="mr-1" />
-          {data.eventMessage.name}
-        </Link>
-      </InfoRow>
+      {data.eventMessage && (
+        <>
+          <InfoRow label="발송 메세지 상세보기">
+            <Link
+              href={`/workspace/${workspaceId}/message/${data.eventMessage.id}`}
+              className="text-indigo-500"
+            >
+              <MessageOutlined className="mr-1" />
+              {data.eventMessage.name}
+            </Link>
+          </InfoRow>
+        </>
+      )}
       <InfoRow label="발송 메세지">
         <p className="whitespace-pre-wrap p-3 bg-gray-100 rounded-md">
           {data.messageContent || "-"}
@@ -294,15 +298,17 @@ export default function EventHistoryModal({
         <p className="text-gray-500 text-[14px] mb-3">
           총 {data.contents.length}개의 컨텐츠를 발송하였습니다.
         </p>
-        {data.contents.map((item, index) => (
-          <ContentItem
-            key={item.id}
-            item={item}
-            index={index}
-            workspaceId={workspaceId}
-            refetch={refetch}
-          />
-        ))}
+        <div className="flex flex-col gap-3">
+          {data.contents.map((item, index) => (
+            <ContentItem
+              key={item.id}
+              item={item}
+              index={index}
+              workspaceId={workspaceId}
+              refetch={refetch}
+            />
+          ))}
+        </div>
       </div>
     </Modal>
   );

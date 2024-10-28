@@ -19,6 +19,7 @@ import { getJosaPicker } from "josa";
 import toast from "react-hot-toast";
 import errorHandler from "@/utils/error";
 import EventHistoryModal from "../event-history/EventHistoryModal";
+import Link from "next/link";
 
 interface Props {
   orderId: number;
@@ -143,12 +144,24 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
               {order.eventHistory ? (
                 <>
                   <p className="text-sm font-light">
-                    진행 상태:{" "}
+                    발송 상태:{" "}
                     {EventHistoryStatusMap[order.eventHistory.status]}
                   </p>
                   {order.eventHistory.message && (
                     <p className="text-sm font-light">
-                      진행 메세지: {order.eventHistory.message}
+                      발송 메세지: {order.eventHistory.message}
+                    </p>
+                  )}
+                  {order.eventHistory.messageTemplate && (
+                    <p>
+                      <span>발송 메세지: </span>
+                      <Link
+                        className="text-indigo-400 cursor-pointer hover:underline"
+                        href={`/workspaces/${workspaceId}/message/${order.eventHistory.messageTemplate.id}`}
+                      >
+                        <MessageOutlined className="mr-1" />
+                        {order.eventHistory.messageTemplate.name}
+                      </Link>
                     </p>
                   )}
                   <p>눌러서 상세 정보 보기</p>

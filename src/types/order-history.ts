@@ -26,11 +26,13 @@ export type OrderHistoryDto =
       createdAt: Date;
       eventHistory: {
         id: string;
-        expiredAt?: Date;
-        downloadCount: number;
-        message?: string;
         status: EventHistoryStatus;
-        processedAt: Date;
+        message: string;
+        messageId: number;
+        messageTemplate?: {
+          id: number;
+          name: string;
+        };
       };
     };
 
