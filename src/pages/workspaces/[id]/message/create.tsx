@@ -15,6 +15,7 @@ import {
   KakaoButtonType,
   MessageCreateDto,
   MessageDto,
+  MessageTargetMapping,
 } from "@/types/message";
 import { useState } from "react";
 import AlimTalk from "@/components/kakao/AlimTalk";
@@ -621,6 +622,40 @@ const MessageForm = ({
           )}
         </div>
       </Form.Item>
+      <Form.Item label="메세지 발송 대상" name="target" required>
+        <Select
+          placeholder="메세지 발송 대상을 선택해주세요."
+          value={form.watch("target")}
+          onChange={(value) => form.setValue("target", value)}
+        >
+          {Object.entries(MessageTargetMapping).map(([key, value]) => (
+            <Option key={key} value={key}>
+              {value}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
+      {form.watch("target") === "CUSTOM" && (
+        <Form.Item
+          label="지정 발송 번호"
+          name="customPhone"
+          rules={[
+            { required: false, message: "지정 발송 번호를 입력해주세요." },
+            {
+              min: 11,
+              max: 11,
+              message: '"-"를 제외한 11자리의 휴대폰 번호를 입력해주세요.',
+            },
+          ]}
+        >
+          <Input
+            placeholder="휴대폰 번호를 입력해주세요."
+            type="tel"
+            maxLength={11}
+            minLength={11}
+          />
+        </Form.Item>
+      )}
       <Form.Item label="배송 완료" name="completeDelivery">
         <Checkbox>메세지 발송 완료 시 배송 완료 처리</Checkbox>
       </Form.Item>

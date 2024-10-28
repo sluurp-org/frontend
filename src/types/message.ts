@@ -67,6 +67,8 @@ export interface MessageDto {
   kakaoTemplate: KakaoTemplateDto;
   createdAt: Date;
   updatedAt: Date;
+  target: MessageTarget;
+  customPhone?: string;
 }
 
 export const KakaoButtonMapping = {
@@ -94,6 +96,13 @@ export type KakaoButtonType =
   | "RW"
   | "PC";
 
+export type MessageTarget = "BUYER" | "RECEIVER" | "CUSTOM";
+export const MessageTargetMapping: Record<MessageTarget, string> = {
+  BUYER: "주문인",
+  RECEIVER: "수령인",
+  CUSTOM: "지정발송",
+};
+
 export interface KakaoTemplateCreateDto {
   categoryCode: string;
   content: string;
@@ -116,6 +125,8 @@ export interface MessageCreateDto {
     value: string;
   }[];
   kakaoTemplate: KakaoTemplateCreateDto;
+  target: MessageTarget;
+  customPhone?: string;
 }
 
 export interface KakaoTemplateUpdateDto {
@@ -142,6 +153,8 @@ export interface MessageUpdateDto {
       }[]
     | undefined;
   kakaoTemplate?: KakaoTemplateUpdateDto;
+  target?: MessageTarget;
+  customPhone?: string;
 }
 
 export interface KakaoCategoryDto {

@@ -28,6 +28,7 @@ import {
   KakaoButtonMapping,
   KakaoButtonType,
   KakaoTemplateStatus,
+  MessageTargetMapping,
   MessageUpdateDto,
 } from "@/types/message";
 import { useEffect, useState } from "react";
@@ -653,6 +654,40 @@ const MessageForm = ({
           메세지 발송 완료 시 배송 완료 처리
         </Checkbox>
       </Form.Item>
+      <Form.Item label="메세지 발송 대상" name="target">
+        <Select
+          placeholder="메세지 발송 대상을 선택해주세요."
+          value={form.watch("target")}
+          onChange={(value) => form.setValue("target", value)}
+        >
+          {Object.entries(MessageTargetMapping).map(([key, value]) => (
+            <Option key={key} value={key}>
+              {value}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
+      {form.watch("target") === "CUSTOM" && (
+        <Form.Item
+          label="지정 발송 번호"
+          name="customPhone"
+          rules={[
+            { required: false, message: "지정 발송 번호를 입력해주세요." },
+            {
+              min: 11,
+              max: 11,
+              message: '"-"를 제외한 11자리의 휴대폰 번호를 입력해주세요.',
+            },
+          ]}
+        >
+          <Input
+            placeholder="휴대폰 번호를 입력해주세요."
+            type="tel"
+            maxLength={11}
+            minLength={11}
+          />
+        </Form.Item>
+      )}
       <Form.Item>
         {!disableKakaoTemplate && (
           <Checkbox
@@ -772,6 +807,8 @@ export default function MessageEdit() {
           categoryCode: data.kakaoTemplate?.categoryCode || undefined,
           imageUrl: data.kakaoTemplate?.imageUrl || undefined,
         },
+        target: data.target || undefined,
+        customPhone: data.customPhone || undefined,
       });
 
       if (

@@ -92,6 +92,7 @@ export default function CreateStoreDrawer({
                 <p>아래 문서를 참고해서 스마트스토어 연동을 진행해주세요.</p>
                 <Link
                   className="text-blue-500"
+                  target="_blank"
                   href="https://docs.sluurp.io/ko/articles/d180665d"
                 >
                   스마트 스토어(스토어팜) 연동 방법

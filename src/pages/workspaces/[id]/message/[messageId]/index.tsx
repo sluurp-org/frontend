@@ -24,7 +24,11 @@ import {
   useRequestInspection,
 } from "@/hooks/queries/useMessage";
 import AlimTalk from "@/components/kakao/AlimTalk";
-import { KakaoButtonMapping, KakaoTemplateStatus } from "@/types/message";
+import {
+  KakaoButtonMapping,
+  KakaoTemplateStatus,
+  MessageTargetMapping,
+} from "@/types/message";
 import { Alert, Button, Popover, Tag } from "antd";
 import toast from "react-hot-toast";
 import { useState } from "react";
@@ -404,6 +408,15 @@ export default function WorkspaceMessageDetail() {
               {data.completeDelivery
                 ? "메세지 발송시 배송 완료 처리됨"
                 : "수동으로 배송 완료 처리 필요"}
+            </InfoRow>
+            <InfoRow label="메세지 발송 대상">
+              {MessageTargetMapping[data.target]}
+              {data.customPhone &&
+                data.target === "CUSTOM" &&
+                ` (${data.customPhone.replace(
+                  /(\d{2,3})(\d{3,4})(\d{4})/,
+                  "$1-$2-$3"
+                )})`}
             </InfoRow>
             <InfoRow label="메세지 생성일">
               {moment(data.createdAt).format("YYYY년 MM월 DD일 HH시 mm분 ss초")}
