@@ -143,6 +143,10 @@ export default function ContentDetailPage() {
               </InfoRow>
               <InfoRow label="상품 만료 시간" className="flex flex-col">
                 <div className="flex flex-col gap-2 mt-2 w-full">
+                  <p className="text-sm text-gray-500">
+                    사용자가 상품을 구매한 날로부터 몇일, 몇시간, 몇분 후
+                    만료되도록 설정할 수 있습니다.
+                  </p>
                   <Checkbox
                     checked={enableExpireMinute}
                     onChange={(e) => {

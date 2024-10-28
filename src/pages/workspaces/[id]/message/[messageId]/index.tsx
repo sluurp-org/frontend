@@ -45,8 +45,8 @@ function Variable({
   };
 }) {
   return (
-    <div className="flex justify-between items-center w-full border px-3 gap-10 py-2 rounded-md">
-      <span className="font-semibold">{variable.key}</span>
+    <div className="grid grid-cols-3 justify-between items-center border px-3 gap-10 py-2 rounded-md">
+      <span className="font-semibold col-span-2">{variable.key}</span>
       <span className="text-sm text-gray-500">{variable.value}</span>
     </div>
   );
@@ -62,8 +62,8 @@ function KakaoButton({
   };
 }) {
   return (
-    <div className="flex justify-between items-center w-full border px-3 py-2 rounded-md">
-      <span className="font-semibold">
+    <div className="grid grid-cols-3 justify-between items-center border px-3 gap-10 py-2 rounded-md w-6/12">
+      <span className="font-semibold col-span-2">
         {button.type === "AC" ? "채널 추가" : button.name}
       </span>
       <div className="flex gap-2 ml-4 items-center">

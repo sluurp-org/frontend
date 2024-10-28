@@ -119,7 +119,7 @@ export default function Pricing() {
               messageLimit,
               alimTalkCredit,
               contentCredit,
-              isCustomKakao,
+              isCustomKakaoEnabled,
             } = subscription;
 
             const sendPrice = [
@@ -136,6 +136,7 @@ export default function Pricing() {
             const features = [
               { value: "1분 간격 주문 수집", isEnabled: true },
               { value: "제한 없는 주문 처리", isEnabled: true },
+              { value: "기본 메세지 무료 제공", isEnabled: true },
               {
                 value: "최대 2분이내 메세지 발송",
                 isEnabled: true,
@@ -161,10 +162,10 @@ export default function Pricing() {
                   : { value: "디지털 콘텐츠 무제한 등록", isEnabled: true }
                 : { value: "디지털 콘텐츠 등록 불가", isEnabled: false },
               {
-                value: isCustomKakao
+                value: isCustomKakaoEnabled
                   ? "자체 카카오톡 채널 연동 가능"
                   : "자체 카카오톡 채널 연동 불가",
-                isEnabled: isCustomKakao,
+                isEnabled: isCustomKakaoEnabled,
               },
             ];
 
