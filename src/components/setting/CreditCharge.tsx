@@ -86,7 +86,7 @@ export default function CreditCharge({ workspaceId }: { workspaceId: number }) {
         </p>
         <Link
           href={
-            "https://docs.sluurp.io/sluurp/ko/articles/e7388652-서비스-이용-약관#제5조-(거래-취소-및-환불)"
+            "https://docs.sluurp.io/ko/articles/e7388652-서비스-이용-약관#제5조-(거래-취소-및-환불)"
           }
         >
           <p className="mb-3 text-indigo-500">
