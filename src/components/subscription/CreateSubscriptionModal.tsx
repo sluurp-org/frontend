@@ -182,7 +182,7 @@ export function SubscriptionItem({
         <ul className="list-disc list-inside">
           {sendPrice.map((price) => (
             <li key={price.name}>
-              {price.name} 발송당 {price.price.toLocaleString("ko-KR")}원
+              {price.name} 발송당 {price.price.toLocaleString("ko-KR")}크레딧
             </li>
           ))}
         </ul>

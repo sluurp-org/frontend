@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Component from "@/components/Container";
-import { Button, Table, Tag } from "antd";
+import { Button, Popover, Table, Tag } from "antd";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
@@ -8,10 +8,12 @@ import errorHandler from "@/utils/error";
 import { MessageFilters } from "@/types/message";
 import { useMessages } from "@/hooks/queries/useMessage";
 import { Card } from "@/components/common/Card";
+import { useChannel } from "@/contexts/ChannelContext";
 
 export default function MessageList() {
   const router = useRouter();
   const [filters, setFilters] = useState<MessageFilters>({ page: 1, size: 15 });
+  const ChannelService = useChannel();
 
   const workspaceId = Number(router.query.id);
   const { data, isLoading, error } = useMessages(workspaceId, filters);
@@ -48,17 +50,39 @@ export default function MessageList() {
   if (isLoading) return <Loading />;
   if (error) return <div>Error</div>;
 
+  const onTemplateCreateRequestClick = () => {
+    const channelMessage = `메세지 제작 대행 요청을 위해\n아래 정보를 입력해주세요.\n\n워크스페이스 아이디: ${workspaceId} (변경 금지)\n요청자명:\n전화번호:\n메세지에 들어가야할 내용:`;
+
+    ChannelService.openChat(undefined, channelMessage);
+  };
+
   return (
     <Component>
       <Header title="메세지 목록" description="모든 스토어의 메세지 목록" />
 
-      <Button
-        type="primary"
-        className="mb-3"
-        onClick={() => router.push(`/workspaces/${workspaceId}/message/create`)}
-      >
-        메세지 생성
-      </Button>
+      <div className="mb-3 flex gap-2">
+        <Button
+          type="primary"
+          onClick={() =>
+            router.push(`/workspaces/${workspaceId}/message/create`)
+          }
+        >
+          메세지 생성
+        </Button>
+        <Popover
+          trigger={"hover"}
+          content={
+            <p className="whitespace-pre-line">
+              메세지에 들어가야 하는 내용만 전달해주시면{"\n"}카카오
+              가이드라인에 따라 알림톡을 제작 및 검수 대행해주는 서비스입니다.
+            </p>
+          }
+        >
+          <Button type="primary" onClick={onTemplateCreateRequestClick}>
+            메세지 제작 대행 요청
+          </Button>
+        </Popover>
+      </div>
       <Card className="p-0">
         <Table
           scroll={{ x: "700px" }}

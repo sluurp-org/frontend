@@ -12,6 +12,7 @@ import { DefaultSeo } from "next-seo";
 import moment from "moment";
 import { TourProvider } from "@/components/common/TourContext";
 import MyTour from "@/components/common/Tour";
+import { ChannelProvider } from "@/contexts/ChannelContext";
 moment.locale("ko");
 
 export const queryClient = new QueryClient({
@@ -59,10 +60,12 @@ export default function App({ Component, pageProps }: AppProps) {
       <TourProvider>
         <MyTour />
         <QueryClientProvider client={queryClient}>
-          <ChannelTalk />
-          <ConfigProvider locale={ko_KR}>
-            <Component {...pageProps} />
-          </ConfigProvider>
+          <ChannelProvider>
+            {/* <ChannelTalk /> */}
+            <ConfigProvider locale={ko_KR}>
+              <Component {...pageProps} />
+            </ConfigProvider>
+          </ChannelProvider>
         </QueryClientProvider>
       </TourProvider>
     </>

@@ -7,7 +7,8 @@ import * as PortOne from "@portone/browser-sdk/v2";
 import toast from "react-hot-toast";
 import errorHandler from "@/utils/error";
 import { useRouter } from "next/router";
-import { Button, InputNumber } from "antd";
+import { Button, Select } from "antd";
+import Link from "next/link";
 
 export default function CreditCharge({ workspaceId }: { workspaceId: number }) {
   const router = useRouter();
@@ -74,6 +75,8 @@ export default function CreditCharge({ workspaceId }: { workspaceId: number }) {
     setChargeAble(value >= AVAILABLE_AMOUNT);
   };
 
+  const creditPrices = [5000, 10000, 15000, 20000, 30000, 50000, 100000];
+
   return (
     <>
       <p className="text-lg font-bold">크레딧 충전</p>
@@ -81,20 +84,25 @@ export default function CreditCharge({ workspaceId }: { workspaceId: number }) {
       <p className="text-sm text-gray-500 mb-3">
         충전한 금액은 1년(365일) 동안 사용할 수 있습니다.
       </p>
-      <InputNumber
-        placeholder="크레딧 충전"
-        onChange={(value) => setChargeAmount(value || 0)}
-        value={amount}
-        className="w-full"
-        min={1_000}
-        max={5_000_000}
-        size="large"
-        formatter={(value) =>
-          `${
-            parseInt(value?.toString() || "0")?.toLocaleString("ko-KR") || 0
-          }원`
+      <Link
+        href={
+          "https://docs.sluurp.io/sluurp/ko/articles/e7388652-서비스-이용-약관#제5조-(거래-취소-및-환불)"
         }
-      />
+      >
+        환불 정책은 여기를 확인해주세요.
+      </Link>
+      <Select
+        allowClear
+        className="w-full"
+        onChange={setChargeAmount}
+        placeholder="충전할 금액을 선택하세요."
+      >
+        {creditPrices.map((price) => (
+          <Select.Option key={price} value={price}>
+            {price.toLocaleString("ko-KR")}원
+          </Select.Option>
+        ))}
+      </Select>
 
       <Button
         type="primary"
