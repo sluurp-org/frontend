@@ -4,6 +4,7 @@ import { OrderStatus } from "./orders";
 export interface OrderHistoryFilters {
   page?: number;
   size?: number;
+  type?: OrderHistoryType;
 }
 
 export type OrderHistoryType = "STATUS_CHANGE" | "MESSAGE" | "EVENT";

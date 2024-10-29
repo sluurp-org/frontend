@@ -31,12 +31,12 @@ export default function Workspace() {
           </Card>
         </Link>
         <StoreAlert workspaceId={workspaceId} />
-        <Link href={`/workspaces/${workspaceId}/setting`}>
+        <Link href={`/workspaces/${workspaceId}/setting?tab=credit`}>
           <Card className="relative min-h-[240px] hover:shadow-lg duration-100">
             <CreditCurrent workspaceId={workspaceId} />
           </Card>
         </Link>
-        <Link href={`/workspaces/${workspaceId}/setting`}>
+        <Link href={`/workspaces/${workspaceId}/setting?tab=subscription`}>
           <Card className="min-h-[240px] hover:shadow-lg duration-100">
             <SubscriptionCurrent workspaceId={workspaceId} showButton={false} />
           </Card>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useOrderHistory } from "@/hooks/queries/useOrder";
 import Loading from "../Loading";
-import { Button, Empty, Pagination, Timeline } from "antd";
+import { Button, Checkbox, Empty, Pagination, Timeline } from "antd";
 import { OrderHistoryDto, OrderHistoryFilters } from "@/types/order-history";
 import { EventHistoryStatusMap } from "@/types/event-history";
 import moment from "moment";
@@ -30,6 +30,7 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
   const router = useRouter();
   const [eventHistoryModalOpen, setEventHistoryModalOpen] = useState(false);
   const [eventHistoryId, setEventHistoryId] = useState<string | null>(null);
+  const [showMessageHistory, setShowMessageHistory] = useState(false);
   const [filters, setFilters] = useState<OrderHistoryFilters>({
     page: 1,
     size: 5,
@@ -37,7 +38,10 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
   const { data, isLoading, error, refetch } = useOrderHistory(
     workspaceId,
     orderId,
-    filters
+    {
+      ...filters,
+      type: showMessageHistory ? "EVENT" : undefined,
+    }
   );
 
   if (isLoading || !data) {
@@ -211,14 +215,22 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
         />
       )}
       <div className="flex justify-between items-center mb-3">
-        <Button
-          className="bg-indigo-400 text-white border-none duration-150"
-          type="text"
-          onClick={handleRefresh}
-        >
-          <ReloadOutlined className="mr-2" />
-          새로고침
-        </Button>
+        <div className="flex flex-col gap-1 mb-3">
+          <Button
+            className="bg-indigo-400 text-white border-none duration-150 w-min"
+            type="text"
+            onClick={handleRefresh}
+          >
+            <ReloadOutlined className="mr-2" />
+            새로고침
+          </Button>
+          <Checkbox
+            checked={showMessageHistory}
+            onChange={(e) => setShowMessageHistory(e.target.checked)}
+          >
+            메세지 발송 이력만 보기
+          </Checkbox>
+        </div>
         <Pagination
           current={filters.page}
           total={data.total}

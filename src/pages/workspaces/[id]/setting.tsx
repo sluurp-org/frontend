@@ -10,6 +10,13 @@ export default function WorkspaceSetting() {
   const router = useRouter();
   const workspaceId = parseInt(router.query.id as string, 10);
 
+  const handleTabChange = (key: string) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, tab: key },
+    });
+  };
+
   const items: TabsProps["items"] = [
     {
       key: "subscription",
@@ -30,7 +37,11 @@ export default function WorkspaceSetting() {
   return (
     <Component>
       <Header title="워크스페이스 설정" description="워크스페이스 설정" />
-      <Tabs items={items} />
+      <Tabs
+        items={items}
+        onChange={handleTabChange}
+        activeKey={router.query.tab as string}
+      />
     </Component>
   );
 }
