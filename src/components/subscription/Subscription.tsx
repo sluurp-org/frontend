@@ -7,7 +7,10 @@ export default function Subscription({ workspaceId }: { workspaceId: number }) {
   return (
     <div>
       <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2 mb-6 xl:w-[700px]">
-        <Card className="relative min-h-[250px]" id="subscription-current">
+        <Card
+          className="flex flex-col justify-between min-h-[250px]"
+          id="subscription-current"
+        >
           <SubscriptionCurrent workspaceId={workspaceId} />
         </Card>
         <Card id="subscription-billing">

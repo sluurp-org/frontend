@@ -7,6 +7,7 @@ import { CreateStoreDto, StoreType } from "@/types/store";
 import toast from "react-hot-toast";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { useChannel } from "@/contexts/ChannelContext";
 
 export default function CreateStoreDrawer({
   workspaceId,
@@ -18,6 +19,7 @@ export default function CreateStoreDrawer({
   setIsOpen: (isOpen: boolean) => void;
 }) {
   const router = useRouter();
+  const ChannelService = useChannel();
   const [form] = Form.useForm<CreateStoreDto>();
   const { mutateAsync: createStore } = useCreateStore(workspaceId);
   const { mutateAsync: syncStoreProduct } = useSyncStoreProduct(workspaceId);
@@ -50,6 +52,12 @@ export default function CreateStoreDrawer({
     } catch (error) {
       errorHandler(error, router);
     }
+  };
+
+  const onStoreCreateRequest = () => {
+    const channelMessage = `스토어 생성 대행 요청을 위해\n아래 정보를 입력해주세요.\n\n워크스페이스 아이디: ${workspaceId} (변경 금지)\n요청자명:\n전화번호:`;
+
+    ChannelService.openChat(undefined, channelMessage);
   };
 
   return (
@@ -88,16 +96,23 @@ export default function CreateStoreDrawer({
             showIcon
             className="mb-3"
             message={
-              <div>
+              <div className="flex flex-col items-start">
                 <p>아래 문서를 참고해서 스마트스토어 연동을 진행해주세요.</p>
                 <Link
-                  className="text-blue-500"
+                  className="text-indigo-500"
                   target="_blank"
                   href="https://docs.sluurp.io/ko/articles/d180665d"
                 >
                   스마트 스토어(스토어팜) 연동 방법
                 </Link>
-                <p>연동이 어려우실 경우 아래 고객센터로 문의 부탁드립니다!</p>
+                <Button
+                  type="link"
+                  size="small"
+                  className="pl-0 text-indigo-500"
+                  onClick={onStoreCreateRequest}
+                >
+                  또는 스토어 연결 대행 요청하기
+                </Button>
               </div>
             }
             type="info"

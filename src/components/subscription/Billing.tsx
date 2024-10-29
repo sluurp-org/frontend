@@ -9,7 +9,7 @@ export default function Billing({ workspaceId }: { workspaceId: number }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
+    <div className="h-full flex flex-col justify-between">
       <CreateBillingModal
         open={open}
         onClose={() => setOpen(false)}
@@ -17,16 +17,18 @@ export default function Billing({ workspaceId }: { workspaceId: number }) {
       />
       {data ? (
         <>
-          <p className="text-lg font-bold">카드 정보</p>
-          <div className="mt-3">
-            <p className="text-sm text-gray-500">카드번호</p>
-            <p className="text-[15px]">{data.cardNumber}</p>
-          </div>
-          <div className="mt-1">
-            <p className="text-sm text-gray-500">등록일</p>
-            <p className="text-[15px]">
-              {moment(data.createdAt).format("YYYY-MM-DD")}
-            </p>
+          <div>
+            <p className="text-lg font-bold">카드 정보</p>
+            <div className="mt-3">
+              <p className="text-sm text-gray-500">카드번호</p>
+              <p className="text-[15px]">{data.cardNumber}</p>
+            </div>
+            <div className="mt-1">
+              <p className="text-sm text-gray-500">등록일</p>
+              <p className="text-[15px]">
+                {moment(data.createdAt).format("YYYY-MM-DD")}
+              </p>
+            </div>
           </div>
 
           <Button
@@ -49,6 +51,6 @@ export default function Billing({ workspaceId }: { workspaceId: number }) {
           </Button>
         </>
       )}
-    </>
+    </div>
   );
 }

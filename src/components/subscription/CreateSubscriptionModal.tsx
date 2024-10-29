@@ -228,8 +228,7 @@ export default function CreateSubscriptionModal({
     return <Error isFullPage={false} />;
   }
 
-  if (billingLoading || subscriptionLoading)
-    return <Loading isFullPage={false} />;
+  if (billingLoading || subscriptionLoading) return null;
 
   const createSubscription = async (subscriptionId: number) => {
     if (isSubscribed) {

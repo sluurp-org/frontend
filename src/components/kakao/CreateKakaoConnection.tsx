@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import Loading from "../Loading";
 import { InfoCircleOutlined, MessageOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { useChannel } from "@/contexts/ChannelContext";
 
 export function CreateKakaoConnection({
   workspaceId,
@@ -17,6 +18,8 @@ export function CreateKakaoConnection({
   workspaceId: number;
 }) {
   const [form] = Form.useForm();
+  const ChannelService = useChannel();
+
   const { mutateAsync: createKakaoConnectionToken } =
     useCreateKakaoConnectionToken(workspaceId);
   const { mutateAsync: createKakaoConnection } =
@@ -77,18 +80,36 @@ export function CreateKakaoConnection({
     });
   };
 
+  const onKakaoConnectionCreateRequest = () => {
+    const channelMessage = `카카오 채널 연결 대행 요청을 위해\n아래 정보를 입력해주세요.\n\n워크스페이스 아이디: ${workspaceId} (변경 금지)\n요청자명:\n전화번호:`;
+
+    ChannelService.openChat(undefined, channelMessage);
+  };
+
   return (
     <>
       <h2 className="text-lg font-bold text-gray-800">카카오톡 채널 연동</h2>
       <Alert
         message={
-          <Link
-            target="_blank"
-            href="https://docs.channel.io/sluurp/ko/articles/09912109-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EC%95%8C%EB%A6%BC%ED%86%A1-%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0"
-          >
-            <span className="font-bold text-indigo-500">해당 연동 가이드</span>
-            를 참고하여 카카오 알림톡을 연동할 수 있습니다.
-          </Link>
+          <>
+            <Link
+              target="_blank"
+              href="https://docs.channel.io/sluurp/ko/articles/09912109-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EC%95%8C%EB%A6%BC%ED%86%A1-%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0"
+            >
+              <span className="font-bold text-indigo-500">
+                해당 연동 가이드
+              </span>
+              를 참고하여 카카오 알림톡을 연동할 수 있습니다.
+            </Link>
+            <Button
+              type="link"
+              size="small"
+              className="pl-0 text-indigo-500"
+              onClick={onKakaoConnectionCreateRequest}
+            >
+              또는 카카오 연동 대행 요청하기
+            </Button>
+          </>
         }
         type="info"
         className="mt-3"

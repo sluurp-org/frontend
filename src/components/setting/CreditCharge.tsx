@@ -78,31 +78,33 @@ export default function CreditCharge({ workspaceId }: { workspaceId: number }) {
   const creditPrices = [5000, 10000, 15000, 20000, 30000, 50000, 100000];
 
   return (
-    <>
-      <p className="text-lg font-bold">크레딧 충전</p>
-      <p className="text-sm text-gray-500">최소 충전 금액은 1,000원입니다.</p>
-      <p className="text-sm text-gray-500 mb-3">
-        충전한 금액은 1년(365일) 동안 사용할 수 있습니다.
-      </p>
-      <Link
-        href={
-          "https://docs.sluurp.io/sluurp/ko/articles/e7388652-서비스-이용-약관#제5조-(거래-취소-및-환불)"
-        }
-      >
-        환불 정책은 여기를 확인해주세요.
-      </Link>
-      <Select
-        allowClear
-        className="w-full"
-        onChange={setChargeAmount}
-        placeholder="충전할 금액을 선택하세요."
-      >
-        {creditPrices.map((price) => (
-          <Select.Option key={price} value={price}>
-            {price.toLocaleString("ko-KR")}원
-          </Select.Option>
-        ))}
-      </Select>
+    <div className="h-full flex flex-col justify-between">
+      <div>
+        <p className="text-lg font-bold">크레딧 충전</p>
+        <p className="text-sm text-gray-500">
+          충전한 금액은 1년(365일) 동안 사용할 수 있습니다.
+        </p>
+        <Link
+          href={
+            "https://docs.sluurp.io/sluurp/ko/articles/e7388652-서비스-이용-약관#제5조-(거래-취소-및-환불)"
+          }
+        >
+          <p className="mb-3 text-indigo-500">
+            환불 정책은 여기를 확인해주세요.
+          </p>
+        </Link>
+        <Select
+          className="w-full"
+          onChange={setChargeAmount}
+          placeholder="충전할 금액을 선택하세요."
+        >
+          {creditPrices.map((price) => (
+            <Select.Option key={price} value={price}>
+              {price.toLocaleString("ko-KR")}원
+            </Select.Option>
+          ))}
+        </Select>
+      </div>
 
       <Button
         type="primary"
@@ -112,6 +114,6 @@ export default function CreditCharge({ workspaceId }: { workspaceId: number }) {
       >
         크레딧 충전
       </Button>
-    </>
+    </div>
   );
 }

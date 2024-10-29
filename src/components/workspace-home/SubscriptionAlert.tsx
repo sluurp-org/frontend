@@ -8,11 +8,12 @@ export default function SubscriptionAlert({
 }: {
   workspaceId: number;
 }) {
-  const { data: subscription } = useWorkspaceSubscription(workspaceId);
+  const { data: subscription, isLoading } =
+    useWorkspaceSubscription(workspaceId);
 
   return (
     <>
-      {!subscription?.currentSubscription && (
+      {!subscription?.currentSubscription && !isLoading && (
         <Alert
           message={
             <div className="py-1 px-2">

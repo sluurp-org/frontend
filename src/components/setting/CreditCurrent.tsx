@@ -18,8 +18,8 @@ export default function CreditCurrent({
         <p className="text-sm text-gray-500 mb-3">현재 크레딧 잔액</p>
       </div>
 
-      <p className="text-4xl font-bold absolute right-5 bottom-5 text-indigo-500">
-        {workspace?.credit.toLocaleString("ko-KR")}크레딧
+      <p className="text-4xl font-bold text-indigo-500">
+        {workspace?.credit.toLocaleString("ko-KR")} 크레딧
       </p>
     </>
   );
