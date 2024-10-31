@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from "react-query";
 import axiosClient from "@/utils/axios";
 import { UserMeDto, UserUpdateDto } from "@/types/user";
-import { toast } from "react-hot-toast";
 import { queryClient } from "@/pages/_app";
 
 const fetchMe = async (): Promise<UserMeDto> => {
@@ -15,7 +14,7 @@ const updateMe = async (updateDto: UserUpdateDto) => {
 };
 
 export const useUserMe = () => {
-  return useQuery("me", () => fetchMe(), {
+  return useQuery("me", fetchMe, {
     keepPreviousData: true,
   });
 };

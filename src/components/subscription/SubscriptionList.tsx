@@ -9,8 +9,6 @@ import {
   PurchaseFilter,
   PurchaseStatus,
   PurchaseStatusMap,
-  PurchaseType,
-  PurchaseTypeMap,
 } from "@/types/purchase";
 import { usePurchaseList } from "@/hooks/queries/usePurcahse";
 import { Card } from "../common/Card";
@@ -49,21 +47,31 @@ export default function SubscriptionList({
       width: 80,
     },
     {
-      title: "결제 유형",
-      dataIndex: "type",
-      render: (type: PurchaseType) => {
-        return PurchaseTypeMap[type];
-      },
-      width: 100,
-    },
-    {
       title: "결제 금액",
       dataIndex: "amount",
       render: (amount) => {
         return `${amount.toLocaleString("ko-KR")}원`;
       },
       className: "whitespace-pre-wrap",
-      width: 250,
+      width: 150,
+    },
+    {
+      title: "할인 금액",
+      dataIndex: "discountAmount",
+      render: (amount) => {
+        return `${amount.toLocaleString("ko-KR")}원`;
+      },
+      className: "whitespace-pre-wrap",
+      width: 150,
+    },
+    {
+      title: "총 결제 금액",
+      dataIndex: "totalAmount",
+      render: (amount) => {
+        return `${amount.toLocaleString("ko-KR")}원`;
+      },
+      className: "whitespace-pre-wrap",
+      width: 150,
     },
     {
       title: "결제 사유",
@@ -83,23 +91,10 @@ export default function SubscriptionList({
   ];
 
   return (
-    <Card>
-      <div className="flex justify-between items-center mb-3">
-        <p className="text-lg font-bold">결제 내역</p>
-        <Select
-          style={{ width: 200 }}
-          allowClear
-          placeholder="결제 유형"
-          onChange={(value) => {
-            setPurchaseFilter({ ...purchaseFilter, type: value });
-          }}
-          options={Object.entries(PurchaseTypeMap).map(([key, value]) => ({
-            label: value,
-            value: key,
-          }))}
-        />
-      </div>
+    <Card className="max-h-[800px] w-full">
+      <p className="text-lg font-bold mb-3">결제 내역</p>
       <Table
+        className="h-full"
         dataSource={data?.nodes}
         loading={isLoading}
         columns={columns}

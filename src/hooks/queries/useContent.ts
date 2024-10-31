@@ -73,8 +73,12 @@ export const useContentGroups = (
   workspaceId: number,
   filters: ContentGroupFilters = {}
 ) => {
-  return useQuery(["contentGroups", workspaceId, filters], () =>
-    fetchContentGroups(workspaceId, filters)
+  return useQuery(
+    ["contentGroups", workspaceId, filters],
+    () => fetchContentGroups(workspaceId, filters),
+    {
+      enabled: !!workspaceId,
+    }
   );
 };
 

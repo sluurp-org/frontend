@@ -1,7 +1,6 @@
 import { Tabs, TabsProps } from "antd";
 import Component from "../../../components/Container";
 import { useRouter } from "next/router";
-import Credit from "@/components/setting/Credit";
 import Header from "@/components/Header";
 import WorkspaceUpdate from "@/components/workspace/WorkspaceUpdate";
 import Subscription from "@/components/subscription/Subscription";
@@ -19,14 +18,9 @@ export default function WorkspaceSetting() {
 
   const items: TabsProps["items"] = [
     {
-      key: "subscription",
-      label: "결제 / 구독 관리",
+      key: "purchase",
+      label: "결제 관리",
       children: <Subscription workspaceId={workspaceId} />,
-    },
-    {
-      key: "credit",
-      label: "크레딧 관리",
-      children: <Credit workspaceId={workspaceId} />,
     },
     {
       key: "workspace",

@@ -3,16 +3,16 @@ import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { PagesTopLoader } from "nextjs-toploader/pages";
 import { QueryClient, QueryClientProvider } from "react-query";
-import ChannelTalk from "@/components/common/ChannelTalk";
 import { ConfigProvider } from "antd";
 import ko_KR from "antd/es/locale/ko_KR";
 import "moment/locale/ko";
 import { DefaultSeo } from "next-seo";
 
 import moment from "moment";
-import { TourProvider } from "@/components/common/TourContext";
-import MyTour from "@/components/common/Tour";
-import { ChannelProvider } from "@/contexts/ChannelContext";
+import { ChannelProvider, useChannel } from "@/contexts/ChannelContext";
+import { StepbyProvider, useStepby } from "@/contexts/StepbyContext";
+import { useUserMe } from "@/hooks/queries/useUser";
+import { useEffect } from "react";
 moment.locale("ko");
 
 export const queryClient = new QueryClient({
@@ -54,20 +54,18 @@ const DEFAULT_SEO = {
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <DefaultSeo {...DEFAULT_SEO} />
-      <Toaster position="top-center" reverseOrder={false} />
-      <PagesTopLoader color="#818cf8" height={5} showSpinner={false} />
-      <TourProvider>
-        <MyTour />
-        <QueryClientProvider client={queryClient}>
-          <ChannelProvider>
-            {/* <ChannelTalk /> */}
+      <QueryClientProvider client={queryClient}>
+        <DefaultSeo {...DEFAULT_SEO} />
+        <Toaster position="top-center" reverseOrder={false} />
+        <PagesTopLoader color="#818cf8" height={5} showSpinner={false} />
+        <ChannelProvider>
+          <StepbyProvider>
             <ConfigProvider locale={ko_KR}>
               <Component {...pageProps} />
             </ConfigProvider>
-          </ChannelProvider>
-        </QueryClientProvider>
-      </TourProvider>
+          </StepbyProvider>
+        </ChannelProvider>
+      </QueryClientProvider>
     </>
   );
 }

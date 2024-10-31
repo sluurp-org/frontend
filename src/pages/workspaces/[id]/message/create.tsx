@@ -764,6 +764,15 @@ export default function WorkspaceMessageCreate() {
               필독! 메세지 작성시 주의사항
             </Button>
           </Popover>
+          <Button
+            type="primary"
+            className="bg-blue-500 text-white"
+            onClick={() =>
+              StepBy.startGuide("b89dfa2a-182e-445a-b012-5431809adb9e")
+            }
+          >
+            메세지 생성 가이드 따라하기
+          </Button>
         </div>
         <div className="w-full">
           <Card>

@@ -98,20 +98,32 @@ export const useMessages = (
 };
 
 export const useMessage = (workspaceId: number, messageId: number) => {
-  return useQuery(["message", workspaceId, messageId], () =>
-    fetchMessage(workspaceId, messageId)
+  return useQuery(
+    ["message", workspaceId, messageId],
+    () => fetchMessage(workspaceId, messageId),
+    {
+      enabled: !!workspaceId && !!messageId,
+    }
   );
 };
 
 export const useKakaoTemplateCategories = (workspaceId: number) => {
-  return useQuery(["kakaoTemplateCategories", workspaceId], () =>
-    fetchKakaoTemplateCategories(workspaceId)
+  return useQuery(
+    ["kakaoTemplateCategories", workspaceId],
+    () => fetchKakaoTemplateCategories(workspaceId),
+    {
+      enabled: !!workspaceId,
+    }
   );
 };
 
 export const useVariables = (workspaceId: number) => {
-  return useQuery(["variables", workspaceId], () =>
-    fetchVariables(workspaceId)
+  return useQuery(
+    ["variables", workspaceId],
+    () => fetchVariables(workspaceId),
+    {
+      enabled: !!workspaceId,
+    }
   );
 };
 
