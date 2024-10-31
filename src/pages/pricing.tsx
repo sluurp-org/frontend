@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import Navigation from "@/components/main/Navigation";
 import Footer from "@/components/main/Footer";
 import Section from "@/components/main/Section";
-import { useSubscriptions } from "@/hooks/queries/useSubscription";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
@@ -84,10 +83,10 @@ export default function Pricing() {
   const onClick = () => {
     router.push("/auth/login");
   };
-  const { data: subscriptions, isLoading, isError } = useSubscriptions();
+  // const { data: subscriptions, isLoading, isError } = useSubscriptions();
 
-  if (isLoading) return <Loading isFullPage={false} />;
-  if (isError) return <Error isFullPage={false} />;
+  // if (isLoading) return <Loading isFullPage={false} />;
+  // if (isError) return <Error isFullPage={false} />;
 
   return (
     <>
@@ -100,7 +99,7 @@ export default function Pricing() {
         }}
       />
       <Navigation />
-      <Section className="mt-32 h-min-[1000px]">
+      {/* <Section className="mt-32 h-min-[1000px]">
         <h1 className="text-4xl sm:text-5xl font-bold text-center">
           <span className="text-indigo-400">스르륵</span> 서비스 이용 요금
         </h1>
@@ -182,7 +181,7 @@ export default function Pricing() {
             );
           })}
         </div>
-      </Section>
+      </Section> */}
       <Footer />
     </>
   );
