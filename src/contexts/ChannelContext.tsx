@@ -22,7 +22,7 @@ export const ChannelProvider = ({
           memberHash: data.hash,
           profile: {
             name: data.name || "",
-            email: data.email || "",
+            mobileNumber: data.phone || "",
           },
           member: true,
         }
