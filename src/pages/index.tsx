@@ -166,20 +166,21 @@ export default function Home() {
         <div className="w-full flex justify-center mt-10">
           <div className="sm:grid sm:grid-cols-3 sm:gap-5 mt-10">
             <AlimTalk
+              className="h-min"
               content={deliveryAlimTalkContentSample}
               channelAddButton
               image="/kakao/delivery-start.png"
               buttons={[{ buttonName: "배송 조회" }]}
             />
             <AlimTalk
-              className="sm:block hidden"
+              className="sm:block hidden h-min"
               content={deliveryDoneAlimTalkContentSample}
               channelAddButton
               image="/kakao/delivery-done.jpg"
               buttons={[{ buttonName: "구매 확정" }]}
             />
             <AlimTalk
-              className="sm:block hidden"
+              className="sm:block hidden h-min"
               content={reviewRequestAlimTalkContentSample}
               channelAddButton
               image="/kakao/review-request.jpg"
@@ -252,18 +253,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* <div className="p-10 bg-white text-black rounded-lg shadow-lg hover:shadow-xl duration-75">
-            <h2 className="text-2xl font-bold">
-              <FolderOpenFilled className="text-indigo-500 mr-2" />
-              외부 플랫폼 연동
-            </h2>
-            <p className="mt-1">
-              별도의 상품 제공 서버가 있으신가요? 사용자에게 상품을 제공하는
-              서버와 스르륵을 연동하실 경우 스르륵을 통해 상품을 불러와 자동
-              발송할 수 있습니다.
-            </p>
-          </div> */}
-
           <div className="p-10 bg-white text-black rounded-lg shadow-lg hover:shadow-xl duration-75">
             <h2 className="text-2xl font-bold">
               <FilterFilled className="text-indigo-500 mr-2" />
@@ -273,6 +262,16 @@ export default function Home() {
               PDF, ZIP등 다양한 파일 형식의 디지털 컨텐츠도 스르륵을 통해
               자동으로 발송할 수 있습니다.
               <br />더 이상 무거운 파일을 수동으로 전송하지 마세요.
+            </p>
+          </div>
+          <div className="p-10 bg-white text-black rounded-lg shadow-lg hover:shadow-xl duration-75">
+            <h2 className="text-2xl font-bold">
+              <TruckFilled className="text-indigo-500 mr-2" />
+              발송 즉시 배송 처리
+            </h2>
+            <p className="mt-1">
+              디지털 컨텐츠 발송 즉시 주문 상태를 배송 시작으로 변경하여 고객이
+              구매확정이 가능하도록 자동으로 처리합니다.
             </p>
           </div>
         </div>
