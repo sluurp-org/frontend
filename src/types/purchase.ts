@@ -36,6 +36,12 @@ export interface PurchaseFilter {
   size: number;
 }
 
+export interface PurchaseConfigDto {
+  defaultPrice: number;
+  alimtalkSendPrice: number;
+  contentSendPrice: number;
+}
+
 export interface PurchaseDto {
   freeTrialAvailable: true;
   contentSendCount: number;

@@ -1,6 +1,11 @@
 import { useQuery } from "react-query";
 import axiosClient from "@/utils/axios";
-import { PurchaseFilter, PurchaseListDto, PurchaseDto } from "@/types/purchase";
+import {
+  PurchaseFilter,
+  PurchaseListDto,
+  PurchaseDto,
+  PurchaseConfigDto,
+} from "@/types/purchase";
 
 const getPurchase = async (workspaceId: number) => {
   const { data } = await axiosClient.get<PurchaseDto>(
@@ -14,6 +19,11 @@ const getPurchaseList = async (workspaceId: number, filter: PurchaseFilter) => {
     `/workspace/${workspaceId}/purchase/history`,
     { params: filter }
   );
+  return data;
+};
+
+const getConfig = async () => {
+  const { data } = await axiosClient.get<PurchaseDto>(`/purchase/config`);
   return data;
 };
 
@@ -34,3 +44,6 @@ export const usePurchase = (workspaceId: number) =>
       enabled: !!workspaceId,
     }
   );
+
+export const usePurchaseConfig = () =>
+  useQuery<PurchaseConfigDto>(["purchaseConfig"], getConfig);
