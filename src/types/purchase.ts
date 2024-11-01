@@ -17,25 +17,33 @@ export const PurchaseStatusMap: Record<PurchaseStatus, string> = {
   VIRTUAL_ACCOUNT_ISSUED: "가상 계좌 발급됨",
 };
 
-export interface CompletePurchaseDto {
-  paymentId: string;
-}
-
-export interface PurchaseDto {
+export interface PurchaseItemDto {
   id: string;
   amount: number;
-  discountAmount: number;
+  defaultPrice: number;
   totalAmount: number;
   reason: string;
   status: PurchaseStatus;
   purchasedAt: Date;
 }
 export interface PurchaseListDto {
-  nodes: PurchaseDto[];
+  nodes: PurchaseItemDto[];
   total: number;
 }
 
 export interface PurchaseFilter {
   page: number;
   size: number;
+}
+
+export interface PurchaseDto {
+  freeTrialAvailable: true;
+  contentSendCount: number;
+  alimtalkSendCount: number;
+  amount: number;
+  totalAmount: number;
+  discountAmount: number;
+  defaultPrice: number;
+  alimtalkSendPrice: number;
+  contentSendPrice: number;
 }

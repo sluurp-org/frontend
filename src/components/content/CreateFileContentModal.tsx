@@ -52,7 +52,7 @@ export default function CreateFileContentModal({
     <Modal
       open={open}
       onCancel={onClose}
-      title="콘텐츠 추가"
+      title="디지털 컨텐츠 추가"
       destroyOnClose
       onClose={onClose}
       cancelButtonProps={{ className: "hidden" }}
@@ -65,7 +65,7 @@ export default function CreateFileContentModal({
           message={
             <>
               <p className="mb-3">
-                콘텐츠를 추가할때 파일을 드래그해 업로드 할 수 있습니다.
+                디지털 컨텐츠를 추가할때 파일을 드래그해 업로드 할 수 있습니다.
               </p>
               <Image
                 src="/guide/upload-files.gif"
@@ -87,11 +87,11 @@ export default function CreateFileContentModal({
               if (!response || !response.contentId) return;
 
               toast.promise(deleteFileContent(response.contentId), {
-                loading: "콘텐츠를 삭제하는 중입니다.",
-                success: () => "콘텐츠가 삭제되었습니다.",
+                loading: "디지털 컨텐츠를 삭제하는 중입니다.",
+                success: () => "디지털 컨텐츠가 삭제되었습니다.",
                 error: (error) => {
                   errorHandler(error, router);
-                  return "콘텐츠 삭제에 실패했습니다.";
+                  return "디지털 컨텐츠 삭제에 실패했습니다.";
                 },
               });
             }}
@@ -125,12 +125,12 @@ export default function CreateFileContentModal({
                 });
 
                 onSuccess?.({ contentId: createdFileContent.id });
-                toast.success("콘텐츠가 추가되었습니다.");
+                toast.success("디지털 컨텐츠가 추가되었습니다.");
               } catch (err) {
                 errorHandler(err, router);
                 onError?.({
                   status: 500,
-                  message: "콘텐츠 추가에 실패했습니다.",
+                  message: "디지털 컨텐츠 추가에 실패했습니다.",
                   name: name,
                 });
               }

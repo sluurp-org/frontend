@@ -1,5 +1,10 @@
 import { useMutation, useQueryClient } from "react-query";
-import { LoginDto, SignupDto, TokenDto } from "@/types/auth";
+import {
+  LoginDto,
+  RequestSignupCodeDto,
+  SignupDto,
+  TokenDto,
+} from "@/types/auth";
 import axiosClient from "@/utils/axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
@@ -16,6 +21,10 @@ const logout = async (): Promise<void> => {
 
 const register = async (credentials: SignupDto): Promise<void> => {
   await axiosClient.post("/users", credentials);
+};
+
+const requestSignupCode = async (dto: RequestSignupCodeDto): Promise<void> => {
+  await axiosClient.post("/users/code", dto);
 };
 
 export const useLogin = () => {
@@ -50,4 +59,8 @@ export const useLogout = () => {
 
 export const useRegister = () => {
   return useMutation((credentials: SignupDto) => register(credentials));
+};
+
+export const useRequestSignupCode = () => {
+  return useMutation((dto: RequestSignupCodeDto) => requestSignupCode(dto));
 };

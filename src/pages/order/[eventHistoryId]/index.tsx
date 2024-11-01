@@ -185,7 +185,7 @@ function OrderItem({
         message={
           isAxiosError(downloadError)
             ? downloadError.response?.data.message
-            : "콘텐츠를 열람할 수 없습니다."
+            : "디지털 컨텐츠를 열람할 수 없습니다."
         }
       />
     );

@@ -346,7 +346,7 @@ export default function WorkspaceMessageDetail() {
               }
             </InfoRow>
             {!data.isGlobal && (
-              <InfoRow label="연결된 콘텐츠">
+              <InfoRow label="연결된 디지털 컨텐츠">
                 <div className="flex gap-1 flex-col">
                   {data.contentGroupId ? (
                     <span
@@ -361,7 +361,7 @@ export default function WorkspaceMessageDetail() {
                       {data.contentGroup?.name}
                     </span>
                   ) : (
-                    <span>연결된 콘텐츠가 없습니다.</span>
+                    <span>연결된 디지털 컨텐츠가 없습니다.</span>
                   )}
                 </div>
               </InfoRow>

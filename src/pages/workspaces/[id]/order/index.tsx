@@ -5,10 +5,10 @@ import { useState } from "react";
 import { OrdersFilters, OrderStatus, OrderStatusColor } from "@/types/orders";
 import { useRouter } from "next/router";
 import { useOrders } from "@/hooks/queries/useOrder";
-import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import CreateOrderDrawer from "@/components/order/CreateOrderDrawer";
 import { Card } from "@/components/common/Card";
+import { ReloadOutlined } from "@ant-design/icons";
 
 export default function WorkspaceOrderList() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function WorkspaceOrderList() {
   const [createOrderDrawerOpen, setCreateOrderDrawerOpen] = useState(false);
 
   const workspaceId = Number(router.query.id);
-  const { data, isLoading, error } = useOrders(workspaceId, filters);
+  const { data, isLoading, error, refetch } = useOrders(workspaceId, filters);
 
   if (error) {
     errorHandler(error, router);
@@ -84,7 +84,6 @@ export default function WorkspaceOrderList() {
     },
   ];
 
-  if (isLoading) return <Loading />;
   if (error) return <div>Error</div>;
 
   return (
@@ -95,15 +94,25 @@ export default function WorkspaceOrderList() {
         open={createOrderDrawerOpen}
         onClose={() => setCreateOrderDrawerOpen(false)}
       />
-      <Button
-        type="primary"
-        onClick={() => setCreateOrderDrawerOpen(true)}
-        className="mb-4"
-      >
-        주문 생성
-      </Button>
+      <div className="flex gap-3">
+        <Button
+          icon={<ReloadOutlined />}
+          loading={isLoading}
+          onClick={() => refetch()}
+        >
+          새로고침
+        </Button>
+        <Button
+          type="primary"
+          onClick={() => setCreateOrderDrawerOpen(true)}
+          className="mb-4"
+        >
+          주문 생성
+        </Button>
+      </div>
       <Card className="p-0">
         <Table
+          loading={isLoading}
           scroll={{ x: "1500px" }}
           columns={columns}
           dataSource={data?.nodes || []}

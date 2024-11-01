@@ -264,19 +264,25 @@ export default function CreateOrderDrawer({
         </Form.Item>
 
         <Form.Item name="deliveryAddress" label="배송 주소">
-          <Input.TextArea rows={3} />
+          <Input.TextArea
+            rows={3}
+            placeholder="배송 주소를 입력해주세요. (선택)"
+          />
         </Form.Item>
 
         <Form.Item name="deliveryMessage" label="배송 메시지">
-          <Input.TextArea rows={2} />
+          <Input.TextArea
+            rows={2}
+            placeholder="배송 메시지를 입력해주세요. (선택)"
+          />
         </Form.Item>
 
         <Form.Item name="deliveryCompany" label="배송 회사">
-          <Input />
+          <Input placeholder="ex) CJ대한통운, 로젠택배, 한진택배 등" />
         </Form.Item>
 
         <Form.Item name="deliveryTrackingNumber" label="운송장 번호">
-          <Input />
+          <Input placeholder="운송장 번호를 입력해주세요. (선택)" />
         </Form.Item>
 
         <Form.Item>

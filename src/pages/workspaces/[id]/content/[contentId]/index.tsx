@@ -51,9 +51,9 @@ export default function ContentDetailPage() {
 
   const handleContentNameChange = (value: string) => {
     toast.promise(updateContentGroup({ name: value }), {
-      loading: "콘텐츠명 수정 중...",
-      success: "콘텐츠명 수정 완료",
-      error: "콘텐츠명 수정 실패",
+      loading: "디지털 컨텐츠명 수정 중...",
+      success: "디지털 컨텐츠명 수정 완료",
+      error: "디지털 컨텐츠명 수정 실패",
     });
     setEditingContentName(false);
   };
@@ -81,7 +81,7 @@ export default function ContentDetailPage() {
   const handleExpireMinuteSubmit = () => {
     const updatedExpireMinute = enableExpireMinute ? expireMinute : null;
     if (enableExpireMinute && expireMinute < 10) {
-      toast.error("콘텐츠 만료 시간은 최소 10분 이상이어야 합니다.");
+      toast.error("디지털 컨텐츠 만료 시간은 최소 10분 이상이어야 합니다.");
       return;
     }
 
@@ -95,14 +95,14 @@ export default function ContentDetailPage() {
 
   const handleDeleteContentGroup = () => {
     toast.promise(deleteContentGroup(contentId), {
-      loading: "콘텐츠 삭제 중...",
+      loading: "디지털 컨텐츠 삭제 중...",
       success: () => {
         router.push(`/workspaces/${workspaceId}/content`);
-        return "콘텐츠 삭제 완료";
+        return "디지털 컨텐츠 삭제 완료";
       },
       error: (error) => {
         errorHandler(error, router);
-        return "콘텐츠 삭제 실패";
+        return "디지털 컨텐츠 삭제 실패";
       },
     });
   };
@@ -117,11 +117,14 @@ export default function ContentDetailPage() {
         뒤로 가기
       </button>
 
-      <Header title="콘텐츠 상세" description={`${data.name} 콘텐츠 상세`} />
+      <Header
+        title="디지털 컨텐츠 상세"
+        description={`${data.name} 디지털 컨텐츠 상세`}
+      />
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-y-6 xl:gap-6 w-full">
         <Card>
           <div>
-            <p className="text-sm text-gray-400">콘텐츠명</p>
+            <p className="text-sm text-gray-400">디지털 컨텐츠명</p>
             <Typography.Text
               className="text-2xl font-semibold"
               editable={{
@@ -137,9 +140,11 @@ export default function ContentDetailPage() {
               {data.name}
             </Typography.Text>
             <div className="flex flex-col w-full divide-y space-y-3">
-              <InfoRow label="콘텐츠 유형">{ContentType[data.type]}</InfoRow>
-              <InfoRow label="콘텐츠 제공 유형">
-                {data.oneTime ? "일회성" : "재사용"} 콘텐츠
+              <InfoRow label="디지털 컨텐츠 유형">
+                {ContentType[data.type]}
+              </InfoRow>
+              <InfoRow label="디지털 컨텐츠 제공 유형">
+                {data.oneTime ? "일회성" : "재사용"} 디지털 컨텐츠
               </InfoRow>
               <InfoRow label="상품 만료 시간" className="flex flex-col">
                 <div className="flex flex-col gap-2 mt-2 w-full">
@@ -190,14 +195,14 @@ export default function ContentDetailPage() {
             </div>
           </div>
           <Popover
-            title="콘텐츠 삭제"
+            title="디지털 컨텐츠 삭제"
             trigger="click"
             content={
               <div>
                 <p>정말로 삭제하시겠습니까?</p>
-                <p>삭제된 콘텐츠는 복구할 수 없습니다.</p>
+                <p>삭제된 디지털 컨텐츠는 복구할 수 없습니다.</p>
                 <p className="text-red-500">
-                  콘텐츠에 연결된 모든 메세지가 수정됩니다.
+                  디지털 컨텐츠에 연결된 모든 메세지가 수정됩니다.
                 </p>
 
                 <Button
@@ -206,19 +211,19 @@ export default function ContentDetailPage() {
                   className="mt-3 w-full"
                   onClick={handleDeleteContentGroup}
                 >
-                  콘텐츠 삭제
+                  디지털 컨텐츠 삭제
                 </Button>
               </div>
             }
           >
             <Button type="primary" danger className="mt-6">
-              콘텐츠 삭제
+              디지털 컨텐츠 삭제
             </Button>
           </Popover>
         </Card>
         <div className="space-y-6 col-span-3">
           <Card>
-            <h2 className="text-2xl font-semibold mb-4">콘텐츠 목록</h2>
+            <h2 className="text-2xl font-semibold mb-4">디지털 컨텐츠 목록</h2>
             <ContentTable
               workspaceId={workspaceId}
               contentGroupId={contentId}

@@ -52,26 +52,26 @@ export default function ContentTable({
 
   const handleDeleteContent = async (id: number) => {
     toast.promise(deleteContent(id), {
-      loading: "콘텐츠를 삭제하는 중입니다.",
+      loading: "디지털 컨텐츠를 삭제하는 중입니다.",
       success: () => {
-        return "콘텐츠가 삭제되었습니다.";
+        return "디지털 컨텐츠가 삭제되었습니다.";
       },
       error: (error) => {
         errorHandler(error, router);
-        return "콘텐츠 삭제에 실패했습니다.";
+        return "디지털 컨텐츠 삭제에 실패했습니다.";
       },
     });
   };
 
   const handleUpdateContent = async (contentId: number, text: string) => {
     toast.promise(updateContent({ contentId, dto: { text } }), {
-      loading: "콘텐츠를 수정하는 중입니다.",
+      loading: "디지털 컨텐츠를 수정하는 중입니다.",
       success: () => {
-        return "콘텐츠가 수정되었습니다.";
+        return "디지털 컨텐츠가 수정되었습니다.";
       },
       error: (error) => {
         errorHandler(error, router);
-        return "콘텐츠 수정에 실패했습니다.";
+        return "디지털 컨텐츠 수정에 실패했습니다.";
       },
     });
   };
@@ -99,12 +99,12 @@ export default function ContentTable({
 
   const columns = [
     {
-      title: "콘텐츠 아이디",
+      title: "디지털 컨텐츠 아이디",
       dataIndex: "id",
       width: 110,
     },
     {
-      title: "콘텐츠 내용",
+      title: "디지털 컨텐츠 내용",
       dataIndex: "text",
       render: (text: string, content: ContentDto) => {
         if (contentType === "FILE") {
@@ -147,7 +147,7 @@ export default function ContentTable({
       render: (_: number, content: ContentDto) => (
         <Popover
           trigger={"click"}
-          title="콘텐츠 삭제"
+          title="디지털 컨텐츠 삭제"
           content={
             <div>
               <p>정말로 삭제하시겠습니까?</p>
@@ -192,7 +192,7 @@ export default function ContentTable({
       )}
       <div className="flex mb-3 gap-3 items-center">
         <Button className="" type="primary" onClick={() => setOpen(true)}>
-          콘텐츠 추가
+          디지털 컨텐츠 추가
         </Button>
       </div>
       <Table
@@ -208,7 +208,7 @@ export default function ContentTable({
           onChange: (page, pageSize) => {
             setFilter({ page, size: pageSize });
           },
-          showTotal: (total) => `총 ${total}개의 콘텐츠가 있습니다.`,
+          showTotal: (total) => `총 ${total}개의 디지털 컨텐츠가 있습니다.`,
         }}
         columns={columns}
       />

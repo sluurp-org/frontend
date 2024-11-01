@@ -44,15 +44,15 @@ export default function CreateContentGroupDrawer({
       }
 
       toast.promise(createContentGroup(formData), {
-        loading: "콘텐츠 생성중...",
+        loading: "디지털 컨텐츠 생성중...",
         success: () => {
           form.resetFields();
           onClose();
-          return "콘텐츠 생성 완료";
+          return "디지털 컨텐츠 생성 완료";
         },
         error: (error) => {
           errorHandler(error, router);
-          return "콘텐츠 생성 실패";
+          return "디지털 컨텐츠 생성 실패";
         },
       });
     } catch (error) {
@@ -78,24 +78,29 @@ export default function CreateContentGroupDrawer({
     <Drawer
       open={open}
       onClose={onClose}
-      title="콘텐츠 생성"
+      title="디지털 컨텐츠 생성"
       size="large"
       destroyOnClose
     >
       <Form form={form} onFinish={onSubmit} layout="vertical">
         <Form.Item
           name="name"
-          label="콘텐츠 이름"
-          rules={[{ required: true, message: "콘텐츠 이름을 입력해주세요." }]}
+          label="디지털 컨텐츠 이름"
+          rules={[
+            { required: true, message: "디지털 컨텐츠 이름을 입력해주세요." },
+          ]}
         >
-          <Input placeholder="콘텐츠 이름을 입력해주세요." />
+          <Input placeholder="디지털 컨텐츠 이름을 입력해주세요." />
         </Form.Item>
         <Form.Item
           name="type"
-          label="콘텐츠 유형"
-          rules={[{ required: true, message: "콘텐츠 유형을 선택해주세요." }]}
+          label="디지털 컨텐츠 유형"
+          className="mb-2"
+          rules={[
+            { required: true, message: "디지털 컨텐츠 유형을 선택해주세요." },
+          ]}
         >
-          <Select placeholder="콘텐츠 유형을 선택해주세요.">
+          <Select placeholder="디지털 컨텐츠 유형을 선택해주세요.">
             {Object.entries(ContentType).map(([key, value]) => (
               <Select.Option key={key} value={key}>
                 {value}
@@ -103,14 +108,23 @@ export default function CreateContentGroupDrawer({
             ))}
           </Select>
         </Form.Item>
+        <Form.Item noStyle>
+          <Alert
+            message="설정 후 수정할 수 없습니다."
+            showIcon
+            type="warning"
+            className="mb-2"
+            icon={<ExclamationCircleOutlined />}
+          />
+        </Form.Item>
         <Form.Item
           initialValue={false}
           name="oneTime"
-          label="일회성 콘텐츠"
+          label="일회성 디지털 컨텐츠"
           required
           className="mb-2"
         >
-          <Select placeholder="콘텐츠 지급 방식을 선택해주세요.">
+          <Select placeholder="디지털 컨텐츠 지급 방식을 선택해주세요.">
             <Select.Option value={true}>일회성</Select.Option>
             <Select.Option value={false}>재사용</Select.Option>
           </Select>
@@ -125,25 +139,28 @@ export default function CreateContentGroupDrawer({
           />
           <ul className="list-disc list-inside mb-5">
             <li>
-              <strong>일회성 콘텐츠</strong>
+              <strong>일회성 디지털 컨텐츠</strong>
               <ul className="list-disc list-inside ml-5">
                 <li>
-                  콘텐츠당 주문 한 번만 사용할 수 있는 1회성 지급 방식입니다.
+                  주문 한 번당 디지털 컨텐츠 한개를 지급하는 일회성 지급
+                  방식입니다.
                 </li>
                 <li>
-                  주문시 일회성 콘텐츠 잔여 수량이 없을 경우 메세지가 발송되지
-                  않습니다.
+                  주문시 일회성 디지털 컨텐츠 잔여 수량이 없을 경우 메세지가
+                  발송되지 않습니다.
                 </li>
               </ul>
             </li>
             <li>
-              <strong>재사용 콘텐츠</strong>
+              <strong>재사용 디지털 컨텐츠</strong>
               <ul className="list-disc list-inside ml-5">
                 <li>
-                  한개의 콘텐츠를 모든 주문이 공유하는 재사용 지급 방식입니다.
+                  한개의 디지털 컨텐츠를 모든 주문이 공유하는 재사용 지급
+                  방식입니다.
                 </li>
                 <li>
-                  주문시 재사용 콘텐츠가 없을 경우 메세지가 발송되지 않습니다.
+                  주문시 재사용 디지털 컨텐츠가 없을 경우 메세지가 발송되지
+                  않습니다.
                 </li>
               </ul>
             </li>
@@ -158,7 +175,7 @@ export default function CreateContentGroupDrawer({
               만료 시간 설정
             </Checkbox>
             <span className="text-sm text-gray-500">
-              콘텐츠를 지급한 후 만료 시간을 설정할 수 있습니다.
+              디지털 컨텐츠를 지급한 후 만료 시간을 설정할 수 있습니다.
             </span>
           </div>
         </Form.Item>
@@ -180,7 +197,7 @@ export default function CreateContentGroupDrawer({
               다운로드 횟수 제한 설정
             </Checkbox>
             <span className="text-sm text-gray-500">
-              콘텐츠를 지급한 후 다운로드 횟수를 제한할 수 있습니다.
+              디지털 컨텐츠를 지급한 후 다운로드 횟수를 제한할 수 있습니다.
             </span>
           </div>
         </Form.Item>

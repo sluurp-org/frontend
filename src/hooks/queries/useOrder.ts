@@ -72,8 +72,8 @@ export const useOrders = (workspaceId: number, filters: OrdersFilters = {}) => {
     ["orders", workspaceId, filters],
     () => fetchOrders(workspaceId, filters),
     {
-      keepPreviousData: true,
       enabled: !!workspaceId,
+      refetchInterval: 5000,
     }
   );
 };

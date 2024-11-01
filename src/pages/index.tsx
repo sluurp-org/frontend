@@ -25,7 +25,7 @@ const eventStatusTextList = [
 ];
 
 const messageTextList = [
-  "디지털 상품",
+  "디지털 컨텐츠",
   "사용설명서",
   "자주 묻는 질문",
   "배송 정보",
@@ -142,9 +142,9 @@ export default function Home() {
 
           <div className="p-10 bg-white text-black  rounded-lg shadow-lg hover:shadow-2xl duration-75">
             <ClockCircleFilled className="mb-3 text-4xl text-green-500" />
-            <h2 className="text-2xl font-bold">디지털 상품도 역시 스르륵</h2>
+            <h2 className="text-2xl font-bold">디지털 컨텐츠도 역시 스르륵</h2>
             <p className="mt-1">
-              디지털 상품의 경우에도 스르륵을 통해 고객에게 즉시 제공할 수
+              디지털 컨텐츠의 경우에도 스르륵을 통해 고객에게 즉시 제공할 수
               있습니다. 더 이상 수동으로 메일을 보내거나 문자로 처리하지 마세요.
             </p>
           </div>
@@ -190,12 +190,13 @@ export default function Home() {
       </Section>
       <Section className="bg-gradient-to-br from-indigo-400 to-indigo-500 text-white">
         <h1 className="text-3xl font-bold text-center sm:text-left sm:leading-[1.3] sm:text-5xl">
-          <span className="text-yellow-200">디지털 콘텐츠</span>도 스르륵으로
+          <span className="text-yellow-200">디지털 디지털 컨텐츠</span>도
+          스르륵으로
           <br />
           자동 <span className="text-yellow-200">발송</span>하세요.
         </h1>
         <p className="mt-3 text-gray-200 sm:text-left text-center">
-          스르륵을 통해 발송된 디지털 상품은 최대 3분 이내에 고객에게 자동
+          스르륵을 통해 발송된 디지털 컨텐츠은 최대 3분 이내에 고객에게 자동
           발송됩니다.
         </p>
         <div className="grid sm:grid-cols-2 gap-5 mt-10">
@@ -205,7 +206,7 @@ export default function Home() {
               주문 즉시 자동 발송
             </h2>
             <p className="mt-1">
-              네이버 스마트스토어(스토어팜) 에서 구매한 디지털 상품은 최대 3분
+              네이버 스마트스토어(스토어팜) 에서 구매한 디지털 컨텐츠은 최대 3분
               이내에 자동으로 발송됩니다.
             </p>
             <p className="mt-2 text-gray-400 text-sm">
@@ -221,7 +222,7 @@ export default function Home() {
               취소, 환불 처리도 손쉽게
             </h2>
             <p className="mt-1">
-              취소, 환불시에는 스르륵이 자동으로 디지털 상품 권한을 회수하여
+              취소, 환불시에는 스르륵이 자동으로 디지털 컨텐츠 권한을 회수하여
               고객이 더 이상 상품을 이용할 수 없도록 자동 권한 회수를
               지원합니다.
             </p>
@@ -233,21 +234,21 @@ export default function Home() {
               열람 확인, 제한도 가능
             </h2>
             <p className="mt-1">
-              고객이 디지털 상품을 열람했는지 확인하거나, 열람 횟수, 만료일을
+              고객이 디지털 컨텐츠를 열람했는지 확인하거나, 열람 횟수, 만료일을
               설정할 수 있습니다.
-              <br />더 이상 디지털 상품이 무단으로 공유되지 않도록 보호하세요.
+              <br />더 이상 디지털 컨텐츠이 무단으로 공유되지 않도록 보호하세요.
             </p>
           </div>
 
           <div className="p-10 bg-white text-black rounded-lg shadow-lg hover:shadow-xl duration-75 ">
             <h2 className="text-2xl font-bold">
               <MergeFilled className="text-indigo-500 mr-2" />
-              일회성 콘텐츠 발송 지원
+              일회성 디지털 컨텐츠 발송 지원
             </h2>
             <p className="mt-1">
-              일회성 콘텐츠(상품권, 코드, ESIM)을 스르륵을 통해 자동 발송할 수
-              있습니다. 관리자 페이지에서 여러개의 콘텐츠를 등록하고, 사용자마다
-              다른 일회성 콘텐츠을 제공하세요.
+              일회성 디지털 컨텐츠(상품권, 코드, ESIM)을 스르륵을 통해 자동
+              발송할 수 있습니다. 관리자 페이지에서 여러개의 디지털 컨텐츠를
+              등록하고, 사용자마다 다른 일회성 디지털 컨텐츠를 제공하세요.
             </p>
           </div>
 
@@ -269,8 +270,8 @@ export default function Home() {
               파일 형식에 구애받지 않는 발송
             </h2>
             <p className="mt-1">
-              PDF, ZIP등 다양한 파일 형식의 디지털 상품도 스르륵을 통해 자동으로
-              발송할 수 있습니다.
+              PDF, ZIP등 다양한 파일 형식의 디지털 컨텐츠도 스르륵을 통해
+              자동으로 발송할 수 있습니다.
               <br />더 이상 무거운 파일을 수동으로 전송하지 마세요.
             </p>
           </div>

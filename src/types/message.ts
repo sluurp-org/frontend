@@ -79,7 +79,7 @@ export const KakaoButtonMapping = {
   BC: "상담톡 전환",
   BT: "봇전환",
   AC: "채널추가",
-  PR: "디지털 상품 다운로드",
+  PR: "디지털 컨텐츠 다운로드",
   RW: "리뷰 작성",
   PC: "구매 확정",
 } as const;

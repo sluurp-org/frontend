@@ -10,7 +10,7 @@ export type EventHistoryStatus =
 
 export const EventHistoryStatusMap: Record<EventHistoryStatus, string> = {
   PENDING: "발송 준비 대기중",
-  CONTENT_READY: "컨텐츠 준비 완료",
+  CONTENT_READY: "디지털 컨텐츠 준비 완료",
   READY: "발송 준비 완료",
   PROCESSING: "발송 중",
   SUCCESS: "발송 완료",

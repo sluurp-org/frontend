@@ -5,7 +5,7 @@ import { Select, Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "moment";
 import {
-  PurchaseDto,
+  PurchaseItemDto,
   PurchaseFilter,
   PurchaseStatus,
   PurchaseStatusMap,
@@ -33,7 +33,7 @@ export default function SubscriptionList({
     return <Error isFullPage={false} />;
   }
 
-  const columns: ColumnsType<PurchaseDto> = [
+  const columns: ColumnsType<PurchaseItemDto> = [
     {
       title: "상태",
       dataIndex: "status",
@@ -57,7 +57,7 @@ export default function SubscriptionList({
     },
     {
       title: "할인 금액",
-      dataIndex: "discountAmount",
+      dataIndex: "defaultPrice",
       render: (amount) => {
         return `${amount.toLocaleString("ko-KR")}원`;
       },
@@ -91,7 +91,7 @@ export default function SubscriptionList({
   ];
 
   return (
-    <Card className="max-h-[800px] w-full">
+    <Card className="max-h-[800px] h-full w-full">
       <p className="text-lg font-bold mb-3">결제 내역</p>
       <Table
         className="h-full"

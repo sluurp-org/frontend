@@ -30,34 +30,17 @@ export default function Profile() {
 
   const onSubmit = async () => {
     try {
-      const formData = form.getFieldsValue();
-      const processedData = Object.fromEntries(
-        Object.entries(formData).map(([key, value]) => [
-          key,
-          value === "" ? null : value,
-        ])
-      );
+      const { name, password, passwordConfirm } = form.getFieldsValue();
 
-      if (processedData.password !== processedData.passwordConfirm) {
+      if (password && password !== passwordConfirm) {
         toast.error("비밀번호가 일치하지 않습니다.");
         return;
       }
 
-      if (
-        processedData.password &&
-        (processedData.password as string).length < 8
-      ) {
-        toast.error("비밀번호는 8자 이상이어야 합니다.");
-        return;
-      }
-
-      const updateBody = processedData as UserUpdateDto;
-
       toast.promise(
         updateMe({
-          name: updateBody.name,
-          email: updateBody.email,
-          password: updateBody.password,
+          name,
+          password: password || undefined,
         }),
         {
           loading: "프로필 수정중...",
@@ -82,17 +65,42 @@ export default function Profile() {
         className="w-full sm:w-[450px]"
         layout="vertical"
       >
-        <Form.Item name="name" label="이름">
-          <Input />
-        </Form.Item>
         <Form.Item name="email" label="이메일">
-          <Input />
+          <Input size="large" readOnly disabled />
         </Form.Item>
-        <Form.Item name="password" label="비밀번호">
-          <Input type="password" />
+        <Form.Item name="phone" label="휴대폰 번호">
+          <Input size="large" readOnly disabled />
         </Form.Item>
-        <Form.Item name="passwordConfirm" label="비밀번호 확인">
-          <Input type="password" />
+        <Form.Item
+          name="name"
+          label="이름"
+          rules={[{ required: true, message: "이름을 입력해주세요." }]}
+        >
+          <Input size="large" />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          label="비밀번호"
+          rules={[
+            {
+              min: 8,
+              message: "비밀번호는 8자 이상이어야 합니다.",
+            },
+          ]}
+        >
+          <Input size="large" type="password" />
+        </Form.Item>
+        <Form.Item
+          name="passwordConfirm"
+          label="비밀번호 확인"
+          rules={[
+            {
+              min: 8,
+              message: "비밀번호는 8자 이상이어야 합니다.",
+            },
+          ]}
+        >
+          <Input size="large" type="password" />
         </Form.Item>
         <Button type="primary" htmlType="submit">
           수정

@@ -7,7 +7,9 @@ import { useBilling } from "@/hooks/queries/useBilling";
 export default function BillingAlert({ workspaceId }: { workspaceId: number }) {
   const { data: billing, isLoading } = useBilling(workspaceId);
 
-  const isBillingFound = billing && !isLoading;
+  if (isLoading) return null;
+
+  const isBillingFound = billing;
   if (isBillingFound) return null;
 
   return (

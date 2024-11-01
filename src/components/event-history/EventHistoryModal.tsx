@@ -21,6 +21,7 @@ import errorHandler from "@/utils/error";
 import Link from "next/link";
 import { fetchDownloadFileContent } from "@/hooks/queries/useContent";
 import { Card } from "../common/Card";
+import { useEffect } from "react";
 
 function ContentItem({
   item,
@@ -87,14 +88,14 @@ function ContentItem({
         disableDownload: checked,
       }),
       {
-        loading: "컨텐츠 열람 제한 수정 중...",
+        loading: "디지털 컨텐츠 열람 제한 수정 중...",
         success: () => {
           refetch();
-          return "컨텐츠 열람 제한 수정 완료";
+          return "디지털 컨텐츠 열람 제한 수정 완료";
         },
         error: (error) => {
           errorHandler(error);
-          return "컨텐츠 열람 제한 수정 실패";
+          return "디지털 컨텐츠 열람 제한 수정 실패";
         },
       }
     );
@@ -123,9 +124,9 @@ function ContentItem({
     <div key={item.id} className="flex flex-col gap-2">
       <Card>
         <p className="font-semibold text-indigo-500 text-[16px]">
-          컨텐츠 #{index + 1}
+          디지털 컨텐츠 #{index + 1}
         </p>
-        <InfoRow label="발송한 컨텐츠">
+        <InfoRow className="flex-col" label="발송한 디지털 컨텐츠">
           <div className="flex items-center gap-2">
             <p>{item.content.name || item.content.text || "-"}</p>
             <Link
@@ -133,7 +134,7 @@ function ContentItem({
               className="text-indigo-500"
             >
               <Button size="small" icon={<FileOutlined />} type="link">
-                컨텐츠 목록
+                디지털 컨텐츠 목록
               </Button>
             </Link>
             {item.content.type === "FILE" && (
@@ -148,7 +149,7 @@ function ContentItem({
             )}
           </div>
         </InfoRow>
-        <InfoRow label="다운로드 횟수" className="pt-2">
+        <InfoRow className="flex-col" label="다운로드 횟수">
           <div className="flex flex-col items-start">
             {item.downloadCount || 0}회{" "}
             {item.downloadLimit &&
@@ -166,7 +167,7 @@ function ContentItem({
             </Button>
           </div>
         </InfoRow>
-        <InfoRow label="다운로드 만료일" className="pt-2">
+        <InfoRow className="flex-col" label="다운로드 만료일">
           <div className="flex flex-col items-start">
             {item.expiredAt
               ? moment(item.expiredAt).format("YYYY년 MM월 DD일 HH시 mm분 ss초")
@@ -195,21 +196,21 @@ function ContentItem({
             </Popover>
           </div>
         </InfoRow>
-        <InfoRow label="최초 다운로드 일시" className="pt-2">
+        <InfoRow className="flex-col" label="최초 다운로드 일시">
           {item.firstDownloadAt
             ? moment(item.firstDownloadAt).format(
                 "YYYY년 MM월 DD일 HH시 mm분 ss초"
               )
             : "-"}
         </InfoRow>
-        <InfoRow label="마지막 다운로드 일시" className="pt-2">
+        <InfoRow className="flex-col" label="마지막 다운로드 일시">
           {item.lastDownloadAt
             ? moment(item.lastDownloadAt).format(
                 "YYYY년 MM월 DD일 HH시 mm분 ss초"
               )
             : "-"}
         </InfoRow>
-        <InfoRow label="컨텐츠 열람 제한" className="pt-2">
+        <InfoRow className="flex-col" label="디지털 컨텐츠 열람 제한">
           <div className="flex items-center gap-2">
             <Switch
               checked={item.disableDownload}
@@ -243,6 +244,12 @@ export default function EventHistoryModal({
     eventHistoryId
   );
 
+  useEffect(() => {
+    if (open) {
+      refetch();
+    }
+  }, [open, refetch]);
+
   if (isLoading) return <Loading isFullPage={false} />;
   if (isError) return <Error isFullPage={false} />;
   if (!data)
@@ -257,57 +264,74 @@ export default function EventHistoryModal({
       onCancel={onClose}
       onOk={onClose}
       title="이벤트 상세"
-      width={600}
+      width={"max-content"}
     >
-      <InfoRow label="발송 고유아이디" copyable copytext={data.id}>
-        <div className="flex flex-col items-start">
-          <p className="text-gray-500 text-[14px]">{data.id}</p>
-          <p className="text-gray-500 text-[12px]">
-            발송 오류 발생시 고객센터로 위 아이디를 알려주세요.
-          </p>
-        </div>
-      </InfoRow>
-      <InfoRow label="발송 상태">{EventHistoryStatusMap[data.status]}</InfoRow>
-      <InfoRow label="발송 상태 메세지">{data.message || "-"}</InfoRow>
-      <InfoRow label="발송 일시">
-        {data.processedAt
-          ? moment(data.processedAt).format("YYYY년 MM월 DD일 HH시 mm분 ss초")
-          : "-"}
-      </InfoRow>
-      {data.eventMessage && (
-        <InfoRow label="발송 메세지 상세보기">
-          <Link
-            href={`/workspace/${workspaceId}/message/${data.eventMessage.id}`}
-            className="text-indigo-500"
+      <div className="flex gap-10 lg:flex-row flex-col lg:h-[800px]">
+        <div className="w-full lg:w-[600px]">
+          <InfoRow
+            className="flex-col"
+            label="발송 고유아이디"
+            copyable
+            copytext={data.id}
           >
-            <MessageOutlined className="mr-1" />
-            {data.eventMessage.name}
-          </Link>
-        </InfoRow>
-      )}
-      <InfoRow label="발송 메세지">
-        <p className="whitespace-pre-wrap p-3 bg-gray-100 rounded-md">
-          {data.messageContent || "-"}
-        </p>
-      </InfoRow>
+            <div className="flex flex-col items-start">
+              <p className="text-gray-500 text-[14px]">{data.id}</p>
+              <p className="text-gray-500 text-[12px]">
+                발송 오류 발생시 고객센터로 위 아이디를 알려주세요.
+              </p>
+            </div>
+          </InfoRow>
+          <InfoRow className="flex-col" label="발송 상태">
+            {EventHistoryStatusMap[data.status]}
+          </InfoRow>
+          <InfoRow className="flex-col" label="발송 상태 메세지">
+            {data.message || "-"}
+          </InfoRow>
+          <InfoRow className="flex-col" label="발송 일시">
+            {data.processedAt
+              ? moment(data.processedAt).format(
+                  "YYYY년 MM월 DD일 HH시 mm분 ss초"
+                )
+              : "-"}
+          </InfoRow>
+          {data.eventMessage && (
+            <InfoRow className="flex-col" label="발송 메세지 상세보기">
+              <Link
+                href={`/workspace/${workspaceId}/message/${data.eventMessage.id}`}
+                className="text-indigo-500"
+              >
+                <MessageOutlined className="mr-1" />
+                {data.eventMessage.name}
+              </Link>
+            </InfoRow>
+          )}
+          <InfoRow className="flex-col" label="발송 메세지">
+            <p className="whitespace-pre-wrap p-3 bg-gray-100 rounded-md">
+              {data.messageContent || "-"}
+            </p>
+          </InfoRow>
+        </div>
 
-      <div className="mt-6">
-        <p className="font-semibold text-indigo-500 text-[16px] mb-1">
-          발송 컨텐츠
-        </p>
-        <p className="text-gray-500 text-[14px] mb-3">
-          총 {data.contents.length}개의 컨텐츠를 발송하였습니다.
-        </p>
-        <div className="flex flex-col gap-3">
-          {data.contents.map((item, index) => (
-            <ContentItem
-              key={item.id}
-              item={item}
-              index={index}
-              workspaceId={workspaceId}
-              refetch={refetch}
-            />
-          ))}
+        <div className="w-full">
+          <p className="font-semibold text-indigo-500 text-[16px]">
+            발송한 디지털 컨텐츠
+          </p>
+          <p className="text-gray-500 text-[14px] mb-3">
+            총 {data.contents.length}개의 디지털 컨텐츠를 발송하였습니다.
+          </p>
+          <div className="lg:overflow-y-auto w-full h-[calc(100%-60px)] rounded-lg">
+            <div className="flex flex-col gap-3 w-full">
+              {data.contents.map((item, index) => (
+                <ContentItem
+                  key={item.id}
+                  item={item}
+                  index={index}
+                  workspaceId={workspaceId}
+                  refetch={refetch}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </Modal>

@@ -405,9 +405,9 @@ const MessageForm = ({
           </li>
         </ul>
       </Form.Item>
-      <Form.Item label="콘텐츠 선택" name="contentGroupId">
+      <Form.Item label="디지털 컨텐츠 선택" name="contentGroupId">
         <Select
-          placeholder="콘텐츠를 선택해주세요. (선택)"
+          placeholder="디지털 컨텐츠를 선택해주세요. (선택)"
           showSearch
           allowClear
           disabled={disableKakaoTemplate}
@@ -552,8 +552,9 @@ const MessageForm = ({
               showIcon
               message={
                 <span>
-                  콘텐츠를 선택하였으나 버튼을 추가하지 않았습니다. <br />
-                  버튼 목록에서 &quot;디지털 상품 다운로드&quot; 버튼을
+                  디지털 컨텐츠를 선택하였으나 버튼을 추가하지 않았습니다.{" "}
+                  <br />
+                  버튼 목록에서 &quot;디지털 컨텐츠 다운로드&quot; 버튼을
                   추가해주세요.
                   <br />
                   버튼을 추가하지 않을경우 구매자가 상품을 받을 수 없습니다.

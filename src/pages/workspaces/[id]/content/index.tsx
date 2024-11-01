@@ -56,8 +56,8 @@ export default function WorkspaceContent() {
   return (
     <Component>
       <Header
-        title="발송 콘텐츠 목록"
-        description="모든 스토어의 콘텐츠 목록"
+        title="디지털 컨텐츠 목록"
+        description="모든 스토어의 디지털 컨텐츠 목록"
       />
       <CreateContentGroupDrawer
         workspaceId={workspaceId}
@@ -69,7 +69,7 @@ export default function WorkspaceContent() {
         onClick={() => setCreateContentGroupDrawerOpen(true)}
         className="mb-4"
       >
-        콘텐츠 생성
+        디지털 컨텐츠 생성
       </Button>
       <Card className="p-0">
         <Table

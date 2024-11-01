@@ -127,7 +127,7 @@ export default function Pricing() {
                 price: alimTalkCredit,
               },
               {
-                name: "디지털 콘텐츠",
+                name: "디지털 디지털 컨텐츠",
                 price: contentCredit,
               },
             ];
@@ -155,11 +155,11 @@ export default function Pricing() {
               isContentEnabled
                 ? contentLimit > 0
                   ? {
-                      value: `디지털 콘텐츠 최대 ${contentLimit}개 등록 가능`,
+                      value: `디지털 디지털 컨텐츠 최대 ${contentLimit}개 등록 가능`,
                       isEnabled: true,
                     }
-                  : { value: "디지털 콘텐츠 무제한 등록", isEnabled: true }
-                : { value: "디지털 콘텐츠 등록 불가", isEnabled: false },
+                  : { value: "디지털 디지털 컨텐츠 무제한 등록", isEnabled: true }
+                : { value: "디지털 디지털 컨텐츠 등록 불가", isEnabled: false },
               {
                 value: isCustomKakaoEnabled
                   ? "자체 카카오톡 채널 연동 가능"

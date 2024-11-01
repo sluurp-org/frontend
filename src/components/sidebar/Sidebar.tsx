@@ -78,7 +78,7 @@ export default function Sidebar() {
               setClose={setClose}
               url="content"
               icon={<ReadOutlined />}
-              text="발송 콘텐츠"
+              text="디지털 컨텐츠"
             />
             <SidebarButton
               id="store-sidebar-button"
