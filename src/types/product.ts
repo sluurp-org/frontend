@@ -61,6 +61,7 @@ export interface ProductDto {
       emailParseable: boolean;
     };
   };
+  disableGlobalEvent: boolean;
 }
 
 export interface ProductOptionFilters {
@@ -96,6 +97,10 @@ export interface ProductOptionDto {
     };
     type: string;
   }[];
+}
+
+export interface UpdateProductDto {
+  disableGlobalEvent: boolean;
 }
 
 export interface PaginatedProductOptionsResponse {

@@ -52,10 +52,10 @@ export default function Login() {
   };
 
   const onSubmit = async () => {
-    const { name, email, phone, password, passwordConfirm, code } =
+    const { name, loginId, phone, password, passwordConfirm, code } =
       await form.validateFields([
         "name",
-        "email",
+        "loginId",
         "phone",
         "password",
         "passwordConfirm",
@@ -72,7 +72,7 @@ export default function Login() {
       return;
     }
 
-    toast.promise(register({ name, email, phone, password, code }), {
+    toast.promise(register({ name, loginId, phone, password, code }), {
       loading: "회원가입 중...",
       success: () => {
         router.push("/auth/login");
@@ -110,20 +110,16 @@ export default function Login() {
         <div className="mt-4">
           <Form form={form} layout="vertical" onFinish={onSubmit}>
             <Form.Item
-              name="email"
-              label="이메일"
+              name="loginId"
+              label="아이디"
               rules={[
                 {
                   required: true,
-                  message: "이메일을 입력해주세요.",
-                },
-                {
-                  type: "email",
-                  message: "이메일 형식이 아닙니다.",
+                  message: "아이디를 입력해주세요.",
                 },
               ]}
             >
-              <Input type="email" size="large" placeholder="이메일" />
+              <Input size="large" placeholder="아이디" />
             </Form.Item>
             <Form.Item
               name="name"

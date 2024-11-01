@@ -138,12 +138,6 @@ const MessageForm = ({
     name: "",
     type: "AC",
   });
-  const [variables, setVariables] = useState<
-    {
-      key: string;
-      value: string;
-    }[]
-  >([]);
   const [withInspection, setWithInspection] = useState(false);
   const { mutateAsync: createMessage } = useCreateMessage(workspaceId);
   const { mutateAsync: requestInspection } = useRequestInspection(workspaceId);
@@ -225,21 +219,7 @@ const MessageForm = ({
     });
   };
 
-  const availableVariables = Array.from(
-    new Set(form.watch("kakaoTemplate.content", "").match(/#\{[^}]+\}/g) || [])
-  );
-
   const onSubmit = () => {
-    if (variables.length !== availableVariables.length) {
-      toast.error("변수가 올바르게 설정되지 않았습니다.");
-      return;
-    }
-
-    if (variables.map((v) => v.key).includes("")) {
-      toast.error("변수가 올바르게 설정되지 않았습니다.");
-      return;
-    }
-
     const formValues = form.getValues();
     if (!formValues.kakaoTemplate.categoryCode) {
       toast.error("메세지 카테고리를 선택해주세요.");
@@ -261,7 +241,6 @@ const MessageForm = ({
           ...formValues.kakaoTemplate,
           extra: formValues.kakaoTemplate.extra || undefined,
         },
-        variables,
       }),
       {
         loading: "메세지 생성중...",
@@ -405,22 +384,39 @@ const MessageForm = ({
         </Select>
       </Form.Item>
       <Form.Item label="메세지 내용" name="content" required>
-        <div className="flex items-center gap-2">
-          <Button
-            className="mb-1"
-            onClick={() => {
-              form.setValue(
-                "kakaoTemplate.content",
-                form.watch("kakaoTemplate.content", "") + "#{변수명}"
-              );
-            }}
-          >
-            변수 추가
-          </Button>
-          <span className="text-sm text-gray-500">
-            변수는 #{"{변수명}"} 형식으로 사용할 수 있습니다.
-          </span>
-        </div>
+        <Popover
+          placement="topLeft"
+          title="사용 가능한 변수"
+          trigger={["click"]}
+          content={
+            <div className="flex flex-col gap-2 max-h-[400px] overflow-y-auto">
+              {serverVariables?.nodes.map((serverVariable) => (
+                <button
+                  onClick={() =>
+                    form.setValue(
+                      "kakaoTemplate.content",
+                      `${form.watch("kakaoTemplate.content")}#{${
+                        serverVariable.key
+                      }}`
+                    )
+                  }
+                  key={serverVariable.key}
+                  className="text-left flex flex-col border p-2 rounded-md hover:bg-gray-100 hover:shadow-sm duration-150"
+                >
+                  <span className="font-semibold">{serverVariable.key}</span>
+                  <span className="text-sm text-gray-500">
+                    {serverVariable.description}
+                  </span>
+                  <span className="text-xs text-gray-500 mt-3">
+                    예시: {serverVariable.example}
+                  </span>
+                </button>
+              ))}
+            </div>
+          }
+        >
+          <Button className="mb-1">변수 추가</Button>
+        </Popover>
         <TextArea
           required
           className="border border-gray-300 rounded-md p-2"
@@ -536,7 +532,7 @@ const MessageForm = ({
             />
           )}
       </Form.Item>
-      <Form.Item label="변수 설정">
+      {/* <Form.Item label="변수 설정">
         <div className="flex flex-col gap-2 border p-3 rounded-lg shadow-sm">
           {availableVariables?.map((variable, index) => (
             <div className="flex items-center gap-2" key={index}>
@@ -622,7 +618,7 @@ const MessageForm = ({
             <Empty description="변수가 없습니다." />
           )}
         </div>
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item label="메세지 발송 대상" name="target" required>
         <Select
           placeholder="메세지 발송 대상을 선택해주세요."

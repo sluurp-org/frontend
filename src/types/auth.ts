@@ -1,11 +1,11 @@
 export interface LoginDto {
-  email: string;
+  loginId: string;
   password: string;
 }
 
 export interface SignupDto {
   name: string;
-  email: string;
+  loginId: string;
   phone: string;
   code: string;
   password: string;

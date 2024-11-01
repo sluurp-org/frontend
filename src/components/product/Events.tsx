@@ -105,7 +105,7 @@ export function Events({
   productVariantId,
   workspaceId,
 }: {
-  productId: number;
+  productId?: number;
   productVariantId?: number;
   workspaceId: number;
 }) {
@@ -151,8 +151,11 @@ export function Events({
         setIsModalOpen={setIsModalOpen}
       />
       <p className="text-sm text-gray-500 whitespace-pre-line mb-3">
-        해당 {productVariantId ? "옵션" : "상품"}을 구매한 사용자의 배송상태가
-        변경될 때 연결된 메세지를 발송합니다.{"\n"}
+        {productId
+          ? `해당 ${productVariantId ? "옵션" : "상품"}`
+          : "스토어에 등록된 상품"}
+        을 구매한 사용자의 배송상태가 변경될 때 연결된 메세지를 발송합니다.
+        {"\n"}
         아래에서 메세지를 연결해주세요.
       </p>
 

@@ -65,7 +65,7 @@ export default function Profile() {
         className="w-full sm:w-[450px]"
         layout="vertical"
       >
-        <Form.Item name="email" label="이메일">
+        <Form.Item name="loginId" label="아이디">
           <Input size="large" readOnly disabled />
         </Form.Item>
         <Form.Item name="phone" label="휴대폰 번호">

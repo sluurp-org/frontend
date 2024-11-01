@@ -1,7 +1,7 @@
 export interface UserMeDto {
   id: number;
   name: string;
-  email: string;
+  loginId: string;
   hash: string;
 }
 

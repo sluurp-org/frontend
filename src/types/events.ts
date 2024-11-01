@@ -47,7 +47,7 @@ export interface PaginatedEventsDto {
 }
 
 export interface CreateEventDto {
-  productId: number;
+  productId?: number;
   productVariantId?: number;
   messageId: number;
   type: OrderStatus;

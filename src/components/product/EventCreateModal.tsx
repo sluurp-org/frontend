@@ -68,7 +68,7 @@ export function EventCreateModal({
   isModalOpen,
   setIsModalOpen,
 }: {
-  productId: number;
+  productId?: number;
   productVariantId?: number;
   workspaceId: number;
   isModalOpen: boolean;
@@ -135,17 +135,12 @@ export function EventCreateModal({
         </div>
       }
     >
-      <p className="text-sm text-gray-500 whitespace-pre-line">
-        해당 상품을 구매한 사용자의 배송상태가 변경될 때 연결된 메세지를
-        발송합니다.{"\n"}
-        아래에서 메세지를 연결해주세요.
-      </p>
       <div>
         <Search
           placeholder="메세지 검색"
           onSearch={handleSearch}
           enterButton
-          className="w-full mt-3"
+          className="w-full"
         />
         <div className="flex flex-col gap-3 mt-3 w-full mb-10">
           <Table

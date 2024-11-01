@@ -60,10 +60,6 @@ export interface MessageDto {
     id: number;
     name: string;
   };
-  variables: {
-    key: string;
-    value: string;
-  }[];
   kakaoTemplate: KakaoTemplateDto;
   createdAt: Date;
   updatedAt: Date;
@@ -120,10 +116,6 @@ export interface MessageCreateDto {
   name: string;
   contentGroupId: number;
   completeDelivery?: boolean;
-  variables: {
-    key: string;
-    value: string;
-  }[];
   kakaoTemplate: KakaoTemplateCreateDto;
   target: MessageTarget;
   customPhone?: string;

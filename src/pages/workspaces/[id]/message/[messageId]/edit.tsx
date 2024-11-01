@@ -428,23 +428,41 @@ const MessageForm = ({
         </Select>
       </Form.Item>
       <Form.Item label="메세지 내용" name="content" required>
-        <div className="flex items-center gap-2">
-          <Button
-            className="mb-1"
-            disabled={disableKakaoTemplate}
-            onClick={() => {
-              form.setValue(
-                "kakaoTemplate.content",
-                form.watch("kakaoTemplate.content", "") + "#{변수명}"
-              );
-            }}
-          >
+        <Popover
+          placement="topLeft"
+          title="사용 가능한 변수"
+          trigger={["click"]}
+          content={
+            <div className="flex flex-col gap-2 max-h-[400px] overflow-y-auto">
+              {serverVariables?.nodes.map((serverVariable) => (
+                <button
+                  onClick={() =>
+                    form.setValue(
+                      "kakaoTemplate.content",
+                      `${form.watch("kakaoTemplate.content")}#{${
+                        serverVariable.key
+                      }}`
+                    )
+                  }
+                  key={serverVariable.key}
+                  className="text-left flex flex-col border p-2 rounded-md hover:bg-gray-100 hover:shadow-sm duration-150"
+                >
+                  <span className="font-semibold">{serverVariable.key}</span>
+                  <span className="text-sm text-gray-500">
+                    {serverVariable.description}
+                  </span>
+                  <span className="text-xs text-gray-500 mt-3">
+                    예시: {serverVariable.example}
+                  </span>
+                </button>
+              ))}
+            </div>
+          }
+        >
+          <Button className="mb-1" disabled={disableKakaoTemplate}>
             변수 추가
           </Button>
-          <span className="text-sm text-gray-500">
-            변수는 #{"{변수명}"} 형식으로 사용할 수 있습니다.
-          </span>
-        </div>
+        </Popover>
         <TextArea
           required
           rows={10}
@@ -562,90 +580,6 @@ const MessageForm = ({
               }
             />
           )}
-      </Form.Item>
-      <Form.Item label="변수 설정" name="variables">
-        <div className="flex flex-col gap-2 border p-3 rounded-lg shadow-sm">
-          {availableVariables?.map((variable, index) => (
-            <div className="flex items-center gap-2" key={index}>
-              <span className="text-sm text-gray-500 w-[150px]">
-                {variable}
-              </span>
-              <Popover
-                placement="topLeft"
-                title="사용 가능한 변수"
-                trigger={["click"]}
-                content={
-                  <div className="flex flex-col gap-2 max-h-[400px] overflow-y-auto">
-                    {serverVariables?.nodes.map((serverVariable) => (
-                      <button
-                        key={serverVariable.key}
-                        className="text-left flex flex-col border p-2 rounded-md hover:bg-gray-100 hover:shadow-sm duration-150"
-                        onClick={() => {
-                          const findVariable = variables.find(
-                            (v) => v.key === variable
-                          );
-
-                          setVariables(
-                            findVariable
-                              ? variables.map((v) =>
-                                  v.key === variable
-                                    ? {
-                                        ...v,
-                                        value:
-                                          findVariable?.value +
-                                          `{${serverVariable.key}}`,
-                                      }
-                                    : v
-                                )
-                              : [
-                                  ...variables,
-                                  {
-                                    key: variable,
-                                    value: `{${serverVariable.key}}`,
-                                  },
-                                ]
-                          );
-                        }}
-                      >
-                        <span className="font-semibold">
-                          {serverVariable.key}
-                        </span>
-                        <span className="text-sm text-gray-500">
-                          {serverVariable.description}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                }
-              >
-                <Input
-                  placeholder="변수 값"
-                  value={variables.find((v) => v.key === variable)?.value}
-                  onChange={(e) => {
-                    const findVariable = variables.find(
-                      (v) => v.key === variable
-                    );
-                    setVariables(
-                      findVariable
-                        ? variables.map((v) =>
-                            v.key === variable
-                              ? { ...v, value: e.target.value }
-                              : v
-                          )
-                        : [
-                            ...variables,
-                            { key: variable, value: e.target.value },
-                          ]
-                    );
-                  }}
-                />
-              </Popover>
-            </div>
-          ))}
-          {!availableVariables?.length && (
-            <Empty description="변수가 없습니다." />
-          )}
-        </div>
       </Form.Item>
       <Form.Item label="배송 완료" name="completeDelivery">
         <Checkbox
@@ -798,7 +732,6 @@ export default function MessageEdit() {
     if (data) {
       form.reset({
         name: data.name || undefined,
-        variables: data.variables || undefined,
         contentGroupId: data.contentGroupId || undefined,
         completeDelivery: data.completeDelivery || undefined,
         kakaoTemplate: {

@@ -5,6 +5,7 @@ import {
   ProductDto,
   ProductOptionFilters,
   ProductsFilters,
+  UpdateProductDto,
 } from "@/types/product";
 import axiosClient from "@/utils/axios";
 import { queryClient } from "@/pages/_app";
@@ -23,6 +24,19 @@ const fetchProduct = async (workspaceId: number, productId: number) => {
   const { data } = await axiosClient.get<ProductDto>(
     `/workspace/${workspaceId}/product/${productId}`
   );
+  return data;
+};
+
+const updateProduct = async (
+  workspaceId: number,
+  productId: number,
+  payload: UpdateProductDto
+) => {
+  const { data } = await axiosClient.patch<ProductDto>(
+    `/workspace/${workspaceId}/product/${productId}`,
+    payload
+  );
+
   return data;
 };
 
@@ -86,6 +100,7 @@ export const useProduct = (workspaceId: number, productId: number) => {
     () => fetchProduct(workspaceId, productId),
     {
       keepPreviousData: true,
+      enabled: !!productId && !!workspaceId,
     }
   );
 };
@@ -101,6 +116,19 @@ export const useProductOptions = (
     {
       keepPreviousData: true,
       enabled: !!productId,
+    }
+  );
+};
+
+export const useUpdateProduct = (workspaceId: number, productId: number) => {
+  return useMutation(
+    "updateProduct",
+    (payload: UpdateProductDto) =>
+      updateProduct(workspaceId, productId, payload),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["product", workspaceId, productId]);
+      },
     }
   );
 };

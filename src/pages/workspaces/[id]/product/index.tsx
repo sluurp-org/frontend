@@ -1,12 +1,14 @@
 import Header from "@/components/Header";
 import Component from "../../../../components/Container";
 import { useRouter } from "next/router";
-import { Table, Input } from "antd";
+import { Table, Input, Collapse } from "antd";
 import { useState } from "react";
 import { useProducts } from "@/hooks/queries/useProduct";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import { Card } from "@/components/common/Card";
+import { Events } from "@/components/product/Events";
+import { RightOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -57,8 +59,28 @@ export default function ProductListPage() {
   return (
     <Component>
       <Header title="상품 목록" description="워크스페이스의 모든 상품 목록" />
+      <Collapse
+        rootClassName="bg-white mb-3"
+        items={[
+          {
+            label: (
+              <>
+                <p className="text-indigo-500 font-bold cursor-pointer">
+                  기본 메세지 발송 설정
+                </p>
+                <p className="text-gray-600">
+                  모든 상품에 적용되는 메세지 발송 규칙을 설정할 수 있습니다.
+                </p>
+              </>
+            ),
+            children: <Events workspaceId={workspaceId} />,
+            key: "events",
+          },
+        ]}
+      >
+        접기
+      </Collapse>
 
-      {/* 검색 바 */}
       <div className="flex justify-start mb-4">
         <Search
           placeholder="상품명 검색"
@@ -67,8 +89,6 @@ export default function ProductListPage() {
           className="w-full md:w-1/3"
         />
       </div>
-
-      {/* 상품 테이블 */}
       <Card className="p-0">
         <Table
           columns={columns}

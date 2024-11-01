@@ -9,7 +9,7 @@ export default function Login() {
   const router = useRouter();
 
   const [credentials, setCredentials] = useState<LoginDto>({
-    email: "",
+    loginId: "",
     password: "",
   });
   const loginMutation = useLogin();
@@ -41,12 +41,13 @@ export default function Login() {
         <div>
           <form onSubmit={handleLogin}>
             <div>
-              <label className="block mt-6 text-gray-600">이메일</label>
+              <label className="block mt-6 text-gray-600">아이디</label>
               <input
-                type="email"
+                type="text"
                 required
+                placeholder="아이디"
                 onChange={(e) =>
-                  setCredentials({ ...credentials, email: e.target.value })
+                  setCredentials({ ...credentials, loginId: e.target.value })
                 }
                 className="w-full mt-2 p-3 border border-gray-200 rounded-md"
               />
@@ -56,6 +57,7 @@ export default function Login() {
               <input
                 type="password"
                 required
+                placeholder="비밀번호"
                 onChange={(e) =>
                   setCredentials({ ...credentials, password: e.target.value })
                 }

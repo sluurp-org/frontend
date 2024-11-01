@@ -396,14 +396,6 @@ export default function WorkspaceMessageDetail() {
                 )}
               </div>
             </InfoRow>
-            <InfoRow label="메세지 변수">
-              <div className="flex gap-1 flex-col">
-                {data.variables.map((variable) => (
-                  <Variable key={variable.key} variable={variable} />
-                ))}
-                {data.variables.length === 0 && <span>변수가 없습니다.</span>}
-              </div>
-            </InfoRow>
             <InfoRow label="배송 완료 처리">
               {data.completeDelivery
                 ? "메세지 발송시 배송 완료 처리됨"
