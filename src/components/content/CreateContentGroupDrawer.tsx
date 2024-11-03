@@ -120,7 +120,7 @@ export default function CreateContentGroupDrawer({
         <Form.Item
           initialValue={false}
           name="oneTime"
-          label="일회성 디지털 컨텐츠"
+          label="디지털 컨텐츠 지급 유형"
           required
           className="mb-2"
         >

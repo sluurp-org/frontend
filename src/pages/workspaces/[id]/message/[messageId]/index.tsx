@@ -62,7 +62,7 @@ function KakaoButton({
   };
 }) {
   return (
-    <div className="grid grid-cols-3 justify-between items-center border px-3 gap-10 py-2 rounded-md w-6/12">
+    <div className="flex justify-between items-center border px-3 gap-10 py-2 rounded-md">
       <span className="font-semibold col-span-2">
         {button.type === "AC" ? "채널 추가" : button.name}
       </span>

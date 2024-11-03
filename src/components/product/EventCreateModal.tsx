@@ -1,15 +1,9 @@
 import { MessageFilters, MessageListItem } from "@/types/message";
 import { OrderStatus } from "@/types/orders";
-import { Button, Modal, Pagination, Select, Table } from "antd";
+import { Button, Modal, Select, Table } from "antd";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import {
-  ApiOutlined,
-  LoadingOutlined,
-  CheckCircleOutlined,
-  PlusOutlined,
-  MessageOutlined,
-} from "@ant-design/icons";
+import { ApiOutlined, PlusOutlined, MessageOutlined } from "@ant-design/icons";
 import toast from "react-hot-toast";
 import Loading from "../Loading";
 import Search from "antd/es/input/Search";
@@ -82,7 +76,7 @@ export function EventCreateModal({
   const { data, isLoading, error } = useMessages(workspaceId, filters);
   const { mutateAsync: createEvent } = useCreateEvent(workspaceId);
 
-  if (isLoading) return <Loading isFullPage={false} />;
+  if (isLoading) return null;
   if (error) {
     errorHandler(error, router);
   }

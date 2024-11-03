@@ -1,12 +1,22 @@
 import moment from "moment";
-import { Button, Empty } from "antd";
-import { useBilling } from "@/hooks/queries/useBilling";
+import { Button, Empty, Popover } from "antd";
+import { useBilling, useDeleteBilling } from "@/hooks/queries/useBilling";
 import { CreateBillingModal } from "../billing/CreateBillingModal";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Billing({ workspaceId }: { workspaceId: number }) {
   const { data } = useBilling(workspaceId);
   const [open, setOpen] = useState(false);
+  const { mutateAsync: deleteBilling } = useDeleteBilling(workspaceId);
+
+  const handleDeleteBilling = async () => {
+    toast.promise(deleteBilling(), {
+      loading: "카드 삭제 중...",
+      success: "카드가 삭제되었습니다.",
+      error: "카드 삭제 실패",
+    });
+  };
 
   return (
     <div className="h-full flex flex-col justify-between">
@@ -38,6 +48,32 @@ export default function Billing({ workspaceId }: { workspaceId: number }) {
           >
             카드 변경
           </Button>
+          <Popover
+            trigger={["click"]}
+            title="카드 삭제"
+            content={
+              <>
+                <p>카드를 정말 삭제하시겠습니까?</p>
+                <Button
+                  type="primary"
+                  className="w-full mt-2"
+                  onClick={handleDeleteBilling}
+                  danger
+                >
+                  카드 삭제
+                </Button>
+              </>
+            }
+          >
+            <Button
+              type="link"
+              className="w-full mt-1 text-gray-400"
+              size="small"
+              danger
+            >
+              카드 삭제
+            </Button>
+          </Popover>
         </>
       ) : (
         <>

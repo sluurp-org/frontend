@@ -99,12 +99,12 @@ export default function ContentTable({
 
   const columns = [
     {
-      title: "디지털 컨텐츠 아이디",
+      title: "아이디",
       dataIndex: "id",
       width: 110,
     },
     {
-      title: "디지털 컨텐츠 내용",
+      title: "내용",
       dataIndex: "text",
       render: (text: string, content: ContentDto) => {
         if (contentType === "FILE") {
@@ -147,7 +147,7 @@ export default function ContentTable({
       render: (_: number, content: ContentDto) => (
         <Popover
           trigger={"click"}
-          title="디지털 컨텐츠 삭제"
+          title="삭제"
           content={
             <div>
               <p>정말로 삭제하시겠습니까?</p>

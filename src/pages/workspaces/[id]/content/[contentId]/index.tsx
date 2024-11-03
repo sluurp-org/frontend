@@ -140,10 +140,8 @@ export default function ContentDetailPage() {
               {data.name}
             </Typography.Text>
             <div className="flex flex-col w-full divide-y space-y-3">
-              <InfoRow label="디지털 컨텐츠 유형">
-                {ContentType[data.type]}
-              </InfoRow>
-              <InfoRow label="디지털 컨텐츠 제공 유형">
+              <InfoRow label="유형">{ContentType[data.type]}</InfoRow>
+              <InfoRow label="제공 유형">
                 {data.oneTime ? "일회성" : "재사용"} 디지털 컨텐츠
               </InfoRow>
               <InfoRow label="상품 만료 시간" className="flex flex-col">

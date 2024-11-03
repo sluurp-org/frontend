@@ -10,7 +10,7 @@ export default function Subscription({ workspaceId }: { workspaceId: number }) {
         <Card id="subscription-billing" className="min-w-[300px] h-min">
           <Billing workspaceId={workspaceId} />
         </Card>
-        <Card id="subscription-billing" className="min-w-[300px] h-min">
+        <Card id="subscription-currents" className="min-w-[300px] h-min">
           <SubscriptionCurrent workspaceId={workspaceId} />
         </Card>
       </div>

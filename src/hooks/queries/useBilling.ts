@@ -18,6 +18,12 @@ const createBilling = async (workspaceId: number, dto: CreateBillingDto) => {
   return data;
 };
 
+const deleteBilling = async (workspaceId: number) => {
+  await axiosClient.delete<BillingDto>(
+    `/workspace/${workspaceId}/purchase/billing`
+  );
+};
+
 export const useBilling = (workspaceId: number) =>
   useQuery<BillingDto>(
     ["workspace", workspaceId, "billing"],
@@ -31,6 +37,17 @@ export const useCreateBilling = (workspaceId: number) =>
   useMutation(
     ["workspace", workspaceId, "billing"],
     (dto: CreateBillingDto) => createBilling(workspaceId, dto),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["workspace", workspaceId, "billing"]);
+      },
+    }
+  );
+
+export const useDeleteBilling = (workspaceId: number) =>
+  useMutation(
+    ["workspace", workspaceId, "billing"],
+    () => deleteBilling(workspaceId),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["workspace", workspaceId, "billing"]);
