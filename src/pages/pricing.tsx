@@ -36,6 +36,13 @@ export default function Pricing() {
             <p className="text-2xl font-bold">
               🎉 지금 가입하면{" "}
               <span className="text-indigo-500">한달 무료체험</span> 🎉
+              <p className="text-sm text-gray-500 font-normal">
+                무료체험시 카드 등록 필요 없음
+              </p>
+            </p>
+            <p className="text-2xl font-bold">
+              👻 메세지 발송 없을 시{" "}
+              <span className="text-indigo-500">기본 요금 제외</span>
             </p>
             <p className="text-2xl font-bold">
               🚀 매달 알림톡 발송{" "}

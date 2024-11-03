@@ -1,7 +1,7 @@
 import errorHandler from "@/utils/error";
 import { useState } from "react";
 import Error from "@/components/Error";
-import { Select, Table, Tag } from "antd";
+import { Button, Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "moment";
 import {
@@ -10,8 +10,12 @@ import {
   PurchaseStatus,
   PurchaseStatusMap,
 } from "@/types/purchase";
-import { usePurchaseList } from "@/hooks/queries/usePurcahse";
+import {
+  usePurchaseList,
+  usePurchaseRequest,
+} from "@/hooks/queries/usePurcahse";
 import { Card } from "../common/Card";
+import toast from "react-hot-toast";
 
 export default function SubscriptionList({
   workspaceId,
@@ -27,6 +31,23 @@ export default function SubscriptionList({
     workspaceId,
     purchaseFilter
   );
+
+  const { mutateAsync } = usePurchaseRequest();
+
+  const handlePurchase = async (purchaseId: string) => {
+    try {
+      toast.promise(mutateAsync({ workspaceId, purchaseId }), {
+        loading: "결제 준비 중...",
+        success: "결제가 완료되었습니다.",
+        error: (error) => {
+          errorHandler(error);
+          return "결제에 실패했습니다.";
+        },
+      });
+    } catch (error) {
+      errorHandler(error);
+    }
+  };
 
   if (isError) {
     errorHandler(error);
@@ -57,7 +78,7 @@ export default function SubscriptionList({
     },
     {
       title: "할인 금액",
-      dataIndex: "defaultPrice",
+      dataIndex: "discountAmount",
       render: (amount) => {
         return `${amount.toLocaleString("ko-KR")}원`;
       },
@@ -85,6 +106,29 @@ export default function SubscriptionList({
       dataIndex: "purchasedAt",
       render: (purchasedAt) => {
         return purchasedAt ? moment(purchasedAt).format("YYYY-MM-DD") : "-";
+      },
+      width: 160,
+    },
+    {
+      title: "결제하기",
+      dataIndex: "purchase",
+      render: (_, { id, status }) => {
+        const payAvailableStatus = ["READY", "FAILED", "PAY_READY"];
+
+        return {
+          children: (
+            <Button
+              type="primary"
+              onClick={() => handlePurchase(id)}
+              disabled={!payAvailableStatus.includes(status)}
+            >
+              결제하기
+            </Button>
+          ),
+          props: {
+            colSpan: 1,
+          },
+        };
       },
       width: 160,
     },

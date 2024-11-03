@@ -4,6 +4,7 @@ import errorHandler from "@/utils/error";
 import toast from "react-hot-toast";
 import Error from "../Error";
 import { Empty, Tag } from "antd";
+import moment from "moment";
 
 export default function SubscriptionCurrent({
   workspaceId,
@@ -22,6 +23,8 @@ export default function SubscriptionCurrent({
   if (!data) return <Empty description="결제 정보가 없습니다." />;
 
   const {
+    noPurchase,
+    nextPurchaseAt,
     amount,
     totalAmount,
     alimtalkSendCount,
@@ -32,10 +35,40 @@ export default function SubscriptionCurrent({
     alimtalkSendPrice,
     contentSendPrice,
   } = data;
+
+  if (noPurchase)
+    return (
+      <>
+        {freeTrialAvailable && (
+          <Tag color="green" className="mb-1">
+            무료체험 중
+          </Tag>
+        )}
+        <p className="text-lg font-bold mt-1">이번 달 결제 정보</p>
+        <p>이번 달에는 결제할 금액이 없어요 ☺️</p>
+
+        {nextPurchaseAt && (
+          <p className="text-sm text-gray-500 mt-3">
+            결제 예정일: {moment(nextPurchaseAt).format("YYYY년 MM월 DD일")}
+          </p>
+        )}
+      </>
+    );
+
   return (
     <>
-      {freeTrialAvailable && <Tag color="green">무료체험 중</Tag>}
-      <p className="text-lg font-bold mt-1">이번달 결제 정보</p>
+      {freeTrialAvailable && (
+        <Tag color="green" className="mb-1">
+          무료체험 중
+        </Tag>
+      )}
+      <p className="text-lg font-bold">이번 달 결제 정보</p>
+      <div className="mt-3">
+        <p className="text-sm text-gray-500">결제 예정일</p>
+        <p className="text-[15px] font-semibold">
+          {moment(nextPurchaseAt).format("YYYY년 MM월 DD일")}
+        </p>
+      </div>
       <div className="mt-3">
         <p className="text-sm text-gray-500">결제 예정 금액</p>
         <p className="text-[15px] font-bold">

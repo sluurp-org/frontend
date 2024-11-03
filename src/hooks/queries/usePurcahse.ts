@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import axiosClient from "@/utils/axios";
 import {
   PurchaseFilter,
@@ -6,6 +6,7 @@ import {
   PurchaseDto,
   PurchaseConfigDto,
 } from "@/types/purchase";
+import { queryClient } from "@/pages/_app";
 
 const getPurchase = async (workspaceId: number) => {
   const { data } = await axiosClient.get<PurchaseDto>(
@@ -24,6 +25,13 @@ const getPurchaseList = async (workspaceId: number, filter: PurchaseFilter) => {
 
 const getConfig = async () => {
   const { data } = await axiosClient.get<PurchaseDto>(`/purchase/config`);
+  return data;
+};
+
+const purchaseReuqest = async (workspaceId: number, purchaseId: string) => {
+  const { data } = await axiosClient.post<PurchaseDto>(
+    `/workspace/${workspaceId}/purchase/${purchaseId}`
+  );
   return data;
 };
 
@@ -47,3 +55,16 @@ export const usePurchase = (workspaceId: number) =>
 
 export const usePurchaseConfig = () =>
   useQuery<PurchaseConfigDto>(["purchaseConfig"], getConfig);
+
+export const usePurchaseRequest = () => {
+  return useMutation(
+    (data: { workspaceId: number; purchaseId: string }) =>
+      purchaseReuqest(data.workspaceId, data.purchaseId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("purchase");
+        queryClient.invalidateQueries("purchaseList");
+      },
+    }
+  );
+};

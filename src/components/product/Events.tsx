@@ -26,7 +26,6 @@ export function EventItem({
   workspaceId: number;
   refetch: () => void;
 }) {
-  const router = useRouter();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { mutateAsync: deleteEvent } = useDeleteEvent(workspaceId);
 
@@ -61,18 +60,14 @@ export function EventItem({
         </p>
       </div>
       <div className="flex gap-1 mt-4 flex-col 2xl:flex-row">
-        <Button
-          type="primary"
-          className="hover:shadow-lg flex"
-          onClick={() =>
-            router.push(
-              `/workspaces/${workspaceId}/message/${event.message.id}`
-            )
-          }
+        <Link
+          href={`/workspaces/${workspaceId}/message/${event.message.id}`}
+          target="_blank"
+          className="text-indigo-500"
         >
           <MessageOutlined className="mr-1" />
           메세지 보기
-        </Button>
+        </Link>
         <Popover
           open={isPopoverOpen}
           onOpenChange={setIsPopoverOpen}
@@ -178,6 +173,7 @@ export function Events({
               return (
                 <Link
                   href={`/workspaces/${workspaceId}/message/${message.id}`}
+                  target="_blank"
                   className="text-indigo-500"
                 >
                   <MessageOutlined className="mr-1" />

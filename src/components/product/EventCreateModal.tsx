@@ -153,6 +153,7 @@ export function EventCreateModal({
                 render: (name, record) => (
                   <Link
                     href={`/workspaces/${workspaceId}/message/${record.id}`}
+                    target="_blank"
                     className="text-indigo-500"
                   >
                     <MessageOutlined className="mr-1" />

@@ -13,7 +13,7 @@ export const PurchaseStatusMap: Record<PurchaseStatus, string> = {
   PAID: "결제됨",
   PARTIAL_CANCELLED: "부분 취소됨",
   PAY_PENDING: "결제 대기중",
-  READY: "준비됨",
+  READY: "결제 대기중",
   VIRTUAL_ACCOUNT_ISSUED: "가상 계좌 발급됨",
 };
 
@@ -43,7 +43,9 @@ export interface PurchaseConfigDto {
 }
 
 export interface PurchaseDto {
-  freeTrialAvailable: true;
+  freeTrialAvailable: boolean;
+  noPurchase: boolean;
+  nextPurchaseAt: Date;
   contentSendCount: number;
   alimtalkSendCount: number;
   amount: number;
