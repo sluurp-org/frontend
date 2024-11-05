@@ -1,14 +1,22 @@
 import Header from "@/components/Header";
 import Component from "@/components/Container";
-import { Button, Popover, Table, Tag } from "antd";
+import { Button, Popover, Space, Table, Tag } from "antd";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
-import { MessageFilters } from "@/types/message";
+import {
+  MessageFilters,
+  MessageListItem,
+  MessageSendType,
+  MessageSendTypeMap,
+  MessageType,
+  MessageTypeMap,
+} from "@/types/message";
 import { useMessages } from "@/hooks/queries/useMessage";
 import { Card } from "@/components/common/Card";
 import { useChannel } from "@/contexts/ChannelContext";
+import { FormOutlined, MessageOutlined } from "@ant-design/icons";
 
 export default function MessageList() {
   const router = useRouter();
@@ -30,15 +38,18 @@ export default function MessageList() {
       width: "100px",
     },
     {
-      title: "형식",
-      dataIndex: "isGlobal",
-      key: "isGlobal",
-      render: (isGlobal: boolean) => (
-        <Tag color={isGlobal ? "blue" : "green"}>
-          {isGlobal ? "빠른시작형" : "고급형"}
-        </Tag>
-      ),
+      title: "유형",
+      dataIndex: "sendType",
+      key: "sendType",
       width: "100px",
+      render: (sendType: MessageSendType, obj: MessageListItem) => (
+        <Space size={0}>
+          <Tag color="green">
+            {MessageSendTypeMap[sendType] || "알 수 없음"}
+          </Tag>
+          <Tag color="blue">{MessageTypeMap[obj.type] || "알 수 없음"}</Tag>
+        </Space>
+      ),
     },
     {
       title: "메세지 제목",
@@ -62,6 +73,7 @@ export default function MessageList() {
 
       <div className="mb-3 flex gap-2">
         <Button
+          icon={<MessageOutlined />}
           type="primary"
           onClick={() =>
             router.push(`/workspaces/${workspaceId}/message/create`)
@@ -78,7 +90,11 @@ export default function MessageList() {
             </p>
           }
         >
-          <Button type="primary" onClick={onTemplateCreateRequestClick}>
+          <Button
+            icon={<FormOutlined />}
+            type="primary"
+            onClick={onTemplateCreateRequestClick}
+          >
             메세지 제작 대행 요청
           </Button>
         </Popover>

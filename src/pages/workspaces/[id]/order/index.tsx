@@ -8,7 +8,7 @@ import { useOrders } from "@/hooks/queries/useOrder";
 import errorHandler from "@/utils/error";
 import CreateOrderDrawer from "@/components/order/CreateOrderDrawer";
 import { Card } from "@/components/common/Card";
-import { ReloadOutlined } from "@ant-design/icons";
+import { FormOutlined, ReloadOutlined } from "@ant-design/icons";
 
 export default function WorkspaceOrderList() {
   const router = useRouter();
@@ -106,6 +106,7 @@ export default function WorkspaceOrderList() {
           type="primary"
           onClick={() => setCreateOrderDrawerOpen(true)}
           className="mb-4"
+          icon={<FormOutlined />}
         >
           주문 생성
         </Button>

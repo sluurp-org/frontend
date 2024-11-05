@@ -11,6 +11,7 @@ import StoreDrawer from "@/components/store/StoreDrawer";
 import CreateStoreDrawer from "@/components/store/CreateStoreDrawer";
 import Error from "@/components/Error";
 import { Card } from "@/components/common/Card";
+import { ShopOutlined } from "@ant-design/icons";
 
 export default function StoreList() {
   const router = useRouter();
@@ -101,6 +102,7 @@ export default function StoreList() {
         type="primary"
         onClick={() => setCreateStoreDrawerOpen(true)}
         className="mb-4"
+        icon={<ShopOutlined />}
       >
         스토어 생성
       </Button>

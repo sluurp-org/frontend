@@ -9,6 +9,7 @@ import { ContentGroupFilters, ContentType } from "@/types/content";
 import { useContentGroups } from "@/hooks/queries/useContent";
 import CreateContentGroupDrawer from "@/components/content/CreateContentGroupDrawer";
 import { Card } from "@/components/common/Card";
+import { ReadOutlined } from "@ant-design/icons";
 
 export default function WorkspaceContent() {
   const router = useRouter();
@@ -66,6 +67,7 @@ export default function WorkspaceContent() {
       />
       <Button
         type="primary"
+        icon={<ReadOutlined />}
         onClick={() => setCreateContentGroupDrawerOpen(true)}
         className="mb-4"
       >

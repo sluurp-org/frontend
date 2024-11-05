@@ -285,7 +285,7 @@ export default function EventHistoryModal({
             {EventHistoryStatusMap[data.status]}
           </InfoRow>
           <InfoRow className="flex-col" label="발송 상태 메세지">
-            {data.message || "-"}
+            {data.rawMessage || "-"}
           </InfoRow>
           <InfoRow className="flex-col" label="발송 일시">
             {data.processedAt

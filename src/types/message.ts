@@ -1,14 +1,22 @@
-export type MessageType = "KAKAO" | "WEBHOOK" | "EMAIL";
-export const MessageType = {
+export type MessageSendType = "KAKAO" | "WEBHOOK" | "EMAIL";
+export const MessageSendTypeMap: Record<MessageSendType, string> = {
   KAKAO: "카카오",
   WEBHOOK: "웹훅",
   EMAIL: "이메일",
 } as const;
 
+export type MessageType = "GLOBAL" | "CUSTOM" | "FULLY_CUSTOM";
+export const MessageTypeMap: Record<MessageType, string> = {
+  GLOBAL: "기본 제공형",
+  CUSTOM: "빠른 시작형",
+  FULLY_CUSTOM: "완전 맞춤형",
+} as const;
+
 export interface MessageListItem {
   id: number;
   name: string;
-  isGlobal: boolean;
+  sendType: MessageSendType;
+  type: MessageType;
 }
 
 export interface MessageFilters {
@@ -28,7 +36,7 @@ export type KakaoTemplateStatus =
   | "PENDING"
   | "UPLOADED";
 
-export const KakaoTemplateStatus = {
+export const KakaoTemplateStatus: Record<KakaoTemplateStatus, string> = {
   APPROVED: "승인됨",
   REJECTED: "거절됨",
   PENDING: "검수중",
@@ -50,10 +58,22 @@ export interface KakaoTemplateDto {
   imageUrl?: string;
 }
 
+export interface CustomKakaoTemplateDto {
+  id: number;
+  name: string;
+  description: string;
+  content: string;
+  imageUrl?: string;
+  extra?: string;
+  buttons: KakaoButtonType[];
+}
+
 export interface MessageDto {
   id: number;
   name: string;
-  isGlobal: boolean;
+  sendType: MessageSendType;
+  type: MessageType;
+  content?: string;
   contentGroupId?: number;
   completeDelivery: boolean;
   contentGroup?: {
@@ -61,13 +81,14 @@ export interface MessageDto {
     name: string;
   };
   kakaoTemplate: KakaoTemplateDto;
+  kakaoTemplateId: number;
   createdAt: Date;
   updatedAt: Date;
   target: MessageTarget;
   customPhone?: string;
 }
 
-export const KakaoButtonMapping = {
+export const KakaoButtonMapping: Record<KakaoButtonType, string> = {
   DS: "배송조회",
   WL: "웹링크",
   BK: "봇키워드",
@@ -94,8 +115,8 @@ export type KakaoButtonType =
 
 export type MessageTarget = "BUYER" | "RECEIVER" | "CUSTOM";
 export const MessageTargetMapping: Record<MessageTarget, string> = {
-  BUYER: "주문인",
-  RECEIVER: "수령인",
+  BUYER: "구매자",
+  RECEIVER: "수령자",
   CUSTOM: "지정발송",
 };
 
@@ -114,11 +135,15 @@ export interface KakaoTemplateCreateDto {
 
 export interface MessageCreateDto {
   name: string;
+  sendType: MessageSendType;
+  content: string;
   contentGroupId: number;
   completeDelivery?: boolean;
   kakaoTemplate: KakaoTemplateCreateDto;
+  kakaoTemplateId?: number;
   target: MessageTarget;
   customPhone?: string;
+  type: MessageType;
 }
 
 export interface KakaoTemplateUpdateDto {
@@ -136,6 +161,7 @@ export interface KakaoTemplateUpdateDto {
 
 export interface MessageUpdateDto {
   name?: string | undefined;
+  content?: string | undefined;
   contentGroupId?: number | undefined;
   completeDelivery?: boolean;
   variables?:
@@ -144,8 +170,10 @@ export interface MessageUpdateDto {
         value: string;
       }[]
     | undefined;
-  kakaoTemplate?: KakaoTemplateUpdateDto;
+  kakaoTemplate?: KakaoTemplateUpdateDto | undefined;
+  kakaoTemplateId?: number | undefined;
   target?: MessageTarget;
+  type?: MessageType;
   customPhone?: string;
 }
 

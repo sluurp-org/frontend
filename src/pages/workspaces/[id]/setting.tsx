@@ -28,6 +28,7 @@ export default function WorkspaceSetting() {
       children: <WorkspaceUpdate workspaceId={workspaceId} />,
     },
   ];
+
   return (
     <Component>
       <Header title="워크스페이스 설정" description="워크스페이스 설정" />

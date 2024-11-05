@@ -37,7 +37,7 @@ export interface EventHistory {
     };
   }[];
   status: EventHistoryStatus;
-  message: string | null;
+  rawMessage: string | null;
   messageId: number | null;
   processedAt: Date | null;
   messageContent: string;

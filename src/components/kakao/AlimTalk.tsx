@@ -28,7 +28,7 @@ export default function AlimTalk({
     >
       <div className="pb-4">
         <AlimTalkHeader />
-        {image && <Image src={image} width={280} height={280} alt="배송시작" />}
+        {image && <Image src={image} width={280} height={280} alt="이미지" />}
         <div className="mx-4 my-4 bg-white break-all rounded-b-md">
           <p className="text-sm text-black whitespace-pre-wrap break-words">
             {content}

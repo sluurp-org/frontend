@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "react-query";
 import {
+  CustomKakaoTemplateDto,
   KakaoCategoryDto,
   MessageCreateDto,
   MessageDto,
@@ -22,6 +23,13 @@ const fetchMessages = async (workspaceId: number, filters: MessageFilters) => {
 const fetchMessage = async (workspaceId: number, messageId: number) => {
   const { data } = await axiosClient.get<MessageDto>(
     `/workspace/${workspaceId}/message/${messageId}`
+  );
+  return data;
+};
+
+const fetchCustomKakaoTemplates = async (workspaceId: number) => {
+  const { data } = await axiosClient.get<CustomKakaoTemplateDto[]>(
+    `/workspace/${workspaceId}/message/custom/kakao`
   );
   return data;
 };
@@ -165,6 +173,7 @@ export const useRequestInspection = (workspaceId: number) => {
     (messageId: number) => requestInspection(workspaceId, messageId),
     {
       onSuccess: (data) => {
+        console.log("data", data);
         queryClient.invalidateQueries(["messages", workspaceId]);
         queryClient.invalidateQueries(["message", workspaceId, data.id]);
       },
@@ -179,4 +188,14 @@ export const useCancelInspection = (workspaceId: number, messageId: number) => {
       queryClient.invalidateQueries(["message", workspaceId, messageId]);
     },
   });
+};
+
+export const useCustomKakaoTemplates = (workspaceId: number) => {
+  return useQuery(
+    ["customKakaoTemplates", workspaceId],
+    () => fetchCustomKakaoTemplates(workspaceId),
+    {
+      enabled: !!workspaceId,
+    }
+  );
 };
