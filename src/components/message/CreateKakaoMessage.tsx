@@ -91,6 +91,8 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
           imageUrl: res.data.url,
         },
       });
+
+      console.log(form.getFieldValue("kakaoTemplate"));
     } catch (err) {
       errorHandler(err, router);
       form.setFieldsValue({
@@ -174,14 +176,22 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
     };
 
     const newButtons =
-      buttonType === "AC" ? [newButton, ...buttons] : [...buttons, newButton];
+      buttonType === "AC"
+        ? [
+            {
+              name: "채널 추가",
+              type: "AC",
+            },
+            ...buttons,
+          ]
+        : [...buttons, newButton];
 
     form.setFieldsValue({
       kakaoTemplate: {
         ...form.getFieldValue("kakaoTemplate"),
         buttons: newButtons,
       },
-      buttonName: "채널 추가",
+      buttonName: "",
       buttonUrl: "",
       buttonType: "AC",
     });
@@ -305,11 +315,9 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
           />
         )}
       </Form.Item>
-      <Form.Item
-        name={["kakaoTemplate", "imageUrl"]}
-        className="mb-0"
-        label="메세지 이미지"
-      >
+      <Form.Item name={["kakaoTemplate", "imageId"]} hidden noStyle />
+      <Form.Item name={["kakaoTemplate", "imageUrl"]} hidden noStyle />
+      <Form.Item className="mb-0" label="메세지 이미지">
         <Upload
           accept=".jpg,.jpeg,.png"
           name="image"
@@ -649,14 +657,14 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
                       <Alert
                         icon={<InfoCircleOutlined />}
                         showIcon
-                        message={`완전 맞춤형은 원하는 메시지 내용을 직접 입력하고 승인을 받아야 합니다.\n승인을 받는 대신 버튼, 이미지 등 상세 정보를 입력할 수 있습니다.`}
+                        message={`완전 맞춤형은 원하는 메시지 내용을 직접 입력하고 카카오 승인을 받아야 합니다.\n승인을 받는 대신 버튼, 이미지 등 상세 정보를 입력할 수 있습니다.\n카카오 승인은 영업일 기준 1~3일 정도 소요될 수 있습니다.`}
                         className="whitespace-pre-line"
                       />
                     ) : (
                       <Alert
                         icon={<InfoCircleOutlined />}
                         showIcon
-                        message={`빠른 시작형은 템플릿을 선택하고 빠르게 메세지를 생성할 수 있습니다.\n템플릿을 선택하면 내용, 버튼 등이 자동으로 생성됩니다.\n별도의 승인 없이 바로 발송할 수 있습니다.`}
+                        message={`빠른 시작형은 템플릿을 선택하고 메세지를 생성할 수 있습니다.\n템플릿을 선택하면 내용, 버튼 등이 자동으로 입력됩니다.\n별도의 승인 절차 없이 바로 발송할 수 있습니다.`}
                         className="whitespace-pre-line"
                       />
                     )}
@@ -717,7 +725,8 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
                                   }
                                   형
                                 </Tag>
-                                {!isCustom && (
+                                {form.getFieldValue("type") ===
+                                  "FULLY_CUSTOM" && (
                                   <Button
                                     type="primary"
                                     danger
@@ -811,10 +820,15 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
                 )
               }
             </Form.Item>
-            <Form.Item name="completeDelivery" noStyle>
+            <Form.Item
+              name="completeDelivery"
+              noStyle
+              valuePropName="checked"
+              initialValue={false}
+            >
               <Checkbox
                 className="mt-2"
-                defaultChecked={false}
+                checked={form.getFieldValue("completeDelivery")}
                 onChange={(e) => {
                   form.setFieldsValue({ completeDelivery: e.target.checked });
                 }}
@@ -822,24 +836,20 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
                 발송 완료 시 주문을 배송 완료로 변경
               </Checkbox>
             </Form.Item>
-            <Form.Item name="inspection" noStyle>
-              {(
-                form: FormInstance<
-                  MessageCreateDto & {
-                    inspection: boolean;
-                  }
-                >
-              ) =>
+            <Form.Item noStyle dependencies={["type"]}>
+              {(form: FormInstance<MessageCreateDto>) =>
                 form.getFieldValue("type") === "FULLY_CUSTOM" && (
-                  <Checkbox
-                    className="mt-2"
-                    defaultChecked={false}
-                    onChange={(e) => {
-                      form.setFieldsValue({ inspection: e.target.checked });
-                    }}
+                  <Form.Item
+                    name="inspection"
+                    noStyle
+                    valuePropName="checked"
+                    dependencies={["type"]}
+                    initialValue={false}
                   >
-                    수정과 동시에 검수 요청
-                  </Checkbox>
+                    <Checkbox className="mt-2">
+                      수정과 동시에 검수 요청
+                    </Checkbox>
+                  </Form.Item>
                 )
               }
             </Form.Item>
