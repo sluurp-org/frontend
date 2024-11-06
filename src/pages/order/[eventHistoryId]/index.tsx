@@ -1,5 +1,4 @@
 import InfoRow from "@/components/InfoRow";
-import Loading from "@/components/Loading";
 import UserEventContainer from "@/components/user-event/UserEventContainer";
 import {
   useUserEventHistory,

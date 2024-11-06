@@ -17,9 +17,9 @@ export default function UserEventContainer({
         <title>스르륵 자동 발송</title>
       </Head>
       <div className="flex justify-center items-center h-screen">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center p-6 pt-40 md:pt-0">
           <Link href="/" target="_blank">
-            <div className="flex  gap-3 items-end justify-center">
+            <div className="flex gap-3 items-end justify-center">
               <Image src="/logo.png" alt="logo" width={80} height={80} />
               <h1 className="text-sm">스토어 문자 자동 발송</h1>
             </div>
