@@ -314,7 +314,13 @@ const UpdateKakaoMessage = ({
           ...(values.type === "CUSTOM"
             ? { content: values.content, kakaoTemplate: undefined }
             : {
-                ...values.kakaoTemplate,
+                kakaoTemplate: {
+                  ...values.kakaoTemplate,
+                  extra:
+                    values.kakaoTemplate?.extra === ""
+                      ? undefined
+                      : values.kakaoTemplate?.extra,
+                },
               }),
         }),
         {

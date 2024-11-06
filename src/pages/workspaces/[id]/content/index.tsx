@@ -31,7 +31,7 @@ export default function WorkspaceContent() {
     {
       title: "아이디",
       dataIndex: "id",
-      width: "10px",
+      width: 10,
       key: "id",
     },
     {

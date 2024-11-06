@@ -230,6 +230,13 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
           ...(values.isCustom
             ? { content: values.content }
             : values.kakaoTemplate),
+          kakaoTemplate: {
+            ...values.kakaoTemplate,
+            extra:
+              values.kakaoTemplate?.extra === ""
+                ? undefined
+                : values.kakaoTemplate?.extra,
+          },
           sendType: "KAKAO",
         }),
         {
