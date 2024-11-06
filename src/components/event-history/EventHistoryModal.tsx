@@ -101,7 +101,7 @@ function ContentItem({
     );
   };
 
-  const handleUpdateExpiredAt = async (newExpiredAt: Date) => {
+  const handleUpdateExpiredAt = async (newExpiredAt: Date | undefined) => {
     toast.promise(
       updateEventHistory({
         expiredAt: newExpiredAt,
@@ -178,7 +178,9 @@ function ContentItem({
                 <div>
                   <DatePicker
                     showTime
-                    onChange={(value) => handleUpdateExpiredAt(value.toDate())}
+                    onChange={(value) =>
+                      handleUpdateExpiredAt(value ? value.toDate() : undefined)
+                    }
                   />
                 </div>
               }

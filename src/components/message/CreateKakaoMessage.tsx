@@ -2,6 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import {
   CloseOutlined,
+  InfoCircleOutlined,
   MessageOutlined,
   UploadOutlined,
   WarningOutlined,
@@ -34,6 +35,7 @@ import {
   Tag,
   Checkbox,
   FormInstance,
+  Alert,
 } from "antd";
 import toast from "react-hot-toast";
 import { Card } from "@/components/common/Card";
@@ -523,14 +525,6 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
           showCount
         />
       </Form.Item>
-      <Form.Item label="메세지 부가정보" name={["kakaoTemplate", "extra"]}>
-        <TextArea
-          disabled
-          rows={5}
-          className="border border-gray-300 rounded-md p-2"
-          placeholder="추가정보"
-        />
-      </Form.Item>
     </>
   );
 
@@ -621,7 +615,12 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
             >
               <Input placeholder="메세지 이름" />
             </Form.Item>
-            <Form.Item label="메세지 유형" name="type" initialValue="CUSTOM">
+            <Form.Item
+              label="메세지 유형"
+              name="type"
+              initialValue="CUSTOM"
+              className="mb-0"
+            >
               <Select
                 placeholder="메세지 유형을 선택해주세요."
                 onChange={onTypeChange}
@@ -636,6 +635,34 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
                   완전 맞춤형
                 </Select.Option>
               </Select>
+            </Form.Item>
+            <Form.Item
+              noStyle
+              shouldUpdate={(prevValues, currentValues) =>
+                prevValues.type !== currentValues.type
+              }
+            >
+              {(form: FormInstance<MessageCreateDto>) => {
+                return (
+                  <div className="mb-4">
+                    {form.getFieldValue("type") === "FULLY_CUSTOM" ? (
+                      <Alert
+                        icon={<InfoCircleOutlined />}
+                        showIcon
+                        message={`완전 맞춤형은 원하는 메시지 내용을 직접 입력하고 승인을 받아야 합니다.\n승인을 받는 대신 버튼, 이미지 등 상세 정보를 입력할 수 있습니다.`}
+                        className="whitespace-pre-line"
+                      />
+                    ) : (
+                      <Alert
+                        icon={<InfoCircleOutlined />}
+                        showIcon
+                        message={`빠른 시작형은 템플릿을 선택하고 빠르게 메세지를 생성할 수 있습니다.\n템플릿을 선택하면 내용, 버튼 등이 자동으로 생성됩니다.\n별도의 승인 없이 바로 발송할 수 있습니다.`}
+                        className="whitespace-pre-line"
+                      />
+                    )}
+                  </div>
+                );
+              }}
             </Form.Item>
 
             <Form.Item noStyle dependencies={["type"]}>

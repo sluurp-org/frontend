@@ -148,17 +148,11 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
               {order.eventHistory ? (
                 <>
                   <p className="text-sm font-light">
-                    발송 상태:{" "}
-                    {EventHistoryStatusMap[order.eventHistory.status]}
+                    상태: {EventHistoryStatusMap[order.eventHistory.status]}
                   </p>
                   {order.eventHistory.message && (
-                    <p className="text-sm font-light">
-                      발송 안내: {order.eventHistory.rawMessage}
-                    </p>
-                  )}
-                  {order.eventHistory.message && (
                     <p>
-                      <span>발송 메세지: </span>
+                      <span>메세지: </span>
                       <Link
                         className="text-indigo-400 cursor-pointer hover:underline"
                         href={`/workspaces/${workspaceId}/message/${order.eventHistory.message.id}`}
@@ -168,7 +162,7 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
                       </Link>
                     </p>
                   )}
-                  <p className="font-semibold">눌러서 상세 정보 보기</p>
+                  <p className="font-semibold mt-1">눌러서 상세 정보 보기</p>
                 </>
               ) : (
                 <p className="text-sm font-light">
