@@ -9,7 +9,7 @@ export interface OrderDto {
   product: {
     id: number;
     name: string;
-    productImage: string;
+    productImageUrl: string;
     productId: string;
   };
   productVariant?: { id: number; name: string };

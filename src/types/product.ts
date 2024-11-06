@@ -1,7 +1,7 @@
 export interface ProductsDto {
   id: number;
   name: string;
-  productImage: string;
+  productImageUrl: string;
   productId: string;
 }
 
@@ -20,7 +20,7 @@ export interface ProductsFilters {
 export interface ProductDto {
   id: number;
   name: string;
-  productImage: string;
+  productImageUrl: string;
   productId: string;
   event: {
     id: number;

@@ -8,7 +8,7 @@ interface StoreDto {
 interface ProductDto {
   id: number;
   name: string;
-  productImage: string;
+  productImageUrl: string;
   productId: string;
 }
 

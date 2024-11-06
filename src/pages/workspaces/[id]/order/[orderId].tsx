@@ -99,7 +99,7 @@ export default function WorkspaceOrderDetail() {
             <h2 className="text-2xl font-semibold mb-4">결제 상품 정보</h2>
             <div className="flex flex-col md:flex-row items-center gap-6">
               <Image
-                src={data.product.productImage}
+                src={data.product.productImageUrl}
                 alt={data.product.name}
                 className="w-32 h-32 object-cover rounded-md"
                 width={128}

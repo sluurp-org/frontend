@@ -51,7 +51,7 @@ export default function ProductDetailPage() {
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-y-6 xl:gap-6 w-full">
         <Card className="h-min">
           <Image
-            src={data?.productImage || "/store/smartstore.png"}
+            src={data?.productImageUrl || "/store/smartstore.png"}
             alt={data.name}
             width={160}
             height={160}
@@ -69,7 +69,7 @@ export default function ProductDetailPage() {
                   className="text-indigo-400 cursor-pointer hover:underline"
                   onClick={() =>
                     router.push(
-                      `/workspaces/${workspaceId}/store/${data.store.id}`
+                      `/workspaces/${workspaceId}/store?storeId=${data.store.id}`
                     )
                   }
                 >

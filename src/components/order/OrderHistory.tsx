@@ -153,18 +153,18 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
                   </p>
                   {order.eventHistory.message && (
                     <p className="text-sm font-light">
-                      발송 안내: {order.eventHistory.message}
+                      발송 안내: {order.eventHistory.rawMessage}
                     </p>
                   )}
-                  {order.eventHistory.messageTemplate && (
+                  {order.eventHistory.message && (
                     <p>
                       <span>발송 메세지: </span>
                       <Link
                         className="text-indigo-400 cursor-pointer hover:underline"
-                        href={`/workspaces/${workspaceId}/message/${order.eventHistory.messageTemplate.id}`}
+                        href={`/workspaces/${workspaceId}/message/${order.eventHistory.message.id}`}
                       >
                         <MessageOutlined className="mr-1" />
-                        {order.eventHistory.messageTemplate.name}
+                        {order.eventHistory.message.name}
                       </Link>
                     </p>
                   )}

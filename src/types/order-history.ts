@@ -28,9 +28,9 @@ export type OrderHistoryDto =
       eventHistory: {
         id: string;
         status: EventHistoryStatus;
-        message: string;
+        rawMessage: string;
         messageId: number;
-        messageTemplate?: {
+        message?: {
           id: number;
           name: string;
         };
