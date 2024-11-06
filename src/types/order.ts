@@ -5,7 +5,10 @@ export interface OrderDto {
   productOrderId: string;
   orderId: string;
   status: OrderStatus;
-  storeId: number;
+  store: {
+    id: number;
+    name: string;
+  };
   product: {
     id: number;
     name: string;

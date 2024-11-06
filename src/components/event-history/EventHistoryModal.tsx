@@ -257,6 +257,22 @@ export default function EventHistoryModal({
   if (!data)
     return <Error isFullPage={false} message="데이터를 불러올 수 없습니다." />;
 
+  const messageVariables = data?.messageVariables;
+  const keyToVarName = Object.fromEntries(
+    Object.entries(messageVariables).map(([key, value]) => [
+      key.slice(2, -1),
+      value,
+    ])
+  );
+
+  const messageContent = data.messageContent.replace(
+    /#\{([^}]+)\}/g,
+    (match, p1) => {
+      const varName = keyToVarName[p1];
+      return varName ? `${varName}` : match;
+    }
+  );
+
   return (
     <Modal
       destroyOnClose
@@ -266,10 +282,10 @@ export default function EventHistoryModal({
       onCancel={onClose}
       onOk={onClose}
       title="이벤트 상세"
-      width={"max-content"}
+      width={data.contents.length > 0 ? "max-content" : 600}
     >
       <div className="flex gap-10 lg:flex-row flex-col lg:h-[800px]">
-        <div className="w-full lg:w-[600px]">
+        <div className={`w-full ${data.contents.length > 0 && "lg:w-[600px]"}`}>
           <InfoRow
             className="flex-col"
             label="발송 고유아이디"
@@ -308,33 +324,38 @@ export default function EventHistoryModal({
             </InfoRow>
           )}
           <InfoRow className="flex-col" label="발송 메세지">
-            <p className="whitespace-pre-wrap p-3 bg-gray-100 rounded-md">
-              {data.messageContent || "-"}
+            <p
+              className={`whitespace-pre-wrap p-3 bg-gray-100 rounded-md mt-1 ${
+                data.contents.length === 0 ? "w-full" : ""
+              }`}
+            >
+              {messageContent || "-"}
             </p>
           </InfoRow>
         </div>
-
-        <div className="w-full">
-          <p className="font-semibold text-indigo-500 text-[16px]">
-            발송한 디지털 컨텐츠
-          </p>
-          <p className="text-gray-500 text-[14px] mb-3">
-            총 {data.contents.length}개의 디지털 컨텐츠를 발송하였습니다.
-          </p>
-          <div className="lg:overflow-y-auto w-full h-[calc(100%-60px)] rounded-lg">
-            <div className="flex flex-col gap-3 w-full">
-              {data.contents.map((item, index) => (
-                <ContentItem
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  workspaceId={workspaceId}
-                  refetch={refetch}
-                />
-              ))}
+        {data.contents.length > 0 && (
+          <div className="w-full">
+            <p className="font-semibold text-indigo-500 text-[16px]">
+              발송한 디지털 컨텐츠
+            </p>
+            <p className="text-gray-500 text-[14px] mb-3">
+              총 {data.contents.length}개의 디지털 컨텐츠를 발송하였습니다.
+            </p>
+            <div className="lg:overflow-y-auto w-full h-[calc(100%-60px)] rounded-lg">
+              <div className="flex flex-col gap-3 w-full">
+                {data.contents.map((item, index) => (
+                  <ContentItem
+                    key={item.id}
+                    item={item}
+                    index={index}
+                    workspaceId={workspaceId}
+                    refetch={refetch}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </Modal>
   );

@@ -8,10 +8,15 @@ import OrderHistory from "@/components/order/OrderHistory";
 import InfoRow from "@/components/InfoRow";
 import moment from "moment";
 import Image from "next/image";
-import { ArrowLeftOutlined, ProductOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  ProductOutlined,
+  ShopOutlined,
+} from "@ant-design/icons";
 import errorHandler from "@/utils/error";
 import { Tag } from "antd";
 import { Card } from "@/components/common/Card";
+import Link from "next/link";
 
 export default function WorkspaceOrderDetail() {
   const router = useRouter();
@@ -106,17 +111,24 @@ export default function WorkspaceOrderDetail() {
                 height={128}
               />
               <div>
-                <p
-                  className="text-indigo-400 cursor-pointer hover:underline text-lg font-semibold"
-                  onClick={() =>
-                    router.push(
-                      `/workspaces/${workspaceId}/product/${data.product.id}`
-                    )
-                  }
+                <Link
+                  href={`/workspaces/${workspaceId}/product/${data.product.id}`}
+                  target="_blank"
+                  className="text-indigo-400 cursor-pointer hover:underline text-lg font-bold"
                 >
                   <ProductOutlined className="mr-1" />
-                  {data.product.name}
-                </p>
+                  <span>{data.product.name}</span>
+                </Link>
+                <InfoRow label="상품 스토어">
+                  <Link
+                    href={`/workspaces/${workspaceId}/store?storeId=${data.store.id}`}
+                    target="_blank"
+                    className="text-indigo-400 cursor-pointer hover:underline"
+                  >
+                    <ShopOutlined className="mr-1" />
+                    <span>{data.store.name}</span>
+                  </Link>
+                </InfoRow>
                 <InfoRow label="상품 아이디" copyable>
                   {data.product.productId}
                 </InfoRow>

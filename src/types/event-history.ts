@@ -40,6 +40,7 @@ export interface EventHistory {
   messageId: number | null;
   processedAt: Date | null;
   messageContent: string;
+  messageVariables: Record<string, string>;
   eventMessage: {
     id: number;
     name: string;
