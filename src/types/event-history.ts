@@ -17,7 +17,6 @@ export const EventHistoryStatusMap: Record<EventHistoryStatus, string> = {
   FAILED: "발송 실패",
 } as const;
 
-// {"id":"c30cf207-7ab7-4d8e-bce3-612f65191bf1","contents":[{"id":1,"downloadCount":0,"downloadLimit":null,"disableDownload":false,"lastDownloadAt":null,"firstDownloadAt":null,"expiredAt":null,"content":{"id":240,"contentGroupId":16,"text":null,"type":"TEXT","name":"slurp-logo"}}],"status":"READY","message":null,"messageContent":"안녕하세요!\n#{구매자명}님의 주문이 정상적으로 접수되었습니다! ☺\n\n결제 상세 내역\n▶ 주문일자 : #{주문일자}\n▶ 주문번호 : #{주문번호}\n▶ 상품명 : #{상품명}\n▶ 옵션명: #{옵션명}\n▶ 결제금액 : #{총결제금액}\n\n#{상점명}에서 상품을 구매해주셔서 감사드립니다!\n\n구매하신 상품은 정성스럽게 준비해서 안전하게 보내드릴께요 ❤","processedAt":null,"createdAt":"2024-10-26T06:27:28.330Z","eventMessage":{"id":1,"name":"스르륵 구매완료\n"}}
 export interface EventHistory {
   id: string;
   contents: {

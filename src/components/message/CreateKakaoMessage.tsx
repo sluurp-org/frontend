@@ -483,6 +483,7 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
           )}
         </Select>
       </Form.Item>
+      <Form.Item noStyle name={["isCustom"]} hidden initialValue={true} />
       <Form.Item label="메세지 내용" className="mb-0">
         <Popover
           placement="topLeft"
@@ -731,7 +732,16 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
                 ))}
               </Select>
             </Form.Item>
-            <Form.Item label="메세지 발송 대상" name="target">
+            <Form.Item
+              label="메세지 발송 대상"
+              name="target"
+              rules={[
+                {
+                  required: true,
+                  message: "메세지 발송 대상을 선택해주세요.",
+                },
+              ]}
+            >
               <Select placeholder="메세지 발송 대상을 선택해주세요.">
                 {Object.entries(MessageTargetMapping).map(([key, value]) => (
                   <Select.Option key={key} value={key}>

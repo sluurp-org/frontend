@@ -142,7 +142,7 @@ const UpdateKakaoMessage = ({
       buttonUrl: "",
       inspection: false,
     });
-  }, [message]);
+  }, [form, kakaoTemplate, message]);
 
   const cancelInspectionHandler = async () => {
     try {
@@ -811,7 +811,16 @@ const UpdateKakaoMessage = ({
                   ))}
                 </Select>
               </Form.Item>
-              <Form.Item label="메세지 발송 대상" name="target">
+              <Form.Item
+                label="메세지 발송 대상"
+                name="target"
+                rules={[
+                  {
+                    required: true,
+                    message: "메세지 발송 대상을 선택해주세요.",
+                  },
+                ]}
+              >
                 <Select placeholder="메세지 발송 대상을 선택해주세요.">
                   {Object.entries(MessageTargetMapping).map(([key, value]) => (
                     <Select.Option key={key} value={key}>
