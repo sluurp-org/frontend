@@ -4,6 +4,8 @@ import {
   RequestSignupCodeDto,
   SignupDto,
   TokenDto,
+  RequestPasswordResetCodeDto,
+  ChangePasswordDto,
 } from "@/types/auth";
 import axiosClient from "@/utils/axios";
 import toast from "react-hot-toast";
@@ -25,6 +27,24 @@ const register = async (credentials: SignupDto): Promise<void> => {
 
 const requestSignupCode = async (dto: RequestSignupCodeDto): Promise<void> => {
   await axiosClient.post("/users/code", dto);
+};
+
+const requestPasswordResetCode = async (dto: RequestPasswordResetCodeDto) => {
+  await axiosClient.post("/users/change-password", dto);
+};
+
+const resetPassword = async (dto: ChangePasswordDto) => {
+  await axiosClient.put("/users/change-password", dto);
+};
+
+export const useRequestPasswordResetCode = () => {
+  return useMutation((dto: RequestPasswordResetCodeDto) =>
+    requestPasswordResetCode(dto)
+  );
+};
+
+export const useResetPassword = () => {
+  return useMutation((dto: ChangePasswordDto) => resetPassword(dto));
 };
 
 export const useLogin = () => {

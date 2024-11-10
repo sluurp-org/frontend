@@ -78,16 +78,12 @@ export default function Login() {
         >
           계정이 없으신가요? 회원가입
         </p>
-        {/* <div className="border-b-2 border-gray-200 w-full mt-6"></div>
-        <button className="w-full mt-6 p-3 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 duration-75">
-          구글 계정으로 로그인
-        </button>
-        <button className="w-full mt-6 p-3 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 duration-75">
-          구글 계정으로 로그인
-        </button>
-        <button className="w-full mt-6 p-3 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 duration-75">
-          구글 계정으로 로그인
-        </button> */}
+        <p
+          className="mt-1 text-center text-indigo-500 cursor-pointer"
+          onClick={() => router.push("/auth/password")}
+        >
+          또는 비밀번호 찾기
+        </p>
       </div>
     </div>
   );
