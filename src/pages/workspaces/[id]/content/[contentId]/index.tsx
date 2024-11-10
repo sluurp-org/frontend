@@ -122,7 +122,7 @@ export default function ContentDetailPage() {
         description={`${data.name} 디지털 컨텐츠 상세`}
       />
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-y-6 xl:gap-6 w-full">
-        <Card>
+        <Card className="h-min">
           <div>
             <p className="text-sm text-gray-400">디지털 컨텐츠명</p>
             <Typography.Text

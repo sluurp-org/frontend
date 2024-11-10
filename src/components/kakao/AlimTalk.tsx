@@ -1,6 +1,7 @@
 import Image from "next/image";
 import AlimTalkHeader from "./AlimTalkHeader";
 import AlimTalkButton, { AlimTalkButtonProps } from "./AlimTalkButton";
+import { Tag } from "antd";
 
 export interface AlimTalkProps {
   className?: string;
@@ -19,6 +20,22 @@ export default function AlimTalk({
   channelAddButton,
   buttons,
 }: AlimTalkProps) {
+  const renderContent = (content?: string) => {
+    return content?.split(/(\#\{.*?\})/).map((part, index) => {
+      if (part.match(/\#\{(.*?)\}/)) {
+        const labelText = part.replace(/\#\{(.*?)\}/, "$1"); // 중괄호 내부 텍스트 추출
+        if (labelText === "") return part;
+
+        return (
+          <Tag className="m-0" color="green" key={index}>
+            {labelText}
+          </Tag>
+        );
+      }
+      return part;
+    });
+  };
+
   return (
     <div
       className={
@@ -31,7 +48,7 @@ export default function AlimTalk({
         {image && <Image src={image} width={280} height={280} alt="이미지" />}
         <div className="mx-4 my-4 bg-white break-all rounded-b-md">
           <p className="text-sm text-black whitespace-pre-wrap break-words">
-            {content}
+            {renderContent(content)}
           </p>
           <p className="mt-3 text-gray-400 text-[13px] whitespace-pre-wrap break-words">
             {extra}
