@@ -22,6 +22,7 @@ import Link from "next/link";
 import { fetchDownloadFileContent } from "@/hooks/queries/useContent";
 import { Card } from "../common/Card";
 import { useEffect } from "react";
+import AlimTalk from "../kakao/AlimTalk";
 
 function ContentItem({
   item,
@@ -323,14 +324,8 @@ export default function EventHistoryModal({
               </Link>
             </InfoRow>
           )}
-          <InfoRow className="flex-col" label="발송 메세지">
-            <p
-              className={`whitespace-pre-wrap p-3 bg-gray-100 rounded-md mt-1 ${
-                data.contents.length === 0 ? "w-full" : ""
-              }`}
-            >
-              {messageContent || "-"}
-            </p>
+          <InfoRow label="발송 메세지" className="flex-col">
+            <AlimTalk content={messageContent} className="mt-3" />
           </InfoRow>
         </div>
         {data.contents.length > 0 && (

@@ -11,6 +11,9 @@ importers:
       '@ant-design/icons':
         specifier: ^5.4.0
         version: 5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@calcom/embed-react':
+        specifier: ^1.5.1
+        version: 1.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@channel.io/channel-web-sdk-loader':
         specifier: ^2.0.0
         version: 2.0.0
@@ -35,12 +38,12 @@ importers:
       antd:
         specifier: ^5.20.6
         version: 5.20.6(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      apexcharts:
+        specifier: ^4.0.0
+        version: 4.0.0
       axios:
         specifier: ^1.7.4
         version: 1.7.4
-      chart.js:
-        specifier: ^4.4.6
-        version: 4.4.6
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -74,6 +77,9 @@ importers:
       react:
         specifier: ^18
         version: 18.3.1
+      react-apexcharts:
+        specifier: ^1.5.0
+        version: 1.5.0(apexcharts@4.0.0)(react@18.3.1)
       react-barcode:
         specifier: ^1.5.3
         version: 1.5.3(react@18.3.1)
@@ -83,6 +89,9 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
+      react-email-editor:
+        specifier: ^1.7.11
+        version: 1.7.11(react@18.3.1)
       react-hook-form:
         specifier: ^7.52.2
         version: 7.52.2(react@18.3.1)
@@ -192,6 +201,18 @@ packages:
     resolution: {integrity: sha512-7dRy4DwXwtzBrPbZflqxnvfxLF8kdZXPkhymtDeFoFqE6ldzjQFgYTtYIFARcLEYDrqfBfYcZt1WqFxRoyC9Rw==}
     engines: {node: '>=6.9.0'}
 
+  '@calcom/embed-core@1.5.1':
+    resolution: {integrity: sha512-wykzh1GKj5xhGxDJeCRJ7OulAgn9GVMYD/mmOBbvn06c3m9Lqoqn09E5kJ+DY+aokUncQPcstNsdiHsURjMuVw==}
+
+  '@calcom/embed-react@1.5.1':
+    resolution: {integrity: sha512-vwRtaO/WbBLrXQbKek333BoY/0GMRVRxOva9VhRPmtC8kyT9pAw/IfKA+26gDtfE25XCx9nqdPIghUJQr+niUw==}
+    peerDependencies:
+      react: ^18.2.0
+      react-dom: ^18.2.0
+
+  '@calcom/embed-snippet@1.3.1':
+    resolution: {integrity: sha512-OmUAmwZt41I7vfKk9SqLMpCBxj91BHZ27NXFARSbECpw7MXcGHm2a4l1oqeuOe0vdRT27qDmKz/ccvKI0x/ttw==}
+
   '@channel.io/channel-web-sdk-loader@2.0.0':
     resolution: {integrity: sha512-Z8DDpf2lAaYr/3aAnwQtxg0L8MYWgi/hhGV8c5/SLCV6Fx5Gssj7mfyHHrCVC315B0icmLYqZsXBlmbf6cN8Jg==}
 
@@ -281,9 +302,6 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
-
-  '@kurkle/color@0.3.2':
-    resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
 
   '@next/env@13.5.7':
     resolution: {integrity: sha512-uVuRqoj28Ys/AI/5gVEgRAISd0KWI0HRjOO1CTpNgmX3ZsHb5mdn14Y59yk0IxizXdo7ZjsI2S7qbWnO+GNBcA==}
@@ -679,6 +697,31 @@ packages:
   '@rushstack/eslint-patch@1.10.4':
     resolution: {integrity: sha512-WJgX9nzTqknM393q1QJDJmoW28kUfEnybeTfVNcNAPnIx210RXm2DiXiHzfNPJNIUUb1tJnz/l4QGtJ30PgWmA==}
 
+  '@svgdotjs/svg.draggable.js@3.0.4':
+    resolution: {integrity: sha512-vWi/Col5Szo74HJVBgMHz23kLVljt3jvngmh0DzST45iO2ubIZ487uUAHIxSZH2tVRyiaaTL+Phaasgp4gUD2g==}
+    peerDependencies:
+      '@svgdotjs/svg.js': ^3.2.4
+
+  '@svgdotjs/svg.filter.js@3.0.8':
+    resolution: {integrity: sha512-YshF2YDaeRA2StyzAs5nUPrev7npQ38oWD0eTRwnsciSL2KrRPMoUw8BzjIXItb3+dccKGTX3IQOd2NFzmHkog==}
+    engines: {node: '>= 0.8.0'}
+
+  '@svgdotjs/svg.js@3.2.4':
+    resolution: {integrity: sha512-BjJ/7vWNowlX3Z8O4ywT58DqbNRyYlkk6Yz/D13aB7hGmfQTvGX4Tkgtm/ApYlu9M7lCQi15xUEidqMUmdMYwg==}
+
+  '@svgdotjs/svg.resize.js@2.0.4':
+    resolution: {integrity: sha512-TRzYv0xh/eF7dOsse/asi/Bn+O8vvNRPlVUvYwTje2lKpGvT65ncXuqNWDNnhxJKlp5NcgMxfM5VMKL8c1WNTQ==}
+    engines: {node: '>= 14.18'}
+    peerDependencies:
+      '@svgdotjs/svg.js': ^3.2.4
+      '@svgdotjs/svg.select.js': ^4.0.1
+
+  '@svgdotjs/svg.select.js@4.0.1':
+    resolution: {integrity: sha512-pDFEDN7M6gBXYcx09anniVvI1f08W9UQCVMAt3tUalyL42sbdIP5vVefX0wBY68J1zVtp+F70zIP1mhVTwkedQ==}
+    engines: {node: '>= 14.18'}
+    peerDependencies:
+      '@svgdotjs/svg.js': ^3.2.4
+
   '@swc/counter@0.1.3':
     resolution: {integrity: sha512-e2BR4lsJkkRlKZ/qCHPw9ZaSxc0MVUd7gtbtaB7aMvHeJVYe8sOB8DBZkP2DtISHGSku9sCK6T6cnY0CtXrOCQ==}
 
@@ -789,6 +832,9 @@ packages:
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
+  '@yr/monotone-cubic-spline@1.0.3':
+    resolution: {integrity: sha512-FQXkOta0XBSUPHndIKON2Y9JeQz5ZeMqLYZVVK93FliNBFm7LNMIZmY6FrMEB9XPcDbE2bekMbZD6kzDkxwYjA==}
+
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -830,6 +876,9 @@ packages:
   anymatch@3.1.3:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
     engines: {node: '>= 8'}
+
+  apexcharts@4.0.0:
+    resolution: {integrity: sha512-6G4Zuph04abbUzzroHXkXARk0LwKdBdQQo5+zRebi+sOoj5Q/toj4z6QMB6e6w/FdkeaO1i3NH3LnCv8hcqczw==}
 
   arg@5.0.2:
     resolution: {integrity: sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==}
@@ -949,10 +998,6 @@ packages:
   chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
-
-  chart.js@4.4.6:
-    resolution: {integrity: sha512-8Y406zevUPbbIBA/HRk33khEmQPk5+cxeflWE/2rx1NJsjVWMPw/9mSP9rxHP5eqi6LNoPBVMfZHxbwLSgldYA==}
-    engines: {pnpm: '>=8'}
 
   chokidar@3.6.0:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
@@ -2177,6 +2222,12 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
 
+  react-apexcharts@1.5.0:
+    resolution: {integrity: sha512-RwIqhYee8tT6WsDR9I15bhDuPitM+z/P092QPttFR5D57M21/WtYKHE9JQMbcz9bmF35rfDSym1SZuZ7AhidhQ==}
+    peerDependencies:
+      apexcharts: ^3.41.0
+      react: '>=0.13'
+
   react-barcode@1.5.3:
     resolution: {integrity: sha512-EJPUwuERKpApcQ9qXzdVZzddFYRT7+3R/jJ3OrTfW6m2iq+WT+CBaVB7DsQazhPRXDfMcx9+dmMmzjsmveOViQ==}
     peerDependencies:
@@ -2191,6 +2242,12 @@ packages:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
     peerDependencies:
       react: ^18.3.1
+
+  react-email-editor@1.7.11:
+    resolution: {integrity: sha512-AyoKKtMEPhKdqUxFX1hyJMvEO+E5fzk88uNVGHhK1ymhLpcghYLkz1+pXKLcByjR6LHkfEbrCmoYFG8zyripug==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=15'
 
   react-floater@0.7.9:
     resolution: {integrity: sha512-NXqyp9o8FAXOATOEo0ZpyaQ2KPb4cmPMXGWkx377QtJkIXHlHRAGer7ai0r0C1kG5gf+KJ6Gy+gdNIiosvSicg==}
@@ -2573,6 +2630,9 @@ packages:
   undici-types@6.13.0:
     resolution: {integrity: sha512-xtFJHudx8S2DSoujjMd1WeWvn7KKWFRESZTMeL1RptAYERu29D6jphMjjY+vn96jvN3kVPDNxU/E13VTaXj6jg==}
 
+  unlayer-types@1.157.0:
+    resolution: {integrity: sha512-D9xnoeQREgUxEkaFG3q90CVicmysu8REVIkQA3alHaTG3JM+LPzdq20vjrd6V4iGuvvUD8L5EDQybSsSRS/k+g==}
+
   unload@2.2.0:
     resolution: {integrity: sha512-B60uB5TNBLtN6/LsgAf3udH9saB5p7gqJwcFfbOEZ8BcBHnGwCf6G/TGiEqkRAxX7zAFIUtzdrXQSdL3Q/wqNA==}
 
@@ -2707,6 +2767,19 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
+  '@calcom/embed-core@1.5.1': {}
+
+  '@calcom/embed-react@1.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@calcom/embed-core': 1.5.1
+      '@calcom/embed-snippet': 1.3.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@calcom/embed-snippet@1.3.1':
+    dependencies:
+      '@calcom/embed-core': 1.5.1
+
   '@channel.io/channel-web-sdk-loader@2.0.0': {}
 
   '@corex/deepmerge@4.0.43': {}
@@ -2798,8 +2871,6 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
-
-  '@kurkle/color@0.3.2': {}
 
   '@next/env@13.5.7': {}
 
@@ -3144,6 +3215,25 @@ snapshots:
 
   '@rushstack/eslint-patch@1.10.4': {}
 
+  '@svgdotjs/svg.draggable.js@3.0.4(@svgdotjs/svg.js@3.2.4)':
+    dependencies:
+      '@svgdotjs/svg.js': 3.2.4
+
+  '@svgdotjs/svg.filter.js@3.0.8':
+    dependencies:
+      '@svgdotjs/svg.js': 3.2.4
+
+  '@svgdotjs/svg.js@3.2.4': {}
+
+  '@svgdotjs/svg.resize.js@2.0.4(@svgdotjs/svg.js@3.2.4)(@svgdotjs/svg.select.js@4.0.1(@svgdotjs/svg.js@3.2.4))':
+    dependencies:
+      '@svgdotjs/svg.js': 3.2.4
+      '@svgdotjs/svg.select.js': 4.0.1(@svgdotjs/svg.js@3.2.4)
+
+  '@svgdotjs/svg.select.js@4.0.1(@svgdotjs/svg.js@3.2.4)':
+    dependencies:
+      '@svgdotjs/svg.js': 3.2.4
+
   '@swc/counter@0.1.3': {}
 
   '@swc/helpers@0.5.5':
@@ -3277,6 +3367,8 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
+  '@yr/monotone-cubic-spline@1.0.3': {}
+
   acorn-jsx@5.3.2(acorn@8.12.1):
     dependencies:
       acorn: 8.12.1
@@ -3364,6 +3456,15 @@ snapshots:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+
+  apexcharts@4.0.0:
+    dependencies:
+      '@svgdotjs/svg.draggable.js': 3.0.4(@svgdotjs/svg.js@3.2.4)
+      '@svgdotjs/svg.filter.js': 3.0.8
+      '@svgdotjs/svg.js': 3.2.4
+      '@svgdotjs/svg.resize.js': 2.0.4(@svgdotjs/svg.js@3.2.4)(@svgdotjs/svg.select.js@4.0.1(@svgdotjs/svg.js@3.2.4))
+      '@svgdotjs/svg.select.js': 4.0.1(@svgdotjs/svg.js@3.2.4)
+      '@yr/monotone-cubic-spline': 1.0.3
 
   arg@5.0.2: {}
 
@@ -3520,10 +3621,6 @@ snapshots:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
-
-  chart.js@4.4.6:
-    dependencies:
-      '@kurkle/color': 0.3.2
 
   chokidar@3.6.0:
     dependencies:
@@ -3802,7 +3899,7 @@ snapshots:
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0)
-      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       eslint-plugin-jsx-a11y: 6.9.0(eslint@8.57.0)
       eslint-plugin-react: 7.35.0(eslint@8.57.0)
       eslint-plugin-react-hooks: 4.6.2(eslint@8.57.0)
@@ -3826,7 +3923,7 @@ snapshots:
       enhanced-resolve: 5.17.1
       eslint: 8.57.0
       eslint-module-utils: 2.8.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
-      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       fast-glob: 3.3.2
       get-tsconfig: 4.7.6
       is-core-module: 2.15.0
@@ -3848,7 +3945,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0):
+  eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0):
     dependencies:
       array-includes: 3.1.8
       array.prototype.findlastindex: 1.2.5
@@ -4987,6 +5084,12 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
+  react-apexcharts@1.5.0(apexcharts@4.0.0)(react@18.3.1):
+    dependencies:
+      apexcharts: 4.0.0
+      prop-types: 15.8.1
+      react: 18.3.1
+
   react-barcode@1.5.3(react@18.3.1):
     dependencies:
       jsbarcode: 3.11.6
@@ -5004,6 +5107,11 @@ snapshots:
       loose-envify: 1.4.0
       react: 18.3.1
       scheduler: 0.23.2
+
+  react-email-editor@1.7.11(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      unlayer-types: 1.157.0
 
   react-floater@0.7.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
@@ -5445,6 +5553,8 @@ snapshots:
       which-boxed-primitive: 1.0.2
 
   undici-types@6.13.0: {}
+
+  unlayer-types@1.157.0: {}
 
   unload@2.2.0:
     dependencies:

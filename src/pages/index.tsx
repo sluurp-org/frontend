@@ -1,3 +1,4 @@
+import Cal, { getCalApi } from "@calcom/embed-react";
 import { useState, useEffect } from "react";
 import {
   ClockCircleFilled,
@@ -68,6 +69,17 @@ export default function Home() {
   const navigateToAuth = () => {
     router.push("/auth/login");
   };
+
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi({ namespace: "meeting" });
+      cal("ui", {
+        styles: { branding: { brandColor: "#666AF2" } },
+        hideEventTypeDetails: false,
+        layout: "month_view",
+      });
+    })();
+  }, []);
 
   return (
     <div className="h-screen">
@@ -275,6 +287,17 @@ export default function Home() {
             </p>
           </div>
         </div>
+      </Section>
+      <Section>
+        <h1 className="text-3xl font-bold text-center sm:text-left sm:leading-[1.3] sm:text-5xl">
+          도입 상담 및 문의도 가능합니다.
+        </h1>
+        <Cal
+          className="mt-10"
+          namespace="meeting"
+          calLink="sluurp/meeting"
+          config={{ layout: "month_view" }}
+        />
       </Section>
       <Section autoWidth={false}>
         <div className="bg-gradient-to-br from-indigo-400 to-indigo-600 animated-background text-center text-white py-24 sm:p-32 rounded-2xl shadow-lg hover:shadow-xl duration-75">

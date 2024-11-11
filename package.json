@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
+    "@calcom/embed-react": "^1.5.1",
     "@channel.io/channel-web-sdk-loader": "^2.0.0",
     "@next/third-parties": "^15.0.1",
     "@portone/browser-sdk": "^0.0.10",
