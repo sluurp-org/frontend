@@ -23,6 +23,7 @@ export default function Footer({
           <p>대표: 임철수</p>
           <p>주소지: 경상북도 구미시 비산로 79-10(비산로)</p>
           <p>사업자 등록번호: 540-09-02493</p>
+          <p>통신판매업 신고번호: 2024-경북구미-1019 </p>
           <a href="mailto:contact@sluurp.io" target="_blank">
             고객센터: contact@sluurp.io
           </a>

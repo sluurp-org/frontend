@@ -6,7 +6,7 @@ import { Button, Checkbox, Empty, Pagination, Timeline } from "antd";
 import { OrderHistoryDto, OrderHistoryFilters } from "@/types/order-history";
 import { EventHistoryStatusMap } from "@/types/event-history";
 import moment from "moment";
-import { OrderStatus } from "@/types/orders";
+import { OrderStatus, OrderStatusMap } from "@/types/orders";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -106,11 +106,9 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
               <p className="text-sm font-light">
                 주문 상태가{" "}
                 <span className="text-indigo-500">
-                  {OrderStatus[order.changedStatus as keyof typeof OrderStatus]}
+                  {OrderStatusMap[order.changedStatus]}
                 </span>
-                {getJosaPicker("로")(
-                  OrderStatus[order.changedStatus as keyof typeof OrderStatus]
-                )}{" "}
+                {getJosaPicker("로")(OrderStatusMap[order.changedStatus])}{" "}
                 변경되었습니다.
               </p>
             </div>

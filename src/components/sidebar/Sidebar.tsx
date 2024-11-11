@@ -8,6 +8,7 @@ import {
   SettingOutlined,
   ShopOutlined,
   ShoppingCartOutlined,
+  TruckOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import Image from "next/image";
@@ -72,6 +73,13 @@ export default function Sidebar() {
               url="message"
               icon={<MessageOutlined />}
               text="메세지"
+            />
+            <SidebarButton
+              id="order-sidebar-button"
+              setClose={setClose}
+              url="event"
+              icon={<TruckOutlined />}
+              text="자동발송 설정"
             />
             <SidebarButton
               id="content-sidebar-button"

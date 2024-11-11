@@ -73,7 +73,7 @@ export interface OrdersFilters {
   status?: OrderStatus;
 }
 
-export const OrderStatus = {
+export const OrderStatusMap: Record<OrderStatus, string> = {
   PAY_WAITING: "결제 대기중",
   PAYED: "결제 완료",
   PRODUCT_PREPARE: "상품 준비중",

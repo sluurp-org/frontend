@@ -15,7 +15,13 @@ const fetchEvents = async (
   const { data } = await axiosClient.get<PaginatedEventsDto>(
     `/workspace/${workspaceId}/event`,
     {
-      params: filters,
+      params: {
+        productId: filters.productId === null ? "" : filters.productId,
+        productVariantId:
+          filters.productVariantId === null ? "" : filters.productVariantId,
+        page: filters.page,
+        size: filters.size,
+      },
     }
   );
   return data;
@@ -25,10 +31,14 @@ const createEvent = async (
   workspaceId: number,
   newEvent: CreateEventDto
 ): Promise<EventDto> => {
-  const { data } = await axiosClient.post(
-    `/workspace/${workspaceId}/event`,
-    newEvent
-  );
+  const { data } = await axiosClient.post(`/workspace/${workspaceId}/event`, {
+    ...newEvent,
+    productId: newEvent.productId === null ? undefined : newEvent.productId,
+    productVariantId:
+      newEvent.productVariantId === null
+        ? undefined
+        : newEvent.productVariantId,
+  });
 
   return data;
 };
@@ -40,11 +50,27 @@ const deleteEvent = async (workspaceId: number, eventId: number) => {
   return data;
 };
 
+const updateEvent = async (
+  workspaceId: number,
+  eventId: number,
+  enabled: boolean
+) => {
+  const { data } = await axiosClient.patch(
+    `/workspace/${workspaceId}/event/${eventId}`,
+    {
+      enabled,
+    }
+  );
+  return data;
+};
+
 export const useEvents = (workspaceId: number, filters: EventsFilters = {}) => {
   return useQuery(
     ["event", workspaceId, filters],
     () => fetchEvents(workspaceId, filters),
-    {}
+    {
+      enabled: !!workspaceId,
+    }
   );
 };
 
@@ -65,4 +91,16 @@ export const useDeleteEvent = (workspaceId: number) => {
       queryClient.invalidateQueries(["event", workspaceId]);
     },
   });
+};
+
+export const useUpdateEvent = (workspaceId: number) => {
+  return useMutation(
+    ({ eventId, enabled }: { eventId: number; enabled: boolean }) =>
+      updateEvent(workspaceId, eventId, enabled),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["event", workspaceId]);
+      },
+    }
+  );
 };

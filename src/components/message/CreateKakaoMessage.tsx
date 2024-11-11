@@ -698,7 +698,7 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
             >
               {(form: FormInstance<MessageCreateDto>) => {
                 return (
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-1 mb-3">
                     {form
                       .getFieldsValue()
                       .kakaoTemplate?.buttons?.map(
@@ -753,27 +753,48 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
             </Form.Item>
 
             <Form.Item
-              label="디지털 컨텐츠 선택"
-              name="contentGroupId"
-              className="mt-4"
+              noStyle
+              shouldUpdate={(prevValues, currentValues) =>
+                prevValues?.kakaoTemplate?.buttons !==
+                currentValues?.kakaoTemplate?.buttons
+              }
             >
-              <Select
-                placeholder="디지털 컨텐츠를 선택해주세요. (선택)"
-                showSearch
-                allowClear
-                filterOption={(input, option) =>
-                  (option?.label?.toString() ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
+              {(form: FormInstance<MessageCreateDto>) => {
+                if (
+                  form
+                    .getFieldValue(["kakaoTemplate", "buttons"])
+                    ?.find((item: any) => item.type === "PR")
+                ) {
+                  return (
+                    <Form.Item
+                      label="디지털 컨텐츠 선택"
+                      name="contentGroupId"
+                      className="mt-4"
+                    >
+                      <Select
+                        placeholder="디지털 컨텐츠를 선택해주세요. (선택)"
+                        showSearch
+                        allowClear
+                        filterOption={(input, option) =>
+                          (option?.label?.toString() ?? "")
+                            .toLowerCase()
+                            .includes(input.toLowerCase())
+                        }
+                        loading={contentGroupLoading}
+                      >
+                        {contentGroup?.nodes.map((contentGroup) => (
+                          <Select.Option
+                            key={contentGroup.id}
+                            value={contentGroup.id}
+                          >
+                            {contentGroup.name}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  );
                 }
-                loading={contentGroupLoading}
-              >
-                {contentGroup?.nodes.map((contentGroup) => (
-                  <Select.Option key={contentGroup.id} value={contentGroup.id}>
-                    {contentGroup.name}
-                  </Select.Option>
-                ))}
-              </Select>
+              }}
             </Form.Item>
             <Form.Item
               label="메세지 발송 대상"

@@ -108,21 +108,12 @@ export default function CreateContentGroupDrawer({
             ))}
           </Select>
         </Form.Item>
-        <Form.Item noStyle>
-          <Alert
-            message="설정 후 수정할 수 없습니다."
-            showIcon
-            type="warning"
-            className="mb-2"
-            icon={<ExclamationCircleOutlined />}
-          />
-        </Form.Item>
         <Form.Item
           initialValue={false}
           name="oneTime"
           label="디지털 컨텐츠 지급 유형"
           required
-          className="mb-2"
+          className="mb-2 mt-6"
         >
           <Select placeholder="디지털 컨텐츠 지급 방식을 선택해주세요.">
             <Select.Option value={true}>일회성</Select.Option>
@@ -130,13 +121,6 @@ export default function CreateContentGroupDrawer({
           </Select>
         </Form.Item>
         <Form.Item noStyle>
-          <Alert
-            message="설정 후 수정할 수 없습니다."
-            showIcon
-            type="warning"
-            className="mb-2"
-            icon={<ExclamationCircleOutlined />}
-          />
           <ul className="list-disc list-inside mb-5">
             <li>
               <strong>일회성 디지털 컨텐츠</strong>

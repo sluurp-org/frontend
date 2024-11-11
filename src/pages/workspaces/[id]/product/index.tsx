@@ -8,18 +8,17 @@ import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import { Card } from "@/components/common/Card";
 import { Events } from "@/components/product/Events";
-import { RightOutlined } from "@ant-design/icons";
+import { ProductsFilters } from "@/types/product";
 
 const { Search } = Input;
 
 export default function ProductListPage() {
   const router = useRouter();
   const workspaceId = Number(router.query.id);
-  const [filters, setFilters] = useState<{
-    size?: number;
-    page?: number;
-    name?: string;
-  }>({ size: 15, page: 1 });
+  const [filters, setFilters] = useState<ProductsFilters>({
+    size: 15,
+    page: 1,
+  });
   const { data, isLoading, error } = useProducts(workspaceId, filters);
 
   const handlePageChange = (page: number, pageSize: number) => {
@@ -73,7 +72,13 @@ export default function ProductListPage() {
                 </p>
               </>
             ),
-            children: <Events workspaceId={workspaceId} />,
+            children: (
+              <Events
+                workspaceId={workspaceId}
+                productId={null}
+                productVariantId={null}
+              />
+            ),
             key: "events",
           },
         ]}

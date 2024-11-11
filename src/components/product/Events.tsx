@@ -1,10 +1,14 @@
-import { useDeleteEvent, useEvents } from "@/hooks/queries/useEvent";
+import {
+  useDeleteEvent,
+  useEvents,
+  useUpdateEvent,
+} from "@/hooks/queries/useEvent";
 import { EventsDto, EventsFilters } from "@/types/events";
 import errorHandler from "@/utils/error";
-import { Button, Popover, Table } from "antd";
+import { Button, Popover, Switch, Table } from "antd";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { OrderStatus } from "@/types/orders";
+import { OrderStatus, OrderStatusMap } from "@/types/orders";
 import {
   DisconnectOutlined,
   MessageOutlined,
@@ -48,9 +52,9 @@ export function EventItem({
         <p className="text-sm text-gray-500">만약 주문 상태가</p>
         <p>
           <span className="text-indigo-500 font-bold">
-            {OrderStatus[event.type]}
+            {OrderStatusMap[event.type]}
           </span>
-          {getJosaPicker("으로")(OrderStatus[event.type])} 변경되면
+          {getJosaPicker("으로")(OrderStatusMap[event.type])} 변경되면
         </p>
         <p className="text-lg">
           <span className="text-indigo-500 font-bold">
@@ -100,8 +104,8 @@ export function Events({
   productVariantId,
   workspaceId,
 }: {
-  productId?: number;
-  productVariantId?: number;
+  productId?: number | null;
+  productVariantId?: number | null;
   workspaceId: number;
 }) {
   const router = useRouter();
@@ -114,7 +118,15 @@ export function Events({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, isLoading, error, refetch } = useEvents(workspaceId, filters);
   const { mutateAsync: deleteEvent } = useDeleteEvent(workspaceId);
+  const { mutateAsync: updateEvent } = useUpdateEvent(workspaceId);
 
+  const handleUpdateEvent = async (eventId: number, enabled: boolean) => {
+    await toast.promise(updateEvent({ eventId, enabled }), {
+      loading: "상태 변경중...",
+      success: "상태가 변경되었습니다.",
+      error: "상태 변경 도중 오류가 발생하였습니다.",
+    });
+  };
   const handleDeleteEvent = async (id: number) => {
     await toast.promise(deleteEvent(id), {
       loading: "메세지 연결 해제 중...",
@@ -185,7 +197,19 @@ export function Events({
           {
             title: "주문 상태",
             dataIndex: "type",
-            render: (type: OrderStatus) => OrderStatus[type],
+            render: (type: OrderStatus) => OrderStatusMap[type],
+          },
+          {
+            title: "활성화 여부",
+            dataIndex: "enabled",
+            key: "enabled",
+            width: "10%",
+            render: (enabled: boolean, obj: EventsDto) => (
+              <Switch
+                checked={enabled}
+                onChange={(checked) => handleUpdateEvent(obj.id, checked)}
+              />
+            ),
           },
           {
             title: "삭제",

@@ -4,7 +4,6 @@ import { OrderStatus } from "./orders";
 
 export interface EventsDto {
   id: number;
-  name: string;
   productId: number;
   productVariantId: number;
   messageId: number;
@@ -29,8 +28,8 @@ export interface EventsDto {
 export interface EventsFilters {
   page?: number;
   size?: number;
-  productId?: number;
-  productVariantId?: number;
+  productId?: number | null;
+  productVariantId?: number | null;
 }
 
 export interface EventDto {
@@ -47,8 +46,8 @@ export interface PaginatedEventsDto {
 }
 
 export interface CreateEventDto {
-  productId?: number;
-  productVariantId?: number;
+  productId?: number | null;
+  productVariantId?: number | null;
   messageId: number;
   type: OrderStatus;
 }

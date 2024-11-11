@@ -3,7 +3,7 @@ import Component from "../../../../components/Container";
 import { useRouter } from "next/router";
 import { useOrder } from "@/hooks/queries/useOrder";
 import Loading from "@/components/Loading";
-import { OrderStatus, OrderStatusColor } from "@/types/orders";
+import { OrderStatus, OrderStatusColor, OrderStatusMap } from "@/types/orders";
 import OrderHistory from "@/components/order/OrderHistory";
 import InfoRow from "@/components/InfoRow";
 import moment from "moment";
@@ -56,7 +56,7 @@ export default function WorkspaceOrderDetail() {
             </InfoRow>
             <InfoRow label="주문 상태">
               <Tag color={OrderStatusColor[data.status]}>
-                {OrderStatus[data.status]}
+                {OrderStatusMap[data.status]}
               </Tag>
             </InfoRow>
             <InfoRow label="주문 일시">

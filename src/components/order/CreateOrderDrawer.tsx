@@ -2,7 +2,7 @@ import { useCreateOrder } from "@/hooks/queries/useOrder";
 import { useProductOptions, useProducts } from "@/hooks/queries/useProduct";
 import { useStore } from "@/hooks/queries/useStore";
 import { CreateOrderDto } from "@/types/order";
-import { OrderStatus } from "@/types/orders";
+import { OrderStatus, OrderStatusMap } from "@/types/orders";
 import { ProductsFilters } from "@/types/product";
 import errorHandler from "@/utils/error";
 import {
@@ -181,9 +181,9 @@ export default function CreateOrderDrawer({
           rules={[{ required: true, message: "주문 상태를 선택해주세요." }]}
         >
           <Select placeholder="주문 상태를 선택해주세요.">
-            {Object.keys(OrderStatus).map((status) => (
-              <Select.Option key={status} value={status}>
-                {OrderStatus[status as keyof typeof OrderStatus]}
+            {Object.entries(OrderStatusMap).map(([key, value]) => (
+              <Select.Option key={key} value={key}>
+                {value}
               </Select.Option>
             ))}
           </Select>

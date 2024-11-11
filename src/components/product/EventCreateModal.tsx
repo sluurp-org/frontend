@@ -1,5 +1,5 @@
 import { MessageFilters, MessageListItem } from "@/types/message";
-import { OrderStatus } from "@/types/orders";
+import { OrderStatus, OrderStatusMap } from "@/types/orders";
 import { Button, Modal, Select, Table } from "antd";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -41,7 +41,7 @@ function MessageItem({
         defaultValue={"배송 상태 선택"}
         className="w-full"
       >
-        {Object.entries(OrderStatus).map(([key, value]) => (
+        {Object.entries(OrderStatusMap).map(([key, value]) => (
           <Select.Option key={key} value={key}>
             {value}
           </Select.Option>
@@ -62,8 +62,8 @@ export function EventCreateModal({
   isModalOpen,
   setIsModalOpen,
 }: {
-  productId?: number;
-  productVariantId?: number;
+  productId?: number | null;
+  productVariantId?: number | null;
   workspaceId: number;
   isModalOpen: boolean;
   setIsModalOpen: (arg0: boolean) => void;

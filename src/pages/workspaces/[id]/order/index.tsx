@@ -2,7 +2,12 @@ import Header from "@/components/Header";
 import Component from "@/components/Container";
 import { Button, Table, Tag } from "antd";
 import { useState } from "react";
-import { OrdersFilters, OrderStatus, OrderStatusColor } from "@/types/orders";
+import {
+  OrdersFilters,
+  OrderStatus,
+  OrderStatusColor,
+  OrderStatusMap,
+} from "@/types/orders";
 import { useRouter } from "next/router";
 import { useOrders } from "@/hooks/queries/useOrder";
 import errorHandler from "@/utils/error";
@@ -79,7 +84,7 @@ export default function WorkspaceOrderList() {
       key: "status",
       width: 120,
       render: (status: OrderStatus) => (
-        <Tag color={OrderStatusColor[status]}>{OrderStatus[status]}</Tag>
+        <Tag color={OrderStatusColor[status]}>{OrderStatusMap[status]}</Tag>
       ),
     },
   ];

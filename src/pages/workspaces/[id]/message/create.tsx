@@ -3,8 +3,8 @@ import Component from "@/components/Container";
 import { Tabs, TabsProps } from "antd";
 import CreateKakaoMessage from "@/components/message/CreateKakaoMessage";
 import Header from "@/components/Header";
-import Image from "next/image";
-import { MessageOutlined } from "@ant-design/icons";
+import { MailOutlined, MessageOutlined } from "@ant-design/icons";
+import EmailEditor, { EditorRef, EmailEditorProps } from "react-email-editor";
 
 export default function WorkspaceMessageCreate() {
   const router = useRouter();
@@ -17,6 +17,12 @@ export default function WorkspaceMessageCreate() {
       label: "카카오 알림톡",
       children: <CreateKakaoMessage workspaceId={workspaceId} />,
     },
+    // {
+    //   icon: <MailOutlined />,
+    //   key: "email",
+    //   label: "이메일",
+    //   children: "",
+    // },
   ];
 
   return (
