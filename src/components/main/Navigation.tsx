@@ -37,8 +37,8 @@ export default function Navigation() {
     <header
       className={`w-full max-w-6xl flex justify-between items-center py-6 px-10 sticky top-0 z-10 duration-300 ${
         scrolled &&
-        "shadow-md border border-gray-200 rounded-2xl top-4 bg-white/70 backdrop-filter backdrop-blur-md"
-      }`}
+        "shadow-md border border-gray-200 top-4 backdrop-filter backdrop-blur-md rounded-lg"
+      } ${menuOpen && "rounded-b-none bg-white sm:bg-transparent"}`}
     >
       <Link href="/">
         <Image
@@ -72,7 +72,7 @@ export default function Navigation() {
       </Link>
 
       {menuOpen && (
-        <div className="absolute top-full left-0 w-full bg-white shadow-md py-4 flex flex-col items-center md:hidden gap-3">
+        <div className="absolute top-full left-0 w-full bg-white shadow-md py-4 flex flex-col items-center md:hidden gap-3 rounded-b-lg z-10">
           <Link href="https://docs.sluurp.io">이용 가이드</Link>
           <Link href="/templates">알림톡 예제</Link>
           <Link href="/pricing">요금 안내</Link>
