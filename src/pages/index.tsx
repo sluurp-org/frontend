@@ -331,12 +331,12 @@ export default function HomePage() {
           직접 발송해보고, 스르륵의 기능을 경험해보세요.
         </h2>
 
-        <div className="flex w-auto mt-12 bg-white rounded-lg border shadow-md p-6 max-w-5xl justify-center gap-8 items-center h-[400px]">
+        <div className="flex sm:flex-row flex-col w-auto mt-12 bg-white rounded-lg border shadow-md p-6 max-w-5xl justify-center gap-8 items-center sm:h-[400px]">
           <AlimTalk
             content={downloadAlimTalkContentSample}
             buttons={[{ buttonName: "확인하기" }]}
           />
-          <div className="h-full border-l" />
+          <div className="h-full border-l sm:block hidden" />
           <Form
             layout="vertical"
             onFinish={({ to }) => handleRequestMessage(to)}
@@ -380,7 +380,7 @@ export default function HomePage() {
           상담은 무료이며, 1:1로 진행됩니다.
         </p>
 
-        <div className="max-w-6xl w-full">
+        <div className="max-w-6xl w-full sm:h-full h-[500px] overflow-y-auto sm:overflow-y-hidden">
           <Cal
             className="w-full"
             namespace="meeting"

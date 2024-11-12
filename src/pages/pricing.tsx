@@ -1,16 +1,14 @@
-import { useRouter } from "next/router";
 import Navigation from "@/components/main/Navigation";
 import Footer from "@/components/main/Footer";
 import { NextSeo } from "next-seo";
 import { usePurchaseConfig } from "@/hooks/queries/usePurcahse";
 import { Card } from "@/components/common/Card";
-import Section from "@/components/main/Section";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Loading from "@/components/Loading";
 
 export default function Pricing() {
-  const { data, isLoading, isError } = usePurchaseConfig();
+  const { data, isLoading } = usePurchaseConfig();
 
   return (
     <>
@@ -30,7 +28,7 @@ export default function Pricing() {
             스르륵의 서비스 이용 요금을 안내합니다.
           </p>
 
-          <div className="flex gap-8 mt-10 mx-auto items-center justify-center">
+          <div className="flex sm:flex-row flex-col gap-8 mt-10 mx-auto items-center justify-center">
             <div className="text-left flex flex-col gap-4">
               <div>
                 <p className="text-2xl font-bold">
