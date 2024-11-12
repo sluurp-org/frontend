@@ -72,8 +72,9 @@ const alimTalkTemplate: AlimTalkTemplate[] = [
   {
     name: "문화 상품권 안내",
     content:
-      "안녕하세요! 임태현 고객님 :)\n스르륵 스토어에서 주문하신 문화 상품권이 발송되었습니다.\n\n▶ 주문 번호: 0092384019212\n▶ 발송 일자: 2021.08.01\n▶ 코드: 1234-5678-9012\n\n문화 상품권을 사용하실 때는 위 코드를 입력해주세요 :)\n감사합니다!",
+      "안녕하세요! 임태현 고객님 :)\n스르륵 스토어에서 주문하신 문화 상품권이 발송되었습니다.\n\n▶ 주문 번호: 0092384019212\n▶ 발송 일자: 2021.08.01\n\n문화 상품권을 사용하실 때는 위 코드를 입력해주세요 :)\n감사합니다!",
     channelAddButton: true,
+    buttons: [{ buttonName: "문화 상품권 확인" }],
     extra: "채널 추가하고 이 채널의 광고와 마케팅 메시지를 카카오톡으로 받기",
   },
 ];
@@ -89,22 +90,18 @@ export default function Templates() {
           description: "스르륵 알림톡 예제 페이지입니다.",
         }}
       />
-      <div>
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center px-4">
         <Navigation />
-        <Section className="mt-32  h-">
-          <h1 className="text-5xl font-bold text-center">
-            <span className="text-indigo-400">알림톡 예제</span>
-          </h1>
+        <div className="max-w-5xl w-full mt-20">
+          <h1 className="text-5xl font-bold text-center">알림톡 예제</h1>
           <p className="mt-3 text-center text-gray-600 break-words px-5">
             예시로 제공되는 알림톡 템플릿입니다. 실제 서비스에서는 사용자가 직접
             템플릿을 생성하실 수 있습니다.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 my-10">
             {alimTalkTemplate.map((template, index) => (
               <div key={index} className="flex flex-col items-center">
-                <h1 className="text-2xl font-bold text-indigo-400 mb-3 mt-10">
-                  {template.name}
-                </h1>
+                <p className="text-2xl font-bold mb-3 mt-10">{template.name}</p>
                 <AlimTalk
                   key={index}
                   content={template.content}
@@ -116,7 +113,7 @@ export default function Templates() {
               </div>
             ))}
           </div>
-        </Section>
+        </div>
         <Footer />
       </div>
     </>

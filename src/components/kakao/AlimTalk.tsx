@@ -53,13 +53,9 @@ export default function AlimTalk({
           <p className="mt-3 text-gray-400 text-[13px] whitespace-pre-wrap break-words">
             {extra}
             {channelAddButton && (
-              <>
-                {extra && <div className="mt-2" />}
-                <span>
-                  채널 추가하고 이 채널의 광고와 마케팅 메시지를 카카오톡으로
-                  받기
-                </span>
-              </>
+              <span className="{extra ? 'mt-2' : ''}">
+                채널 추가하고 이 채널의 광고와 마케팅 메시지를 카카오톡으로 받기
+              </span>
             )}
           </p>
         </div>
