@@ -45,7 +45,7 @@ export default function ContentDetailPage() {
 
   if (isLoading || !data) return <Loading />;
   if (error) {
-    errorHandler(error, router);
+    errorHandler(error);
     router.back();
   }
 
@@ -101,8 +101,7 @@ export default function ContentDetailPage() {
         return "디지털 컨텐츠 삭제 완료";
       },
       error: (error) => {
-        errorHandler(error, router);
-        return "디지털 컨텐츠 삭제 실패";
+        return errorHandler(error);
       },
     });
   };

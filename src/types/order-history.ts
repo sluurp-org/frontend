@@ -30,6 +30,7 @@ export type OrderHistoryDto =
         status: EventHistoryStatus;
         rawMessage: string;
         messageId: number;
+        scheduledAt: Date;
         message?: {
           id: number;
           name: string;

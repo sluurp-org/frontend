@@ -1,15 +1,14 @@
 import Container from "@/components/Container";
 import errorHandler from "@/utils/error";
-import { useRouter } from "next/router";
 import Header from "@/components/Header";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { Button, Form, Input } from "antd";
 import { useUserMe, useUserUpdate } from "@/hooks/queries/useUser";
-import { UserMeDto, UserUpdateDto } from "@/types/user";
 import Loading from "@/components/Loading";
+import Error from "@/components/Error";
+
 export default function Profile() {
-  const router = useRouter();
   const [form] = Form.useForm();
 
   const { data, isLoading, error } = useUserMe();
@@ -22,10 +21,10 @@ export default function Profile() {
   }, [data, form]);
 
   if (isLoading) return <Loading />;
+
   if (error) {
-    errorHandler(error, router);
-    router.back();
-    return null;
+    toast.error(errorHandler(error));
+    return <Error />;
   }
 
   const onSubmit = async () => {
@@ -46,13 +45,12 @@ export default function Profile() {
           loading: "프로필 수정중...",
           success: "프로필 수정 완료",
           error: (error) => {
-            errorHandler(error, router);
-            return "프로필 수정 실패";
+            return errorHandler(error);
           },
         }
       );
     } catch (error) {
-      errorHandler(error, router);
+      toast.error(errorHandler(error));
     }
   };
 

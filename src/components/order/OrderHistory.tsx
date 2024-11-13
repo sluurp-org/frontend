@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useRouter } from "next/router";
 import { useOrderHistory } from "@/hooks/queries/useOrder";
 import Loading from "../Loading";
 import { Button, Checkbox, Empty, Pagination, Timeline } from "antd";
 import { OrderHistoryDto, OrderHistoryFilters } from "@/types/order-history";
 import { EventHistoryStatusMap } from "@/types/event-history";
 import moment from "moment";
-import { OrderStatus, OrderStatusMap } from "@/types/orders";
+import { OrderStatusMap } from "@/types/orders";
+import Error from "@/components/Error";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -27,7 +27,6 @@ interface Props {
 }
 
 const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
-  const router = useRouter();
   const [eventHistoryModalOpen, setEventHistoryModalOpen] = useState(false);
   const [eventHistoryId, setEventHistoryId] = useState<string | null>(null);
   const [showMessageHistory, setShowMessageHistory] = useState(false);
@@ -49,8 +48,8 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
   }
 
   if (error) {
-    errorHandler(error, router);
-    return <div>주문 이력을 불러오는 중 에러가 발생했습니다.</div>;
+    toast.error(errorHandler(error));
+    return <Error />;
   }
 
   const renderTimelineDot = (order: OrderHistoryDto) => {
@@ -160,6 +159,12 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
                       </Link>
                     </p>
                   )}
+                  <p>
+                    발송 예정:{" "}
+                    {moment(order.eventHistory.scheduledAt).format(
+                      "YYYY년 MM월 DD일 HH시 mm분"
+                    )}
+                  </p>
                   <p className="font-semibold mt-1">눌러서 상세 정보 보기</p>
                 </>
               ) : (
@@ -180,21 +185,6 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
     refetch();
     toast.success("주문 이력을 새로고침했습니다.");
   };
-
-  if (data.nodes.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-3">
-        <Empty description="주문 이력이 없습니다." />
-        <button
-          className="flex items-center text-sm hover:bg-indigo-500 duration-150 bg-indigo-400 text-white rounded-md px-4 py-2 h-min"
-          onClick={handleRefresh}
-        >
-          <ReloadOutlined className="mr-2" />
-          새로고침
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -242,6 +232,7 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
           </Timeline.Item>
         ))}
       </Timeline>
+      {data.nodes.length === 0 && <Empty description="주문 이력이 없습니다." />}
     </div>
   );
 };

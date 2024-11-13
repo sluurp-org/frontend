@@ -26,6 +26,7 @@ import { StoreType, UpdateStoreDto } from "@/types/store";
 import moment from "moment";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import Error from "@/components/Error";
 
 const { Text } = Typography;
 
@@ -67,7 +68,7 @@ export default function StoreDrawer({
 
   if (isLoading) return <Loading isFullPage={false} />;
   if (error) {
-    errorHandler(error, router);
+    toast.error(errorHandler(error));
     setIsOpen(false);
     return null;
   }
@@ -75,89 +76,66 @@ export default function StoreDrawer({
   if (!data) return null;
 
   const handleStoreNameChange = async (newName: string) => {
-    try {
-      toast.promise(updateStore.mutateAsync({ id: storeId, name: newName }), {
-        loading: "스토어명 변경중...",
-        success: () => {
-          setEditingStoreName(false);
-          return "스토어명 변경 완료";
-        },
-        error: (error) => {
-          errorHandler(error, router);
-          return "스토어명 변경 실패";
-        },
-      });
-    } catch (error) {
-      errorHandler(error, router);
-    }
+    toast.promise(updateStore.mutateAsync({ id: storeId, name: newName }), {
+      loading: "스토어명 변경중...",
+      success: () => {
+        setEditingStoreName(false);
+        return "스토어명 변경 완료";
+      },
+      error: (error) => {
+        return errorHandler(error);
+      },
+    });
   };
 
   const onFinish = async (values: any) => {
-    try {
-      await updateStore.mutateAsync({
-        id: storeId,
-        ...values,
-      });
-      message.success("스토어 정보가 성공적으로 업데이트되었습니다.");
-    } catch (error) {
-      errorHandler(error, router);
-    }
+    toast.promise(updateStore.mutateAsync({ id: storeId, ...values }), {
+      loading: "스토어 정보 업데이트중...",
+      success: () => {
+        return "스토어 정보 업데이트 완료";
+      },
+      error: (error) => {
+        return errorHandler(error);
+      },
+    });
   };
 
   const onDelete = async () => {
-    try {
-      toast.promise(deleteStore(storeId), {
-        loading: "스토어 삭제중...",
-        success: () => {
-          setIsOpen(false);
-          return "스토어 삭제 완료";
-        },
-        error: (error) => {
-          errorHandler(error, router);
-          return "스토어 삭제 실패";
-        },
-      });
-    } catch (error) {
-      errorHandler(error, router);
-    }
+    toast.promise(deleteStore(storeId), {
+      loading: "스토어 삭제중...",
+      success: () => {
+        setIsOpen(false);
+        return "스토어 삭제 완료";
+      },
+      error: (error) => {
+        return errorHandler(error);
+      },
+    });
   };
 
   const handleStoreEnabledChange = async (checked: boolean) => {
     setEnabled(checked);
 
-    try {
-      toast.promise(
-        updateStore.mutateAsync({ id: storeId, enabled: checked }),
-        {
-          loading: "스토어 상태 변경중...",
-          success: () => {
-            setEnabled(checked);
-            return "스토어 상태 변경 완료";
-          },
-          error: (error) => {
-            errorHandler(error, router);
-            return "스토어 상태 변경 실패";
-          },
-        }
-      );
-    } catch (error) {
-      errorHandler(error, router);
-    }
+    toast.promise(updateStore.mutateAsync({ id: storeId, enabled: checked }), {
+      loading: "스토어 상태 변경중...",
+      success: () => {
+        setEnabled(checked);
+        return "스토어 상태 변경 완료";
+      },
+      error: (error) => {
+        return errorHandler(error);
+      },
+    });
   };
 
   const handleSyncStoreProduct = async () => {
-    try {
-      toast.promise(syncStoreProduct(storeId), {
-        loading: "스토어 상품 동기화중...",
-        success: "스토어 상품 동기화 완료",
-        error: (error) => {
-          errorHandler(error, router);
-          return "스토어 상품 동기화 실패";
-        },
-      });
-    } catch (error) {
-      errorHandler(error, router);
-    }
+    toast.promise(syncStoreProduct(storeId), {
+      loading: "스토어 상품 동기화중...",
+      success: "스토어 상품 동기화 완료",
+      error: (error) => {
+        return errorHandler(error);
+      },
+    });
   };
 
   return (

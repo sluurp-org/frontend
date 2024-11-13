@@ -6,7 +6,6 @@ import {
 import { EventsDto, EventsFilters } from "@/types/events";
 import errorHandler from "@/utils/error";
 import { Button, Popover, Switch, Table } from "antd";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { OrderStatus, OrderStatusMap } from "@/types/orders";
 import {
@@ -20,6 +19,7 @@ import toast from "react-hot-toast";
 import { EventCreateModal } from "./EventCreateModal";
 import { getJosaPicker } from "josa";
 import Link from "next/link";
+import Error from "@/components/Error";
 
 export function EventItem({
   event,
@@ -108,7 +108,6 @@ export function Events({
   productVariantId?: number | null;
   workspaceId: number;
 }) {
-  const router = useRouter();
   const [filters, setFilters] = useState<EventsFilters>({
     page: 1,
     size: 7,
@@ -137,14 +136,16 @@ export function Events({
 
   if (isLoading) return <Loading isFullPage={false} />;
   if (error) {
-    errorHandler(error, router);
+    toast.error(errorHandler(error));
+    return <Error />;
   }
 
   const handleRefetch = () => {
     toast.promise(refetch(), {
       loading: "메세지 목록을 불러오는 중...",
       success: "메세지 목록을 성공적으로 불러왔습니다.",
-      error: (error) => error || "옵션을 불러오는 중 에러가 발생했습니다",
+      error: (error) =>
+        errorHandler(error) || "옵션을 불러오는 중 에러가 발생했습니다",
     });
   };
 
@@ -198,6 +199,17 @@ export function Events({
             title: "주문 상태",
             dataIndex: "type",
             render: (type: OrderStatus) => OrderStatusMap[type],
+          },
+          {
+            title: "발송 일시",
+            dataIndex: "scheduledAt",
+            render: (_, obj: EventsDto) => {
+              const { delayDays, sendHour } = obj;
+              if (!delayDays && !sendHour) return "즉시";
+              if (delayDays && !sendHour) return `${delayDays}일 후`;
+              if (!delayDays && sendHour) return `발송 후 ${sendHour}시`;
+              return `${delayDays}일 후 ${sendHour}시`;
+            },
           },
           {
             title: "활성화 여부",

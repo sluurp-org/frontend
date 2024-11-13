@@ -10,6 +10,8 @@ import { useContentGroups } from "@/hooks/queries/useContent";
 import CreateContentGroupDrawer from "@/components/content/CreateContentGroupDrawer";
 import { Card } from "@/components/common/Card";
 import { ReadOutlined } from "@ant-design/icons";
+import toast from "react-hot-toast";
+import Error from "@/components/Error";
 
 export default function WorkspaceContent() {
   const router = useRouter();
@@ -22,10 +24,6 @@ export default function WorkspaceContent() {
 
   const workspaceId = Number(router.query.id);
   const { data, isLoading, error } = useContentGroups(workspaceId, filters);
-
-  if (error) {
-    errorHandler(error, router);
-  }
 
   const columns = [
     {
@@ -52,7 +50,10 @@ export default function WorkspaceContent() {
   ];
 
   if (isLoading) return <Loading />;
-  if (error) return <div>Error</div>;
+  if (error) {
+    toast.error(errorHandler(error));
+    return <Error />;
+  }
 
   return (
     <Component>

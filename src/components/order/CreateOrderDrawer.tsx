@@ -2,7 +2,7 @@ import { useCreateOrder } from "@/hooks/queries/useOrder";
 import { useProductOptions, useProducts } from "@/hooks/queries/useProduct";
 import { useStore } from "@/hooks/queries/useStore";
 import { CreateOrderDto } from "@/types/order";
-import { OrderStatus, OrderStatusMap } from "@/types/orders";
+import { OrderStatusMap } from "@/types/orders";
 import { ProductsFilters } from "@/types/product";
 import errorHandler from "@/utils/error";
 import {
@@ -14,7 +14,6 @@ import {
   InputNumber,
   Select,
 } from "antd";
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -38,7 +37,6 @@ export default function CreateOrderDrawer({
   open: boolean;
   onClose: () => void;
 }) {
-  const router = useRouter();
   const [form] = Form.useForm<CreateOrderDto>();
 
   const {
@@ -94,7 +92,7 @@ export default function CreateOrderDrawer({
           return "주문 생성 완료";
         },
         error: (error) => {
-          errorHandler(error, router);
+          errorHandler(error);
           return "주문 생성 실패";
         },
       });
@@ -104,7 +102,7 @@ export default function CreateOrderDrawer({
   };
 
   if (storeError || productError || productOptionError) {
-    errorHandler(storeError || productError || productOptionError, router);
+    errorHandler(storeError || productError || productOptionError);
   }
 
   return (

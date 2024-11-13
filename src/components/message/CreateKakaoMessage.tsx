@@ -91,10 +91,8 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
           imageUrl: res.data.url,
         },
       });
-
-      console.log(form.getFieldValue("kakaoTemplate"));
     } catch (err) {
-      errorHandler(err, router);
+      toast.error(errorHandler(err));
       form.setFieldsValue({
         kakaoTemplate: {
           ...form.getFieldValue("kakaoTemplate"),
@@ -209,51 +207,43 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
   };
 
   const onInspectionSubmit = async (messageId: number) => {
-    try {
-      toast.promise(requestInspection(messageId), {
-        loading: "검수 요청 중...",
-        success: "검수 요청 완료",
-        error: "검수 요청 실패",
-      });
-    } catch (err) {
-      errorHandler(err, router);
-    }
+    toast.promise(requestInspection(messageId), {
+      loading: "검수 요청 중...",
+      success: "검수 요청 완료",
+      error: (error) => errorHandler(error),
+    });
   };
 
   const onSubmit = async () => {
-    try {
-      const values = form.getFieldsValue();
+    const values = form.getFieldsValue();
 
-      toast.promise(
-        createMessage({
-          ...values,
-          ...(values.isCustom
-            ? { content: values.content }
-            : values.kakaoTemplate),
-          kakaoTemplate: {
-            ...values.kakaoTemplate,
-            extra:
-              values.kakaoTemplate?.extra === ""
-                ? undefined
-                : values.kakaoTemplate?.extra,
-          },
-          sendType: "KAKAO",
-        }),
-        {
-          loading: "메세지 생성 중...",
-          success: (value) => {
-            if (values.inspection && values.type === "FULLY_CUSTOM")
-              onInspectionSubmit(value.id);
+    toast.promise(
+      createMessage({
+        ...values,
+        ...(values.isCustom
+          ? { content: values.content }
+          : values.kakaoTemplate),
+        kakaoTemplate: {
+          ...values.kakaoTemplate,
+          extra:
+            values.kakaoTemplate?.extra === ""
+              ? undefined
+              : values.kakaoTemplate?.extra,
+        },
+        sendType: "KAKAO",
+      }),
+      {
+        loading: "메세지 생성 중...",
+        success: (value) => {
+          if (values.inspection && values.type === "FULLY_CUSTOM")
+            onInspectionSubmit(value.id);
 
-            router.push(`/workspaces/${workspaceId}/message/${value.id}`);
-            return "메세지 생성 완료";
-          },
-          error: "메세지 생성 실패",
-        }
-      );
-    } catch (err) {
-      errorHandler(err, router);
-    }
+          router.push(`/workspaces/${workspaceId}/message/${value.id}`);
+          return "메세지 생성 완료";
+        },
+        error: (error) => errorHandler(error),
+      }
+    );
   };
 
   const onTypeChange = (type: MessageType) => {

@@ -1,7 +1,6 @@
-import { LoadingOutlined } from "@ant-design/icons";
 import Container from "./Container";
 import { Button, Result } from "antd";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Error({
   isFullPage = true,
@@ -10,9 +9,6 @@ export default function Error({
   isFullPage?: boolean;
   message?: string;
 }) {
-  const router = useRouter();
-
-  const pushToHome = () => router.push("/");
   return (
     <>
       {isFullPage ? (
@@ -22,7 +18,11 @@ export default function Error({
               status="error"
               title="에러가 발생했습니다."
               subTitle={message}
-              extra={<Button onClick={pushToHome}>홈으로 돌아가기</Button>}
+              extra={
+                <Link href={"/workspaces"}>
+                  <Button>홈으로 돌아가기</Button>
+                </Link>
+              }
             />
           </div>
         </Container>
@@ -32,7 +32,11 @@ export default function Error({
             status="error"
             title="에러가 발생했습니다."
             subTitle={message}
-            extra={<Button onClick={pushToHome}>홈으로 돌아가기</Button>}
+            extra={
+              <Link href={"/workspaces"}>
+                <Button>홈으로 돌아가기</Button>
+              </Link>
+            }
           />
         </div>
       )}

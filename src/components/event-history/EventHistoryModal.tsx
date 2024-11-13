@@ -306,6 +306,11 @@ export default function EventHistoryModal({
           <InfoRow className="flex-col" label="발송 상태 메세지">
             {data.rawMessage || "-"}
           </InfoRow>
+          <InfoRow className="flex-col" label="발송 예정 일시">
+            {data.scheduledAt
+              ? moment(data.scheduledAt).format("YYYY년 MM월 DD일 HH시 mm분")
+              : "-"}
+          </InfoRow>
           <InfoRow className="flex-col" label="발송 일시">
             {data.processedAt
               ? moment(data.processedAt).format(

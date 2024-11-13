@@ -45,8 +45,9 @@ export default function ContentTable({
   );
 
   if (!data) return <Loading isFullPage={false} />;
+
   if (error) {
-    errorHandler(error, router);
+    toast.error(errorHandler(error));
     return <Error />;
   }
 
@@ -57,8 +58,7 @@ export default function ContentTable({
         return "디지털 컨텐츠가 삭제되었습니다.";
       },
       error: (error) => {
-        errorHandler(error, router);
-        return "디지털 컨텐츠 삭제에 실패했습니다.";
+        return errorHandler(error);
       },
     });
   };
@@ -70,8 +70,7 @@ export default function ContentTable({
         return "디지털 컨텐츠가 수정되었습니다.";
       },
       error: (error) => {
-        errorHandler(error, router);
-        return "디지털 컨텐츠 수정에 실패했습니다.";
+        return errorHandler(error);
       },
     });
   };
@@ -91,8 +90,7 @@ export default function ContentTable({
         return "파일 다운로드가 시작되었습니다.";
       },
       error: (error) => {
-        errorHandler(error, router);
-        return "파일 다운로드에 실패하였습니다.";
+        return errorHandler(error);
       },
     });
   };

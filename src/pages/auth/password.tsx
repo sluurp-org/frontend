@@ -47,8 +47,7 @@ export default function ChangePassword() {
       loading: "인증번호를 요청 중입니다...",
       success: "인증번호가 전송되었습니다.",
       error: (error) => {
-        errorHandler(error, router);
-        return "인증번호 요청에 실패하였습니다.";
+        return errorHandler(error);
       },
     });
 
@@ -84,8 +83,7 @@ export default function ChangePassword() {
         return "비밀번호 변경이 완료되었습니다.";
       },
       error: (error) => {
-        errorHandler(error, router);
-        return "비밀번호 변경에 실패하였습니다.";
+        return errorHandler(error);
       },
     });
   };

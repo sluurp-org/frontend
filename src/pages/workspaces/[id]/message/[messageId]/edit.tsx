@@ -6,6 +6,7 @@ import errorHandler from "@/utils/error";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import UpdateKakaoMessage from "@/components/message/UpdateKakaoMessage";
+import toast from "react-hot-toast";
 
 export default function WorkspaceMessageEdit() {
   const router = useRouter();
@@ -19,9 +20,7 @@ export default function WorkspaceMessageEdit() {
 
   if (isLoading || !data) return <Loading />;
   if (!isLoading && isError) {
-    if (isAxiosError(error)) {
-      errorHandler(error, router);
-    }
+    toast.error(errorHandler(error));
     return <Error />;
   }
 

@@ -7,15 +7,16 @@ import { useWorkspaces } from "@/hooks/queries/useWorkspace";
 import { Button } from "antd";
 import WorkspaceDrawer from "@/components/workspace/WorkspaceDrawer";
 import { useState } from "react";
+import Loading from "@/components/Loading";
+import toast from "react-hot-toast";
 
 export default function Workspaces() {
-  const router = useRouter();
   const { data, isLoading, error } = useWorkspaces();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  if (isLoading) return <Component>Loading...</Component>;
+  if (isLoading) return <Loading />;
   if (error) {
-    errorHandler(error, router);
+    toast.error(errorHandler(error));
   }
 
   return (

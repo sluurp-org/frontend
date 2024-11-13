@@ -210,7 +210,7 @@ export default function HomePage() {
         </h2>
         <p className="text-gray-600 text-center max-w-xl mb-12 whitespace-pre-line">
           고객에게 주문 상태 알림, 배송지 확인, 리뷰 작성 요청,{"\n"}구매 확정,
-          디지털 상품 등다양한 메시지를 발송하세요.
+          디지털 상품 등 다양한 메시지를 발송하세요.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">

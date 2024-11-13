@@ -22,8 +22,7 @@ const LogoutPage = () => {
       },
       error: (err) => {
         hasLoggedOut.current = false; // 에러 시 재시도 가능하도록 리셋
-        errorHandler(err, router);
-        return "로그아웃 실패";
+        return errorHandler(err);
       },
     });
   }, [logoutMutation, router]);

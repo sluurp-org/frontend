@@ -17,6 +17,8 @@ import errorHandler from "@/utils/error";
 import { Tag } from "antd";
 import { Card } from "@/components/common/Card";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import Error from "@/components/Error";
 
 export default function WorkspaceOrderDetail() {
   const router = useRouter();
@@ -27,8 +29,8 @@ export default function WorkspaceOrderDetail() {
 
   if (isLoading) return <Loading />;
   if (error || !data) {
-    errorHandler(error, router);
-    return null;
+    toast.error(errorHandler(error));
+    return <Error />;
   }
 
   return (

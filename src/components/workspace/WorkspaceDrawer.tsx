@@ -2,7 +2,6 @@ import { useCreateWorkspace } from "@/hooks/queries/useWorkspace";
 import { CreateWorkspaceDto } from "@/types/workspace";
 import errorHandler from "@/utils/error";
 import { Button, Drawer, Form, Input } from "antd";
-import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 
 export default function WorkspaceDrawer({
@@ -12,7 +11,6 @@ export default function WorkspaceDrawer({
   open: boolean;
   onClose: () => void;
 }) {
-  const router = useRouter();
   const [form] = Form.useForm<CreateWorkspaceDto>();
   const { mutateAsync: createWorkspace } = useCreateWorkspace();
 
@@ -23,8 +21,7 @@ export default function WorkspaceDrawer({
       loading: "워크스페이스 생성중...",
       success: "워크스페이스 생성 완료",
       error: (error) => {
-        errorHandler(error, router);
-        return "워크스페이스 생성 실패";
+        return errorHandler(error);
       },
     });
 

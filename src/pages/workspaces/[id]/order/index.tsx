@@ -14,6 +14,8 @@ import errorHandler from "@/utils/error";
 import CreateOrderDrawer from "@/components/order/CreateOrderDrawer";
 import { Card } from "@/components/common/Card";
 import { FormOutlined, ReloadOutlined } from "@ant-design/icons";
+import Error from "@/components/Error";
+import toast from "react-hot-toast";
 
 export default function WorkspaceOrderList() {
   const router = useRouter();
@@ -24,7 +26,8 @@ export default function WorkspaceOrderList() {
   const { data, isLoading, error, refetch } = useOrders(workspaceId, filters);
 
   if (error) {
-    errorHandler(error, router);
+    toast.error(errorHandler(error));
+    return <Error />;
   }
 
   const columns = [
@@ -89,7 +92,7 @@ export default function WorkspaceOrderList() {
     },
   ];
 
-  if (error) return <div>Error</div>;
+  if (error) return <Error />;
 
   return (
     <Component>

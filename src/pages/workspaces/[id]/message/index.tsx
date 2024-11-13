@@ -17,6 +17,8 @@ import { useMessages } from "@/hooks/queries/useMessage";
 import { Card } from "@/components/common/Card";
 import { useChannel } from "@/contexts/ChannelContext";
 import { FormOutlined, MessageOutlined } from "@ant-design/icons";
+import Error from "@/components/Error";
+import toast from "react-hot-toast";
 
 export default function MessageList() {
   const router = useRouter();
@@ -25,10 +27,6 @@ export default function MessageList() {
 
   const workspaceId = Number(router.query.id);
   const { data, isLoading, error } = useMessages(workspaceId, filters);
-
-  if (error) {
-    errorHandler(error, router);
-  }
 
   const columns = [
     {
@@ -59,7 +57,10 @@ export default function MessageList() {
   ];
 
   if (isLoading) return <Loading />;
-  if (error) return <div>Error</div>;
+  if (error) {
+    toast.error(errorHandler(error));
+    return <Error />;
+  }
 
   const onTemplateCreateRequestClick = () => {
     const channelMessage = `메세지 제작 대행 요청을 위해\n아래 정보를 입력해주세요.\n\n워크스페이스 아이디: ${workspaceId} (변경 금지)\n요청자명:\n전화번호:\n메세지에 들어가야할 내용:`;

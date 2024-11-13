@@ -1,5 +1,4 @@
 import { isAxiosError } from "axios";
-import { NextRouter } from "next/router";
 import toast from "react-hot-toast";
 
 const ERROR_MESSAGE: { [key: number]: string } = {
@@ -10,24 +9,24 @@ const ERROR_MESSAGE: { [key: number]: string } = {
   500: "알 수 없는 에러가 발생했습니다.",
 };
 
-const errorHandler = async (error: unknown, router?: NextRouter) => {
+const errorHandler = (error: unknown) => {
   if (error instanceof Error) {
+    const currentPathname = window.location.pathname || "/";
+
     if (isAxiosError(error)) {
       const status = error.response?.status ?? 500;
       const message =
         (error.response?.data?.message || ERROR_MESSAGE[status]) ??
         "알 수 없는 에러가 발생했습니다.";
 
-      toast.error(message);
       if (status === 401) {
-        const currentPath = router?.asPath;
-        router?.push(`/auth/login?redirect=${currentPath}`);
+        window.location.href = `/auth/login?redirect=${currentPathname}`;
       }
 
       if (status === 403) {
-        router?.push("/workspaces");
+        window.location.href = "/workspacs";
       }
-      return;
+      return message;
     }
 
     if (error.name === "TimeoutError") {
@@ -37,15 +36,14 @@ const errorHandler = async (error: unknown, router?: NextRouter) => {
 
     if (error.message === "NoRefreshToken") {
       toast.error("로그인이 만료되었습니다. 다시 로그인해주세요.");
-      router?.push("/auth/login");
+      window.location.href = `/auth/login?redirect=${currentPathname}`;
       return;
     }
 
-    toast.error(error.message);
-    return;
+    return error.message;
   }
 
-  toast.error(`에러가 발생했습니다. ${error}`);
+  return "알 수 없는 에러가 발생했습니다.";
 };
 
 export default errorHandler;

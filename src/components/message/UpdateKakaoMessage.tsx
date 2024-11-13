@@ -145,15 +145,11 @@ const UpdateKakaoMessage = ({
   }, [form, kakaoTemplate, message]);
 
   const cancelInspectionHandler = async () => {
-    try {
-      toast.promise(cancelInspection(), {
-        loading: "검수 취소 중...",
-        success: "검수 취소 완료",
-        error: "검수 취소 실패",
-      });
-    } catch (err) {
-      errorHandler(err, router);
-    }
+    toast.promise(cancelInspection(), {
+      loading: "검수 취소 중...",
+      success: "검수 취소 완료",
+      error: (error) => errorHandler(error),
+    });
   };
 
   const uploadImage = async (options: any) => {
@@ -178,7 +174,7 @@ const UpdateKakaoMessage = ({
         },
       });
     } catch (err) {
-      errorHandler(err, router);
+      toast.error(errorHandler(err));
       form.setFieldsValue({
         kakaoTemplate: {
           ...form.getFieldValue("kakaoTemplate"),
@@ -293,51 +289,43 @@ const UpdateKakaoMessage = ({
   };
 
   const onInspectionSubmit = async () => {
-    try {
-      toast.promise(requestInspection(message.id), {
-        loading: "검수 요청 중...",
-        success: "검수 요청 완료",
-        error: "검수 요청 실패",
-      });
-    } catch (err) {
-      errorHandler(err, router);
-    }
+    toast.promise(requestInspection(message.id), {
+      loading: "검수 요청 중...",
+      success: "검수 요청 완료",
+      error: (error) => errorHandler(error),
+    });
   };
 
   const onSubmit = async () => {
-    try {
-      const values = form.getFieldsValue();
-      console.log(values);
-      toast.promise(
-        updateMessage({
-          ...values,
-          ...(values.type === "CUSTOM"
-            ? { content: values.content, kakaoTemplate: undefined }
-            : {
-                kakaoTemplate: {
-                  ...values.kakaoTemplate,
-                  extra:
-                    values.kakaoTemplate?.extra === ""
-                      ? undefined
-                      : values.kakaoTemplate?.extra,
-                },
-              }),
-        }),
-        {
-          loading: "메세지 수정 중...",
-          success: () => {
-            if (values.inspection && values.type === "FULLY_CUSTOM")
-              onInspectionSubmit();
+    const values = form.getFieldsValue();
 
-            router.push(`/workspaces/${workspaceId}/message/${message.id}`);
-            return "메세지 수정 완료";
-          },
-          error: "메세지 수정 실패",
-        }
-      );
-    } catch (err) {
-      errorHandler(err, router);
-    }
+    toast.promise(
+      updateMessage({
+        ...values,
+        ...(values.type === "CUSTOM"
+          ? { content: values.content, kakaoTemplate: undefined }
+          : {
+              kakaoTemplate: {
+                ...values.kakaoTemplate,
+                extra:
+                  values.kakaoTemplate?.extra === ""
+                    ? undefined
+                    : values.kakaoTemplate?.extra,
+              },
+            }),
+      }),
+      {
+        loading: "메세지 수정 중...",
+        success: () => {
+          if (values.inspection && values.type === "FULLY_CUSTOM")
+            onInspectionSubmit();
+
+          router.push(`/workspaces/${workspaceId}/message/${message.id}`);
+          return "메세지 수정 완료";
+        },
+        error: (error) => errorHandler(error),
+      }
+    );
   };
 
   const disableFullyCustomKakaoUpdate =

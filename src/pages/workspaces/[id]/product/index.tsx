@@ -9,6 +9,8 @@ import errorHandler from "@/utils/error";
 import { Card } from "@/components/common/Card";
 import { Events } from "@/components/product/Events";
 import { ProductsFilters } from "@/types/product";
+import toast from "react-hot-toast";
+import Error from "@/components/Error";
 
 const { Search } = Input;
 
@@ -52,7 +54,8 @@ export default function ProductListPage() {
 
   if (isLoading) return <Loading />;
   if (error) {
-    errorHandler(error, router);
+    toast.error(errorHandler(error));
+    return <Error />;
   }
 
   return (

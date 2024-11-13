@@ -39,6 +39,7 @@ export interface EventHistory {
   rawMessage: string | null;
   messageId: number | null;
   processedAt: Date | null;
+  scheduledAt: Date;
   messageContent: string;
   messageVariables: Record<string, string>;
   eventMessage: {

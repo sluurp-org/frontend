@@ -14,8 +14,13 @@ import {
 import { EventsDto, EventsFilters } from "@/types/events";
 import { OrderStatus, OrderStatusMap } from "@/types/orders";
 import toast from "react-hot-toast";
-import { DisconnectOutlined, MessageOutlined } from "@ant-design/icons";
+import {
+  DisconnectOutlined,
+  MessageOutlined,
+  ProductOutlined,
+} from "@ant-design/icons";
 import Link from "next/link";
+import Error from "@/components/Error";
 
 export default function ProductListPage() {
   const router = useRouter();
@@ -53,7 +58,7 @@ export default function ProductListPage() {
       title: "아이디",
       dataIndex: "id",
       key: "id",
-      width: "10px",
+      width: "5%",
     },
     {
       title: "상품 명",
@@ -66,7 +71,7 @@ export default function ProductListPage() {
             href={`/workspaces/${workspaceId}/product/${obj.productId}`}
             className="text-indigo-500"
           >
-            <MessageOutlined className="mr-1" />
+            <ProductOutlined className="mr-1" />
             <span>{text}</span>
           </Link>
         ) : (
@@ -105,6 +110,17 @@ export default function ProductListPage() {
       key: "type",
       width: "10%",
       render: (text: OrderStatus) => <span>{OrderStatusMap[text]}</span>,
+    },
+    {
+      title: "발송 일시",
+      dataIndex: "scheduledAt",
+      render: (_: any, obj: EventsDto) => {
+        const { delayDays, sendHour } = obj;
+        if (!delayDays && !sendHour) return "즉시";
+        if (delayDays && !sendHour) return `${delayDays}일 후`;
+        if (!delayDays && sendHour) return `발송 후 ${sendHour}시`;
+        return `${delayDays}일 후 ${sendHour}시`;
+      },
     },
     {
       title: "활성화 여부",
@@ -151,7 +167,8 @@ export default function ProductListPage() {
 
   if (isLoading) return <Loading />;
   if (error) {
-    errorHandler(error, router);
+    errorHandler(error);
+    return <Error />;
   }
 
   return (

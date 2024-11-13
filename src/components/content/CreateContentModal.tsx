@@ -65,8 +65,7 @@ export default function CreateContentModal({
         return "디지털 컨텐츠가 추가되었습니다.";
       },
       error: (error) => {
-        errorHandler(error, router);
-        return "디지털 컨텐츠 추가에 실패했습니다.";
+        return errorHandler(error);
       },
     });
   };

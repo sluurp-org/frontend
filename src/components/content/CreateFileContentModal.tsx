@@ -90,8 +90,7 @@ export default function CreateFileContentModal({
                 loading: "디지털 컨텐츠를 삭제하는 중입니다.",
                 success: () => "디지털 컨텐츠가 삭제되었습니다.",
                 error: (error) => {
-                  errorHandler(error, router);
-                  return "디지털 컨텐츠 삭제에 실패했습니다.";
+                  return errorHandler(error);
                 },
               });
             }}
@@ -127,7 +126,7 @@ export default function CreateFileContentModal({
                 onSuccess?.({ contentId: createdFileContent.id });
                 toast.success("디지털 컨텐츠가 추가되었습니다.");
               } catch (err) {
-                errorHandler(err, router);
+                toast.error(errorHandler(err));
                 onError?.({
                   status: 500,
                   message: "디지털 컨텐츠 추가에 실패했습니다.",

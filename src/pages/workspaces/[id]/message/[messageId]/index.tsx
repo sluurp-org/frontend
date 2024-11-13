@@ -1,11 +1,10 @@
-import { isAxiosError } from "axios";
 import { useRouter } from "next/router";
-
 import { useMessage } from "@/hooks/queries/useMessage";
 import errorHandler from "@/utils/error";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import KakaoMessageDetail from "@/components/message/KakaoMessageDetail";
+import toast from "react-hot-toast";
 
 export default function WorkspaceMessageDetail() {
   const router = useRouter();
@@ -16,15 +15,12 @@ export default function WorkspaceMessageDetail() {
 
   if (isLoading) return <Loading />;
   if (!isLoading && error) {
-    if (isAxiosError(error)) {
-      errorHandler(error, router);
-    }
+    toast.error(errorHandler(error));
     return <Error />;
   }
 
-  if (data?.sendType === "KAKAO") {
+  if (data?.sendType === "KAKAO")
     return <KakaoMessageDetail workspaceId={workspaceId} message={data} />;
-  }
 
   return <Error />;
 }

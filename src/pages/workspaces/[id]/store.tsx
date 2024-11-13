@@ -76,7 +76,7 @@ export default function StoreList() {
 
   if (isLoading) return <Loading />;
   if (error) {
-    errorHandler(error, router);
+    errorHandler(error);
     return <Error />;
   }
 

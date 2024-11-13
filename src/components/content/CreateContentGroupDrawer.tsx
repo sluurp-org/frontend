@@ -27,7 +27,6 @@ export default function CreateContentGroupDrawer({
   open: boolean;
   onClose: () => void;
 }) {
-  const router = useRouter();
   const [form] = Form.useForm<CreateContentGroupDto>();
   const [downloadLimit, setDownloadLimit] = useState<boolean>(false);
 
@@ -51,8 +50,7 @@ export default function CreateContentGroupDrawer({
           return "디지털 컨텐츠 생성 완료";
         },
         error: (error) => {
-          errorHandler(error, router);
-          return "디지털 컨텐츠 생성 실패";
+          return errorHandler(error);
         },
       });
     } catch (error) {

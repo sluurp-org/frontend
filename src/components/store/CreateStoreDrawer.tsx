@@ -2,7 +2,6 @@ import { Drawer, Button, Form, Input, Typography, Select, Alert } from "antd";
 import React from "react";
 import { useCreateStore, useSyncStoreProduct } from "@/hooks/queries/useStore";
 import errorHandler from "@/utils/error";
-import { useRouter } from "next/router";
 import { CreateStoreDto, StoreType } from "@/types/store";
 import toast from "react-hot-toast";
 import { InfoCircleOutlined } from "@ant-design/icons";
@@ -18,7 +17,6 @@ export default function CreateStoreDrawer({
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }) {
-  const router = useRouter();
   const ChannelService = useChannel();
   const [form] = Form.useForm<CreateStoreDto>();
   const { mutateAsync: createStore } = useCreateStore(workspaceId);
@@ -29,29 +27,23 @@ export default function CreateStoreDrawer({
       loading: "스토어 상품 동기화중...",
       success: "스토어 상품 동기화 완료",
       error: (error) => {
-        errorHandler(error, router);
-        return "스토어 상품 동기화 실패";
+        return errorHandler(error);
       },
     });
   };
 
   const onFinish = async (values: any) => {
-    try {
-      toast.promise(createStore(values), {
-        loading: "스토어 생성중...",
-        success: (data) => {
-          syncProduct(data.id);
-          setIsOpen(false);
-          return "스토어 생성 완료";
-        },
-        error: (error) => {
-          errorHandler(error, router);
-          return "스토어 생성 실패";
-        },
-      });
-    } catch (error) {
-      errorHandler(error, router);
-    }
+    toast.promise(createStore(values), {
+      loading: "스토어 생성중...",
+      success: (data) => {
+        syncProduct(data.id);
+        setIsOpen(false);
+        return "스토어 생성 완료";
+      },
+      error: (error) => {
+        return errorHandler(error);
+      },
+    });
   };
 
   const onStoreCreateRequest = () => {

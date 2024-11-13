@@ -12,6 +12,7 @@ import { Events } from "@/components/product/Events";
 import { Card } from "@/components/common/Card";
 import { Alert, Checkbox } from "antd";
 import toast from "react-hot-toast";
+import Error from "@/components/Error";
 
 export default function ProductDetailPage() {
   const router = useRouter();
@@ -26,7 +27,8 @@ export default function ProductDetailPage() {
 
   if (isLoading || !data) return <Loading />;
   if (error) {
-    errorHandler(error, router);
+    toast.error(errorHandler(error));
+    return <Error />;
   }
 
   const handleUpdateProduct = async (disableGlobalEvent: boolean) => {

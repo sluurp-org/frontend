@@ -7,6 +7,8 @@ export interface EventsDto {
   productId: number;
   productVariantId: number;
   messageId: number;
+  delayDays: number;
+  sendHour: number;
   message: {
     id: number;
     name: string;
@@ -50,4 +52,6 @@ export interface CreateEventDto {
   productVariantId?: number | null;
   messageId: number;
   type: OrderStatus;
+  delayDays?: number;
+  sendHour?: number;
 }

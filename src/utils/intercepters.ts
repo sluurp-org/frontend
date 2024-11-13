@@ -19,15 +19,24 @@ export const refreshIntercepter = async (err: AxiosError | Error) => {
   const refreshToken = localStorage.getItem("refreshToken");
   if (!refreshToken) throw new Error("NoRefreshToken");
 
-  const { data } = await axiosClient.post("/auth/refresh", {
-    refreshToken,
-  });
-  localStorage.setItem("accessToken", data.accessToken);
-  localStorage.setItem("refreshToken", data.refreshToken);
+  try {
+    const { data } = await axiosClient.post("/auth/refresh", {
+      refreshToken,
+    });
+    localStorage.setItem("accessToken", data.accessToken);
+    localStorage.setItem("refreshToken", data.refreshToken);
 
-  if (config) {
-    return axiosClient.request(config);
-  } else {
-    throw new Error("Invalid request configuration");
+    if (config) {
+      return axiosClient.request(config);
+    } else {
+      throw new Error("Invalid request configuration");
+    }
+  } catch (error) {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
+    const pathname = window.location.pathname || "/workspaces";
+    window.location.href = `/auth/login?redirect=${pathname}`;
+    return Promise.reject(error);
   }
 };
