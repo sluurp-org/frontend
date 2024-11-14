@@ -40,7 +40,7 @@ export default function Pricing() {
                 </p>
               </div>
               <p className="text-2xl font-bold">
-                👻 메세지 발송 없을 시{" "}
+                👻 메시지 발송 없을 시{" "}
                 <span className="text-indigo-500">기본 요금 제외</span>
               </p>
               <p className="text-2xl font-bold">

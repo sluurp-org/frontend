@@ -130,8 +130,9 @@ export default function StoreDrawer({
 
   const handleSyncStoreProduct = async () => {
     toast.promise(syncStoreProduct(storeId), {
-      loading: "스토어 상품 동기화중...",
-      success: "스토어 상품 동기화 완료",
+      loading: "스토어 상품 동기화 요청중...",
+      success:
+        "스토어 상품 동기화 요청 완료.\n등록된 상품수에 따라 시간이 소요될 수 있습니다.\n완료 시 카카오톡으로 알림이 전송됩니다.",
       error: (error) => {
         return errorHandler(error);
       },

@@ -9,7 +9,8 @@ import { ProductOptionFilters } from "@/types/product";
 import toast from "react-hot-toast";
 import { isAxiosError } from "axios";
 import { ReloadOutlined } from "@ant-design/icons";
-import { Events } from "./Events";
+import { Events } from "../event/Events";
+import errorHandler from "@/utils/error";
 
 export default function ProductOptions({
   productId,
@@ -47,13 +48,8 @@ export default function ProductOptions({
     toast.promise(syncOptionsMutation.mutateAsync(), {
       loading: "옵션을 불러오는 중...",
       success: "옵션을 성공적으로 불러왔습니다.",
-      error: (error) => {
-        if (isAxiosError(error) && error.response?.status === 404) {
-          return "상품 옵션이 존재하지 않습니다.";
-        }
-
-        return "옵션을 불러오는 중 에러가 발생했습니다";
-      },
+      error: (error) =>
+        errorHandler(error) || "옵션을 불러오는데 실패했습니다.",
     });
 
   const handlePageChange = (page: number, pageSize: number) => {
@@ -76,7 +72,7 @@ export default function ProductOptions({
       </Button>
 
       <p className="mt-4 text-sm text-gray-500">
-        옵션을 클릭하면 발송 메세지 목록을 확인할 수 있습니다.
+        옵션을 클릭하면 발송 메시지 목록을 확인할 수 있습니다.
       </p>
       <Table
         columns={columns}

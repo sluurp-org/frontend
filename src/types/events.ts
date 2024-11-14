@@ -55,3 +55,10 @@ export interface CreateEventDto {
   delayDays?: number;
   sendHour?: number;
 }
+
+export interface UpdateEventDto {
+  enabled?: boolean;
+  delayDays?: number | null;
+  sendHour?: number | null;
+  type?: OrderStatus;
+}

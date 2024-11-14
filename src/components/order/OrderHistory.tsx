@@ -120,7 +120,7 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
             <p className="text-xs mb-2">{formattedDate}</p>
             <div className="flex flex-col bg-white border rounded-lg p-4">
               <h4 className="mb-2 text-base font-semibold">
-                <MessageOutlined className="mr-1" /> 안내 메세지
+                <MessageOutlined className="mr-1" /> 안내 메시지
               </h4>
               {order.message && (
                 <p className="text-sm font-light">{order.message}</p>
@@ -140,7 +140,7 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
               }
             >
               <h4 className="mb-2 text-base font-semibold">
-                <MessageOutlined className="mr-1" /> 메세지 발송
+                <MessageOutlined className="mr-1" /> 메시지 발송
               </h4>
               {order.eventHistory ? (
                 <>
@@ -149,7 +149,7 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
                   </p>
                   {order.eventHistory.message && (
                     <p>
-                      <span>메세지: </span>
+                      <span>메시지: </span>
                       <Link
                         className="text-indigo-400 cursor-pointer hover:underline"
                         href={`/workspaces/${workspaceId}/message/${order.eventHistory.message.id}`}
@@ -210,7 +210,7 @@ const OrderHistory: React.FC<Props> = ({ orderId, workspaceId }) => {
             checked={showMessageHistory}
             onChange={(e) => setShowMessageHistory(e.target.checked)}
           >
-            메세지 발송 이력만 보기
+            메시지 발송 이력만 보기
           </Checkbox>
         </div>
         <Pagination

@@ -61,7 +61,7 @@ const getItems = (workspaceId?: string): MenuItem[] => [
           {
             key: `/workspaces/${workspaceId}/event`,
             label: (
-              <Popover content="자동 발송 메세지 목록입니다." placement="right">
+              <Popover content="자동 발송 메시지 목록입니다." placement="right">
                 자동 발송 목록
               </Popover>
             ),
@@ -71,7 +71,7 @@ const getItems = (workspaceId?: string): MenuItem[] => [
             key: `/workspaces/${workspaceId}/product`,
             label: (
               <Popover
-                content="상품을 관리하고 발송할 메세지를 연결합니다."
+                content="상품을 관리하고 발송할 메시지를 연결합니다."
                 placement="right"
               >
                 상품 관리
@@ -83,10 +83,10 @@ const getItems = (workspaceId?: string): MenuItem[] => [
             key: `/workspaces/${workspaceId}/message`,
             label: (
               <Popover
-                content="발송할 메세지를 생성 또는 관리합니다."
+                content="발송할 메시지를 생성 또는 관리합니다."
                 placement="right"
               >
-                메세지 관리
+                메시지 관리
               </Popover>
             ),
             icon: <MessageOutlined />,

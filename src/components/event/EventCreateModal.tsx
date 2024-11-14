@@ -37,9 +37,9 @@ function MessageItem({
         messageId: message.id,
       }),
       {
-        loading: "메세지 연결 중...",
-        success: "메세지 연결 성공",
-        error: (error) => errorHandler(error) || "메세지 연결 실패",
+        loading: "메시지 연결 중...",
+        success: "메시지 연결 성공",
+        error: (error) => errorHandler(error) || "메시지 연결 실패",
       }
     );
   };
@@ -64,14 +64,25 @@ function MessageItem({
             </Select>
           </Form.Item>
           <Form.Item
-            label="지연 일수"
+            label="발송 지연 일수"
             name="delayDays"
             className="w-full mb-0"
-            rules={[{ type: "number", message: "숫자만 입력해주세요." }]}
+            rules={[
+              { type: "number", message: "숫자만 입력해주세요." },
+              {
+                type: "number",
+                min: 1,
+                warningOnly: true,
+                message: "1 이상의 숫자를 입력해주세요.",
+                transform(value) {
+                  return Number(value || 1);
+                },
+              },
+            ]}
           >
             <InputNumber
               type="number"
-              placeholder="지연 일수"
+              placeholder="발송 지연 일수"
               suffix="일"
               className="w-full"
             />
@@ -88,7 +99,7 @@ function MessageItem({
                 warningOnly: true,
                 message: "0부터 23까지 입력해주세요.",
                 transform(value) {
-                  return Number(value);
+                  return Number(value || 1);
                 },
               },
             ]}
@@ -118,48 +129,37 @@ function MessageItem({
           const josaPicker = getJosaPicker("으로");
 
           return (
-            <div>
-              {type && (
+            <>
+              <div>
+                {type && (
+                  <span>
+                    주문 상태가 {OrderStatusMap[type]}
+                    {josaPicker(OrderStatusMap[type])} 변경되면{" "}
+                  </span>
+                )}
+                {delayDays && <span> {delayDays}일 후 </span>}
+                {sendHour && <span>{sendHour}시에 </span>}
+                {!delayDays && !sendHour && <span>구매 후 즉시 </span>}
+                {<span>메시지가 발송됩니다.</span>}
+              </div>
+              {!delayDays && sendHour && (
                 <span>
-                  주문 상태가 {OrderStatusMap[type]}
-                  {josaPicker(OrderStatusMap[type])} 변경되면{" "}
+                  상품 구매 일의 {sendHour}시에 발송됩니다. 이미 {sendHour}시가
+                  지났다면 즉시 발송됩니다.
                 </span>
               )}
-              {delayDays && <span> {delayDays}일 후 </span>}
-              {sendHour && <span>{sendHour}시에 </span>}
-              {<span>메세지가 발송됩니다</span>}
-            </div>
+            </>
           );
         }}
       </Form.Item>
       <Form.Item noStyle className="mt-0">
         <Button type="primary" htmlType="submit">
           <ApiOutlined />
-          메세지 연결
+          메시지 연결
         </Button>
       </Form.Item>
     </Form>
   );
-
-  // return (
-  //   <div key={message.id} className="flex gap-1">
-  //     <Select
-  //       onChange={handleOnChange}
-  //       defaultValue={"배송 상태 선택"}
-  //       className="w-full"
-  //     >
-  //       {Object.entries(OrderStatusMap).map(([key, value]) => (
-  //         <Select.Option key={key} value={key}>
-  //           {value}
-  //         </Select.Option>
-  //       ))}
-  //     </Select>
-  //     <Button onClick={handleOnClick} type="primary">
-  //       <ApiOutlined />
-  //       메세지 연결
-  //     </Button>
-  //   </div>
-  // );
 }
 
 export function EventCreateModal({
@@ -196,7 +196,7 @@ export function EventCreateModal({
       open={isModalOpen}
       onOk={() => setIsModalOpen(false)}
       onCancel={() => setIsModalOpen(false)}
-      title="메세지 연결"
+      title="메시지 연결"
       destroyOnClose
       width={800}
       cancelButtonProps={{
@@ -210,7 +210,7 @@ export function EventCreateModal({
             }
           >
             <PlusOutlined />
-            메세지 생성
+            메시지 생성
           </Button>
           <Button type="primary" onClick={() => setIsModalOpen(false)}>
             닫기
@@ -220,7 +220,7 @@ export function EventCreateModal({
     >
       <div>
         <Search
-          placeholder="메세지 검색"
+          placeholder="메시지 검색"
           onSearch={handleSearch}
           enterButton
           className="w-full"
@@ -231,7 +231,7 @@ export function EventCreateModal({
             dataSource={data?.nodes}
             columns={[
               {
-                title: "메세지",
+                title: "메시지",
                 dataIndex: "name",
                 key: "name",
                 render: (name, record) => (
@@ -246,14 +246,14 @@ export function EventCreateModal({
                 ),
               },
               {
-                title: "메세지 생성",
+                title: "메시지 생성",
                 dataIndex: "id",
                 key: "id",
                 width: "20%",
                 render: (id, record) => (
                   <Button type="primary">
                     <ApiOutlined />
-                    메세지 연결
+                    메시지 연결
                   </Button>
                 ),
               },
@@ -267,7 +267,7 @@ export function EventCreateModal({
               },
               position: ["bottomCenter"],
               showTotal(total, range) {
-                return `총 ${total}개의 메세지`;
+                return `총 ${total}개의 메시지`;
               },
             }}
             expandable={{

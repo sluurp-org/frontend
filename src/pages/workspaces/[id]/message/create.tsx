@@ -27,7 +27,7 @@ export default function WorkspaceMessageCreate() {
 
   return (
     <Component>
-      <Header title="메세지 생성" description="워크스페이스 메세지 생성" />
+      <Header title="메시지 생성" description="워크스페이스 메시지 생성" />
       <Tabs
         size="large"
         addIcon={true}

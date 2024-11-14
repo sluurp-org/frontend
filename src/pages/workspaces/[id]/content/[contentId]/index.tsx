@@ -199,7 +199,7 @@ export default function ContentDetailPage() {
                 <p>정말로 삭제하시겠습니까?</p>
                 <p>삭제된 디지털 컨텐츠는 복구할 수 없습니다.</p>
                 <p className="text-red-500">
-                  디지털 컨텐츠에 연결된 모든 메세지가 수정됩니다.
+                  디지털 컨텐츠에 연결된 모든 메시지가 수정됩니다.
                 </p>
 
                 <Button

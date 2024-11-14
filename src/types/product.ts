@@ -3,6 +3,10 @@ export interface ProductsDto {
   name: string;
   productImageUrl: string;
   productId: string;
+  store: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface PaginatedProductsResponse {

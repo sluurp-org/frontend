@@ -8,7 +8,7 @@ import Image from "next/image";
 import InfoRow from "@/components/InfoRow";
 import { ShopOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import ProductOptions from "@/components/product/ProductOptions";
-import { Events } from "@/components/product/Events";
+import { Events } from "@/components/event/Events";
 import { Card } from "@/components/common/Card";
 import { Alert, Checkbox } from "antd";
 import toast from "react-hot-toast";
@@ -80,12 +80,12 @@ export default function ProductDetailPage() {
                 </span>
               </InfoRow>
               <InfoRow
-                label="기본 발송 메세지 설정"
+                label="기본 발송 메시지 설정"
                 className="flex-col w-full"
               >
                 <div>
                   <Alert
-                    message={`기본 발송 메세지 설정을 비활성화 할 경우 기본 발송 메세지에 등록한 메세지들이 발송되지 않습니다.\n\n비활성화시 상품 발송 메세지만 발송됩니다.`}
+                    message={`기본 발송 메시지 설정을 비활성화 할 경우 기본 발송 메시지에 등록한 메시지들이 발송되지 않습니다.\n\n비활성화시 상품 발송 메시지만 발송됩니다.`}
                     type="warning"
                     className="mt-1 whitespace-pre-line"
                   />
@@ -94,7 +94,7 @@ export default function ProductDetailPage() {
                     className="mt-3"
                     onChange={(e) => handleUpdateProduct(e.target.checked)}
                   >
-                    기본 발송 메세지 비활성화
+                    기본 발송 메시지 비활성화
                   </Checkbox>
                 </div>
               </InfoRow>
@@ -103,7 +103,7 @@ export default function ProductDetailPage() {
         </Card>
         <div className="space-y-6 col-span-3">
           <Card>
-            <h2 className="text-2xl font-semibold mb-4">상품 발송 메세지</h2>
+            <h2 className="text-2xl font-semibold mb-4">상품 발송 메시지</h2>
             <Events workspaceId={workspaceId} productId={productId} />
           </Card>
           <Card>

@@ -50,7 +50,7 @@ export default function MessageList() {
       ),
     },
     {
-      title: "메세지 제목",
+      title: "메시지 제목",
       dataIndex: "name",
       key: "name",
     },
@@ -63,14 +63,14 @@ export default function MessageList() {
   }
 
   const onTemplateCreateRequestClick = () => {
-    const channelMessage = `메세지 제작 대행 요청을 위해\n아래 정보를 입력해주세요.\n\n워크스페이스 아이디: ${workspaceId} (변경 금지)\n요청자명:\n전화번호:\n메세지에 들어가야할 내용:`;
+    const channelMessage = `메시지 제작 대행 요청을 위해\n아래 정보를 입력해주세요.\n\n워크스페이스 아이디: ${workspaceId} (변경 금지)\n요청자명:\n전화번호:\n메시지에 들어가야할 내용:`;
 
     ChannelService.openChat(undefined, channelMessage);
   };
 
   return (
     <Component>
-      <Header title="메세지 목록" description="모든 스토어의 메세지 목록" />
+      <Header title="메시지 목록" description="모든 스토어의 메시지 목록" />
 
       <div className="mb-3 flex gap-2">
         <Button
@@ -80,13 +80,13 @@ export default function MessageList() {
             router.push(`/workspaces/${workspaceId}/message/create`)
           }
         >
-          메세지 생성
+          메시지 생성
         </Button>
         <Popover
           trigger={"hover"}
           content={
             <p className="whitespace-pre-line">
-              메세지에 들어가야 하는 내용만 전달해주시면{"\n"}카카오
+              메시지에 들어가야 하는 내용만 전달해주시면{"\n"}카카오
               가이드라인에 따라 알림톡을 제작 및 검수 대행해주는 서비스입니다.
             </p>
           }
@@ -96,7 +96,7 @@ export default function MessageList() {
             type="primary"
             onClick={onTemplateCreateRequestClick}
           >
-            메세지 제작 대행 요청
+            메시지 제작 대행 요청
           </Button>
         </Popover>
       </div>

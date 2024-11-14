@@ -107,7 +107,7 @@ export const useProduct = (workspaceId: number, productId: number) => {
 
 export const useProductOptions = (
   workspaceId: number,
-  productId?: number,
+  productId?: number | null,
   filters: ProductOptionFilters = {}
 ) => {
   return useQuery(

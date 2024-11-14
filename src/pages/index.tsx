@@ -53,6 +53,8 @@ export default function HomePage() {
     { icon: "📦", title: "상품별, 옵션별\n메시지 발송 설정" },
     { icon: "🔌", title: "환불, 취소시\n다운로드 제한" },
     { icon: "⚙️", title: "승인 없는\n메시지 작성" },
+    { icon: "📅", title: "n일, n시간 후\n메시지 발송 가능" },
+    { icon: "📧", title: "커스텀 메시지 생성 가능" },
   ];
 
   return (

@@ -3,10 +3,11 @@ import { useProductOptions, useProducts } from "@/hooks/queries/useProduct";
 import { useStore } from "@/hooks/queries/useStore";
 import { CreateOrderDto } from "@/types/order";
 import { OrderStatusMap } from "@/types/orders";
-import { ProductsFilters } from "@/types/product";
+import { PaginatedProductsResponse, ProductsFilters } from "@/types/product";
 import errorHandler from "@/utils/error";
 import {
   Button,
+  Cascader,
   DatePicker,
   Drawer,
   Form,
@@ -16,6 +17,12 @@ import {
 } from "antd";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+
+interface Option {
+  value: number;
+  label: string;
+  children?: Option[];
+}
 
 const phoneRegex = /^010\d{8}$/;
 const phoneValidator = (_: any, value: string) => {
@@ -39,21 +46,13 @@ export default function CreateOrderDrawer({
 }) {
   const [form] = Form.useForm<CreateOrderDto>();
 
-  const {
-    data: storeData,
-    isLoading: storeLoading,
-    error: storeError,
-  } = useStore(workspaceId);
-
   const { mutateAsync: createOrder } = useCreateOrder(workspaceId);
 
-  const [productFilter, setProductFilter] = useState<ProductsFilters>();
-  const [selectedStore, setSelectedStore] = useState<number>();
   const {
     data: productData,
     isLoading: productLoading,
     error: productError,
-  } = useProducts(workspaceId, productFilter);
+  } = useProducts(workspaceId, {});
 
   const [selectedProduct, setSelectedProduct] = useState<number>();
   const {
@@ -62,16 +61,39 @@ export default function CreateOrderDrawer({
     error: productOptionError,
   } = useProductOptions(workspaceId, selectedProduct);
 
-  const onSelectStore = (value: number) => {
-    setSelectedStore(value);
-    setSelectedProduct(undefined);
-    setProductFilter({ storeId: value });
-    form.setFieldsValue({ productId: undefined, productVariantId: undefined });
+  const onSelectProduct = (value: number[]) => {
+    console.log(value);
+    const storeId = value[0];
+    const productId = value[value.length - 1];
+    console.log(storeId, productId);
+
+    setSelectedProduct(productId);
+    form.setFieldsValue({ storeId, productId });
+    form.setFieldsValue({ productVariantId: undefined });
   };
 
-  const onSelectProduct = (value: number) => {
-    setSelectedProduct(value);
-    form.setFieldsValue({ productVariantId: undefined });
+  const groupByStore = (product: PaginatedProductsResponse | undefined) => {
+    if (!product) return [];
+    const grouped: Record<number, Option> = {};
+
+    product.nodes.map((node) => {
+      const storeId = node.store.id;
+
+      if (!grouped[storeId]) {
+        grouped[storeId] = {
+          value: storeId,
+          label: node.store.name,
+          children: [],
+        };
+      }
+
+      grouped[storeId].children?.push({
+        value: node.id,
+        label: node.name,
+      });
+    });
+
+    return Object.values(grouped);
   };
 
   const onSubmit = async () => {
@@ -101,8 +123,8 @@ export default function CreateOrderDrawer({
     }
   };
 
-  if (storeError || productError || productOptionError) {
-    errorHandler(storeError || productError || productOptionError);
+  if (productError || productOptionError) {
+    errorHandler(productError || productOptionError);
   }
 
   return (
@@ -114,45 +136,27 @@ export default function CreateOrderDrawer({
       destroyOnClose
     >
       <Form form={form} onFinish={onSubmit} layout="vertical">
-        <Form.Item
-          name="storeId"
-          label="스토어 선택"
-          rules={[{ required: true, message: "스토어를 선택해주세요." }]}
-        >
-          <Select
-            placeholder="스토어를 선택해주세요."
-            loading={storeLoading}
-            disabled={storeLoading}
-            onChange={onSelectStore}
-          >
-            {storeData?.nodes.map((store) => (
-              <Select.Option key={store.id} value={store.id}>
-                {store.name}
-              </Select.Option>
-            ))}
-          </Select>
+        <Form.Item name="storeId" hidden>
+          <Input type="hidden" />
         </Form.Item>
-        {selectedStore && (
-          <Form.Item
-            name="productId"
-            label="상품 선택"
-            rules={[{ required: true, message: "상품을 선택해주세요." }]}
-          >
-            <Select
-              loading={productLoading}
-              disabled={productLoading}
-              onChange={onSelectProduct}
-              showSearch
-              placeholder="상품을 선택해주세요."
-            >
-              {productData?.nodes.map((product) => (
-                <Select.Option key={product.id} value={product.id}>
-                  {product.name}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        )}
+        <Form.Item name="productId" hidden>
+          <Input type="hidden" />
+        </Form.Item>
+        <Form.Item
+          label="상품 선택"
+          name={"selectedProduct"}
+          rules={[{ required: true, message: "상품를 선택해주세요." }]}
+        >
+          <Cascader
+            placeholder="상품을 선택해주세요."
+            loading={productLoading}
+            disabled={productLoading}
+            multiple={false}
+            onChange={onSelectProduct}
+            showSearch
+            options={groupByStore(productData)}
+          />
+        </Form.Item>
         {selectedProduct && productOptionData?.total ? (
           <Form.Item name="productVariantId" label="상품 옵션 선택">
             <Select

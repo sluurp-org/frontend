@@ -5,6 +5,7 @@ import {
   EventDto,
   EventsFilters,
   PaginatedEventsDto,
+  UpdateEventDto,
 } from "@/types/events";
 import { queryClient } from "@/pages/_app";
 
@@ -53,13 +54,11 @@ const deleteEvent = async (workspaceId: number, eventId: number) => {
 const updateEvent = async (
   workspaceId: number,
   eventId: number,
-  enabled: boolean
+  dto: UpdateEventDto
 ) => {
   const { data } = await axiosClient.patch(
     `/workspace/${workspaceId}/event/${eventId}`,
-    {
-      enabled,
-    }
+    dto
   );
   return data;
 };
@@ -95,8 +94,8 @@ export const useDeleteEvent = (workspaceId: number) => {
 
 export const useUpdateEvent = (workspaceId: number) => {
   return useMutation(
-    ({ eventId, enabled }: { eventId: number; enabled: boolean }) =>
-      updateEvent(workspaceId, eventId, enabled),
+    ({ eventId, dto }: { eventId: number; dto: UpdateEventDto }) =>
+      updateEvent(workspaceId, eventId, dto),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["event", workspaceId]);

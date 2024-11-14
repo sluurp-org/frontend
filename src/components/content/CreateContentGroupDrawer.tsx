@@ -128,7 +128,7 @@ export default function CreateContentGroupDrawer({
                   방식입니다.
                 </li>
                 <li>
-                  주문시 일회성 디지털 컨텐츠 잔여 수량이 없을 경우 메세지가
+                  주문시 일회성 디지털 컨텐츠 잔여 수량이 없을 경우 메시지가
                   발송되지 않습니다.
                 </li>
               </ul>
@@ -141,7 +141,7 @@ export default function CreateContentGroupDrawer({
                   방식입니다.
                 </li>
                 <li>
-                  주문시 재사용 디지털 컨텐츠가 없을 경우 메세지가 발송되지
+                  주문시 재사용 디지털 컨텐츠가 없을 경우 메시지가 발송되지
                   않습니다.
                 </li>
               </ul>

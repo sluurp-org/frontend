@@ -233,13 +233,13 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
         sendType: "KAKAO",
       }),
       {
-        loading: "메세지 생성 중...",
+        loading: "메시지 생성 중...",
         success: (value) => {
           if (values.inspection && values.type === "FULLY_CUSTOM")
             onInspectionSubmit(value.id);
 
           router.push(`/workspaces/${workspaceId}/message/${value.id}`);
-          return "메세지 생성 완료";
+          return "메시지 생성 완료";
         },
         error: (error) => errorHandler(error),
       }
@@ -284,13 +284,13 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
   const isFullyCustom = (
     <>
       <Form.Item
-        label="메세지 카테고리"
+        label="메시지 카테고리"
         name={["kakaoTemplate", "categoryCode"]}
         required
         rules={[
           {
             required: true,
-            message: "메세지 카테고리를 선택해주세요.",
+            message: "메시지 카테고리를 선택해주세요.",
           },
         ]}
       >
@@ -299,7 +299,7 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
         ) : (
           <Select
             showSearch
-            placeholder="메세지 카테고리를 선택해주세요."
+            placeholder="메시지 카테고리를 선택해주세요."
             filterOption={(input, option) =>
               (option?.label?.toString() ?? "")
                 .toLowerCase()
@@ -314,7 +314,7 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
       </Form.Item>
       <Form.Item name={["kakaoTemplate", "imageId"]} hidden noStyle />
       <Form.Item name={["kakaoTemplate", "imageUrl"]} hidden noStyle />
-      <Form.Item className="mb-0" label="메세지 이미지">
+      <Form.Item className="mb-0" label="메시지 이미지">
         <Upload
           accept=".jpg,.jpeg,.png"
           name="image"
@@ -336,14 +336,14 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
               target="_blank"
             >
               <Button danger icon={<WarningOutlined />}>
-                필독! 메세지 이미지 가이드
+                필독! 메시지 이미지 가이드
               </Button>
             </Link>
           </li>
         </ul>
       </Form.Item>
 
-      <Form.Item label="메세지 내용" className="mb-0 mt-5">
+      <Form.Item label="메시지 내용" className="mb-0 mt-5">
         <Popover
           placement="topLeft"
           title="사용 가능한 변수"
@@ -373,16 +373,16 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
       </Form.Item>
       <Form.Item
         name={["kakaoTemplate", "content"]}
-        rules={[{ required: true, message: "메세지 내용을 입력해주세요." }]}
+        rules={[{ required: true, message: "메시지 내용을 입력해주세요." }]}
       >
         <TextArea
           rows={10}
-          placeholder="메세지 내용"
+          placeholder="메시지 내용"
           maxLength={800}
           showCount
         />
       </Form.Item>
-      <Form.Item label="메세지 부가정보" name={["kakaoTemplate", "extra"]}>
+      <Form.Item label="메시지 부가정보" name={["kakaoTemplate", "extra"]}>
         <TextArea
           rows={5}
           className="border border-gray-300 rounded-md p-2"
@@ -491,7 +491,7 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
         </Select>
       </Form.Item>
       <Form.Item noStyle name={["isCustom"]} hidden initialValue={true} />
-      <Form.Item label="메세지 내용" className="mb-0">
+      <Form.Item label="메시지 내용" className="mb-0">
         <Popover
           placement="topLeft"
           title="사용 가능한 변수"
@@ -521,11 +521,11 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
       </Form.Item>
       <Form.Item
         name={["content"]}
-        rules={[{ required: true, message: "메세지 내용을 입력해주세요." }]}
+        rules={[{ required: true, message: "메시지 내용을 입력해주세요." }]}
       >
         <TextArea
           rows={10}
-          placeholder="메세지 내용"
+          placeholder="메시지 내용"
           maxLength={800}
           showCount
         />
@@ -604,30 +604,30 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
               }}
             >
               <WarningOutlined />
-              필독! 메세지 작성시 주의사항
+              필독! 메시지 작성시 주의사항
             </Button>
           </Popover>
         </div>
         <Card className="w-full">
-          <h2 className="text-2xl font-semibold mb-4">메세지 정보</h2>
+          <h2 className="text-2xl font-semibold mb-4">메시지 정보</h2>
           <div className="flex flex-col gap-1">
             <Form.Item
               name={["name"]}
-              label="메세지 이름"
+              label="메시지 이름"
               rules={[
-                { required: true, message: "메세지 이름을 입력해주세요." },
+                { required: true, message: "메시지 이름을 입력해주세요." },
               ]}
             >
-              <Input placeholder="메세지 이름" />
+              <Input placeholder="메시지 이름" />
             </Form.Item>
             <Form.Item
-              label="메세지 유형"
+              label="메시지 유형"
               name="type"
               initialValue="CUSTOM"
               className="mb-0"
             >
               <Select
-                placeholder="메세지 유형을 선택해주세요."
+                placeholder="메시지 유형을 선택해주세요."
                 onChange={onTypeChange}
               >
                 <Select.Option key={MessageTypeMap.CUSTOM} value={"CUSTOM"}>
@@ -661,7 +661,7 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
                       <Alert
                         icon={<InfoCircleOutlined />}
                         showIcon
-                        message={`빠른 시작형은 템플릿을 선택하고 메세지를 생성할 수 있습니다.\n템플릿을 선택하면 내용, 버튼 등이 자동으로 입력됩니다.\n별도의 승인 절차 없이 바로 발송할 수 있습니다.`}
+                        message={`빠른 시작형은 템플릿을 선택하고 메시지를 생성할 수 있습니다.\n템플릿을 선택하면 내용, 버튼 등이 자동으로 입력됩니다.\n별도의 승인 절차 없이 바로 발송할 수 있습니다.`}
                         className="whitespace-pre-line"
                       />
                     )}
@@ -787,16 +787,16 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
               }}
             </Form.Item>
             <Form.Item
-              label="메세지 발송 대상"
+              label="메시지 발송 대상"
               name="target"
               rules={[
                 {
                   required: true,
-                  message: "메세지 발송 대상을 선택해주세요.",
+                  message: "메시지 발송 대상을 선택해주세요.",
                 },
               ]}
             >
-              <Select placeholder="메세지 발송 대상을 선택해주세요.">
+              <Select placeholder="메시지 발송 대상을 선택해주세요.">
                 {Object.entries(MessageTargetMapping).map(([key, value]) => (
                   <Select.Option key={key} value={key}>
                     {value}
@@ -875,11 +875,11 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
               <div className="flex gap-3 mt-2">
                 <Button type="primary" htmlType="submit">
                   <MessageOutlined />
-                  메세지 생성
+                  메시지 생성
                 </Button>
                 <Button type="primary" onClick={() => router.back()} danger>
                   <CloseOutlined />
-                  메세지 생성 취소
+                  메시지 생성 취소
                 </Button>
               </div>
             </Form.Item>

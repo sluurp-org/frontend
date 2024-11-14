@@ -163,7 +163,7 @@ export default function KakaoMessageDetail({
               <p className="text-sm font-light text-gray-400">
                 요청의 경우에는 영업일 기준 평균 1~3일 정도 소요됩니다.
                 <br />
-                검수는 거절될 수 있으며 거절 시 메세지 수정이 필요할 수
+                검수는 거절될 수 있으며 거절 시 메시지 수정이 필요할 수
                 있습니다.
                 <br />
                 문의 사항이 있으시거나 자체 검수를 원하실 경우 우측 하단
@@ -203,7 +203,7 @@ export default function KakaoMessageDetail({
       </div>
       {kakaoTemplate.status !== "APPROVED" && (
         <p className="text-sm font-light text-gray-500">
-          (승인 상태만 메세지 전송이 가능합니다.)
+          (승인 상태만 메시지 전송이 가능합니다.)
         </p>
       )}
       {InspectionButton}
@@ -230,12 +230,12 @@ export default function KakaoMessageDetail({
 
   const handleDeleteMessage = () => {
     toast.promise(deleteMessage(), {
-      loading: "메세지 삭제중...",
+      loading: "메시지 삭제중...",
       success: () => {
         router.push(`/workspaces/${workspaceId}/message`);
-        return "메세지 삭제 완료";
+        return "메시지 삭제 완료";
       },
-      error: "메세지 삭제 실패",
+      error: "메시지 삭제 실패",
     });
   };
 
@@ -255,8 +255,8 @@ export default function KakaoMessageDetail({
         뒤로 가기
       </button>
       <Header
-        title={`${name} 메세지 상세`}
-        description="메세지의 상세 정보를 확인할 수 있습니다."
+        title={`${name} 메시지 상세`}
+        description="메시지의 상세 정보를 확인할 수 있습니다."
       />
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="col-span-1 h-min items-center gap-3 flex-col flex lg:flex-none min-w-[280px]">
@@ -287,7 +287,7 @@ export default function KakaoMessageDetail({
                 }
               >
                 <EditOutlined />
-                메세지 수정
+                메시지 수정
               </Button>
               <Popover
                 open={isPopoverOpen}
@@ -311,25 +311,25 @@ export default function KakaoMessageDetail({
               >
                 <Button type="primary" danger className="w-[280px]">
                   <DeleteOutlined />
-                  메세지 삭제
+                  메시지 삭제
                 </Button>
               </Popover>
             </>
           )}
         </div>
         <Card className="w-full">
-          <h2 className="text-2xl font-semibold mb-4">메세지 정보</h2>
+          <h2 className="text-2xl font-semibold mb-4">메시지 정보</h2>
           <div className="flex flex-col gap-1">
-            <InfoRow label="메세지 이름" copyable>
+            <InfoRow label="메시지 이름" copyable>
               {name}
             </InfoRow>
-            <InfoRow label="메세지 상태">
+            <InfoRow label="메시지 상태">
               <div className="flex flex-col text-left gap-2">
                 {InspectionStatus}
                 {InspectionRejectReason}
               </div>
             </InfoRow>
-            <InfoRow label="메세지 카테고리">
+            <InfoRow label="메시지 카테고리">
               {isKakaoTemplateCategoriesLoading &&
                 "카테고리 정보를 불러오는 중입니다."}
               {
@@ -360,7 +360,7 @@ export default function KakaoMessageDetail({
               </InfoRow>
             )}
             <InfoRow
-              label="메세지 내용"
+              label="메시지 내용"
               copyable
               copytext={type === "CUSTOM" ? content : kakaoTemplate.content}
               className="flex flex-col"
@@ -371,7 +371,7 @@ export default function KakaoMessageDetail({
             </InfoRow>
             {kakaoTemplate.extra && (
               <InfoRow
-                label="메세지 추가정보"
+                label="메시지 추가정보"
                 copyable
                 copytext={kakaoTemplate.extra}
                 className="flex flex-col"
@@ -381,7 +381,7 @@ export default function KakaoMessageDetail({
                 </p>
               </InfoRow>
             )}
-            <InfoRow label="메세지 버튼" className="flex flex-col">
+            <InfoRow label="메시지 버튼" className="flex flex-col">
               <div className="flex gap-1 flex-col mt-2">
                 {kakaoTemplate?.buttons.map((button) => (
                   <KakaoButton key={button.name} button={button} />
@@ -393,10 +393,10 @@ export default function KakaoMessageDetail({
             </InfoRow>
             <InfoRow label="배송 완료 처리">
               {completeDelivery
-                ? "메세지 발송시 배송 완료 처리됨"
+                ? "메시지 발송시 배송 완료 처리됨"
                 : "수동으로 배송 완료 처리 필요"}
             </InfoRow>
-            <InfoRow label="메세지 발송 대상">
+            <InfoRow label="메시지 발송 대상">
               {MessageTargetMapping[target]}
               {customPhone &&
                 target === "CUSTOM" &&
@@ -405,10 +405,10 @@ export default function KakaoMessageDetail({
                   "$1-$2-$3"
                 )})`}
             </InfoRow>
-            <InfoRow label="메세지 생성일">
+            <InfoRow label="메시지 생성일">
               {moment(createdAt).format("YYYY년 MM월 DD일 HH시 mm분 ss초")}
             </InfoRow>
-            <InfoRow label="메세지 수정일">
+            <InfoRow label="메시지 수정일">
               {moment(updatedAt).format("YYYY년 MM월 DD일 HH시 mm분 ss초")}
             </InfoRow>
           </div>

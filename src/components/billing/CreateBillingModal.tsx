@@ -55,6 +55,12 @@ export function CreateBillingModal({
       destroyOnClose
       onOk={() => form.submit()}
     >
+      <p className="mb-5 text-gray-500 text-sm whitespace-pre-line">
+        카드 등록 시 결제 예정일에 맞춰 후불 결제가 월마다 자동으로
+        이루어집니다.
+        {"\n"}
+        카드를 등록하지 않을 경우 서비스 이용이 제한될 수 있습니다.
+      </p>
       <Form layout="vertical" form={form} onFinish={onFinish}>
         <Form.Item
           label="카드번호"

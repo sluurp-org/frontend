@@ -7,7 +7,7 @@ import { useProducts } from "@/hooks/queries/useProduct";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
 import { Card } from "@/components/common/Card";
-import { Events } from "@/components/product/Events";
+import { Events } from "@/components/event/Events";
 import { ProductsFilters } from "@/types/product";
 import toast from "react-hot-toast";
 import Error from "@/components/Error";
@@ -68,10 +68,10 @@ export default function ProductListPage() {
             label: (
               <>
                 <p className="text-indigo-500 font-bold cursor-pointer">
-                  기본 메세지 발송 설정
+                  기본 메시지 발송 설정
                 </p>
                 <p className="text-gray-600">
-                  모든 상품에 적용되는 메세지 발송 규칙을 설정할 수 있습니다.
+                  모든 상품에 적용되는 메시지 발송 규칙을 설정할 수 있습니다.
                 </p>
               </>
             ),

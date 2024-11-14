@@ -88,11 +88,11 @@ export default function WorkspaceOrderDetail() {
               {data.deliveryAddress || "배송 주소 없음"}
             </InfoRow>
             <InfoRow
-              label="배송 메세지"
+              label="배송 메시지"
               copyable={!!data.deliveryMessage}
               copytext={data.deliveryMessage}
             >
-              {data.deliveryMessage || "배송 메세지 없음"}
+              {data.deliveryMessage || "배송 메시지 없음"}
             </InfoRow>
             <InfoRow label="배송 업체" copyable={!!data.deliveryCompany}>
               {data.deliveryCompany || "배송 업체 없음"}
@@ -121,6 +121,10 @@ export default function WorkspaceOrderDetail() {
                   <ProductOutlined className="mr-1" />
                   <span>{data.product.name}</span>
                 </Link>
+                <InfoRow label="상품명">{data.product.name}</InfoRow>
+                <InfoRow label="옵션명">
+                  {data.productVariant?.name || "-"}
+                </InfoRow>
                 <InfoRow label="상품 스토어">
                   <Link
                     href={`/workspaces/${workspaceId}/store?storeId=${data.store.id}`}

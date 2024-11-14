@@ -1,18 +1,34 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Footer() {
+export default function Footer({
+  logo = true,
+  className,
+  childrenClassName,
+}: {
+  logo?: boolean;
+  className?: string;
+  childrenClassName?: string;
+}) {
   return (
-    <footer className="bg-gray-50 py-12 px-4 border-t w-full">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8">
+    <footer className={cn("bg-gray-50 py-8 border-t w-full", className)}>
+      <div
+        className={cn(
+          "max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8",
+          childrenClassName
+        )}
+      >
         <div className="col-span-2">
-          <Image
-            src="/logo.png"
-            alt="스르륵"
-            width={60}
-            height={80}
-            className="cursor-pointer mb-4"
-          />
+          {logo && (
+            <Image
+              src="/logo.png"
+              alt="스르륵"
+              width={60}
+              height={80}
+              className="cursor-pointer mb-4"
+            />
+          )}
           <p className="text-gray-600 mb-1">금오고소렌탈</p>
           <p className="text-gray-600 mb-1">대표: 임철수</p>
           <p className="text-gray-600 mb-1">

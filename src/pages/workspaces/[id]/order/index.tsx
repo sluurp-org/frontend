@@ -125,7 +125,7 @@ export default function WorkspaceOrderList() {
           scroll={{ x: "1500px" }}
           columns={columns}
           dataSource={data?.nodes || []}
-          rowKey="orderId"
+          rowKey={(record) => record.id}
           rowClassName={"cursor-pointer"}
           onRow={(record) => ({
             onClick: () =>

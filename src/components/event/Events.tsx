@@ -3,7 +3,7 @@ import {
   useEvents,
   useUpdateEvent,
 } from "@/hooks/queries/useEvent";
-import { EventsDto, EventsFilters } from "@/types/events";
+import { EventsDto, EventsFilters, UpdateEventDto } from "@/types/events";
 import errorHandler from "@/utils/error";
 import { Button, Popover, Switch, Table } from "antd";
 import { useState } from "react";
@@ -20,6 +20,8 @@ import { EventCreateModal } from "./EventCreateModal";
 import { getJosaPicker } from "josa";
 import Link from "next/link";
 import Error from "@/components/Error";
+import EventTypeUpdate from "./EventTypeUpdate";
+import EventTimeUpdate from "./EventTimeUpdate";
 
 export function EventItem({
   event,
@@ -36,9 +38,9 @@ export function EventItem({
   const handleDeleteEvent = async () => {
     setIsPopoverOpen(false);
     await toast.promise(deleteEvent(event.id), {
-      loading: "메세지 연결 해제 중...",
-      success: "메세지 연결 해제이 해제되었습니다.",
-      error: "메세지 연결 해제 실패",
+      loading: "메시지 연결 해제 중...",
+      success: "메시지 연결 해제이 해제되었습니다.",
+      error: "메시지 연결 해제 실패",
     });
     refetch();
   };
@@ -60,7 +62,7 @@ export function EventItem({
           <span className="text-indigo-500 font-bold">
             {event.message.name}
           </span>{" "}
-          메세지가 발송됩니다.
+          메시지가 발송됩니다.
         </p>
       </div>
       <div className="flex gap-1 mt-4 flex-col 2xl:flex-row">
@@ -70,7 +72,7 @@ export function EventItem({
           className="text-indigo-500"
         >
           <MessageOutlined className="mr-1" />
-          메세지 보기
+          메시지 보기
         </Link>
         <Popover
           open={isPopoverOpen}
@@ -119,18 +121,19 @@ export function Events({
   const { mutateAsync: deleteEvent } = useDeleteEvent(workspaceId);
   const { mutateAsync: updateEvent } = useUpdateEvent(workspaceId);
 
-  const handleUpdateEvent = async (eventId: number, enabled: boolean) => {
-    await toast.promise(updateEvent({ eventId, enabled }), {
-      loading: "상태 변경중...",
-      success: "상태가 변경되었습니다.",
-      error: "상태 변경 도중 오류가 발생하였습니다.",
+  const handleUpdateEvent = async (eventId: number, dto: UpdateEventDto) => {
+    await toast.promise(updateEvent({ eventId, dto }), {
+      loading: "발송 설정 변경중...",
+      success: "발송 설정이 변경되었습니다.",
+      error: (error) => errorHandler(error) || "발송 설정 변경 실패",
     });
   };
+
   const handleDeleteEvent = async (id: number) => {
     await toast.promise(deleteEvent(id), {
-      loading: "메세지 연결 해제 중...",
-      success: "메세지 연결 해제이 해제되었습니다.",
-      error: "메세지 연결 해제 실패",
+      loading: "메시지 연결 해제 중...",
+      success: "메시지 연결 해제이 해제되었습니다.",
+      error: (error) => errorHandler(error) || "발송 설정 변경 실패",
     });
   };
 
@@ -142,8 +145,8 @@ export function Events({
 
   const handleRefetch = () => {
     toast.promise(refetch(), {
-      loading: "메세지 목록을 불러오는 중...",
-      success: "메세지 목록을 성공적으로 불러왔습니다.",
+      loading: "메시지 목록을 불러오는 중...",
+      success: "메시지 목록을 성공적으로 불러왔습니다.",
       error: (error) =>
         errorHandler(error) || "옵션을 불러오는 중 에러가 발생했습니다",
     });
@@ -162,25 +165,25 @@ export function Events({
         {productId
           ? `해당 ${productVariantId ? "옵션" : "상품"}`
           : "스토어에 등록된 상품"}
-        을 구매한 사용자의 배송상태가 변경될 때 연결된 메세지를 발송합니다.
+        을 구매한 사용자의 배송상태가 변경될 때 연결된 메시지를 발송합니다.
         {"\n"}
-        아래에서 메세지를 연결해주세요.
+        아래에서 메시지를 연결해주세요.
       </p>
 
       <div className="flex gap-3 flex-col sm:flex-row mb-3">
         <Button type="primary" onClick={() => setIsModalOpen(true)}>
           <PlusOutlined />
-          메세지 연결 생성
+          메시지 연결 생성
         </Button>
         <Button type="primary" onClick={handleRefetch}>
           <ReloadOutlined />
-          메세지 새로고침
+          메시지 새로고침
         </Button>
       </div>
       <Table
         columns={[
           {
-            title: "메세지",
+            title: "메시지",
             dataIndex: "message",
             render: (message) => {
               return (
@@ -198,18 +201,32 @@ export function Events({
           {
             title: "주문 상태",
             dataIndex: "type",
-            render: (type: OrderStatus) => OrderStatusMap[type],
+            render: (type: OrderStatus, obj: EventsDto) => (
+              <EventTypeUpdate
+                orderStatus={type}
+                onSave={(orderStatus) => {
+                  handleUpdateEvent(obj.id, {
+                    type: orderStatus,
+                  });
+                }}
+              />
+            ),
           },
           {
             title: "발송 일시",
-            dataIndex: "scheduledAt",
-            render: (_, obj: EventsDto) => {
-              const { delayDays, sendHour } = obj;
-              if (!delayDays && !sendHour) return "즉시";
-              if (delayDays && !sendHour) return `${delayDays}일 후`;
-              if (!delayDays && sendHour) return `발송 후 ${sendHour}시`;
-              return `${delayDays}일 후 ${sendHour}시`;
-            },
+            dataIndex: "id",
+            render: (_: any, obj: EventsDto) => (
+              <EventTimeUpdate
+                delayDays={obj.delayDays}
+                sendHour={obj.sendHour}
+                onSave={(delayDays, sendHour) => {
+                  handleUpdateEvent(obj.id, {
+                    delayDays,
+                    sendHour,
+                  });
+                }}
+              />
+            ),
           },
           {
             title: "활성화 여부",
@@ -219,7 +236,11 @@ export function Events({
             render: (enabled: boolean, obj: EventsDto) => (
               <Switch
                 checked={enabled}
-                onChange={(checked) => handleUpdateEvent(obj.id, checked)}
+                onChange={(checked) =>
+                  handleUpdateEvent(obj.id, {
+                    enabled: checked,
+                  })
+                }
               />
             ),
           },
@@ -234,7 +255,7 @@ export function Events({
                     <p>정말 해제하시겠습니까?</p>
                     <p className="w-[200px] text-left text-sm text-gray-500">
                       해제할경우 해당 {productVariantId ? "옵션" : "상품"}을
-                      구매한 사용자의 배송상태가 변경될 때 메세지가 발송되지
+                      구매한 사용자의 배송상태가 변경될 때 메시지가 발송되지
                       않습니다.
                     </p>
                     <Button
@@ -261,7 +282,7 @@ export function Events({
           current: filters.page,
           pageSize: filters.size,
           total: data?.total,
-          showTotal: (total) => `총 ${total}개의 메세지`,
+          showTotal: (total) => `총 ${total}개의 메시지`,
           position: ["bottomCenter"],
           onChange: (page, pageSize) =>
             setFilters({ ...filters, page, size: pageSize }),

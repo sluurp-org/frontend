@@ -303,7 +303,7 @@ export default function EventHistoryModal({
           <InfoRow className="flex-col" label="발송 상태">
             {EventHistoryStatusMap[data.status]}
           </InfoRow>
-          <InfoRow className="flex-col" label="발송 상태 메세지">
+          <InfoRow className="flex-col" label="발송 상태 메시지">
             {data.rawMessage || "-"}
           </InfoRow>
           <InfoRow className="flex-col" label="발송 예정 일시">
@@ -319,7 +319,7 @@ export default function EventHistoryModal({
               : "-"}
           </InfoRow>
           {data.eventMessage && (
-            <InfoRow className="flex-col" label="발송 메세지 상세보기">
+            <InfoRow className="flex-col" label="발송 메시지 상세보기">
               <Link
                 href={`/workspace/${workspaceId}/message/${data.eventMessage.id}`}
                 className="text-indigo-500"
@@ -329,7 +329,7 @@ export default function EventHistoryModal({
               </Link>
             </InfoRow>
           )}
-          <InfoRow label="발송 메세지" className="flex-col">
+          <InfoRow label="발송 메시지" className="flex-col">
             <AlimTalk content={messageContent} className="mt-3" />
           </InfoRow>
         </div>

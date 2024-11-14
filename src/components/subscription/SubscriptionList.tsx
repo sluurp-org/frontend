@@ -97,6 +97,7 @@ export default function SubscriptionList({
     {
       title: "결제 사유",
       dataIndex: "reason",
+      width: 200,
       render: (reason) => {
         return reason || "-";
       },
@@ -138,12 +139,12 @@ export default function SubscriptionList({
     <Card className="max-h-[800px] h-full w-full">
       <p className="text-lg font-bold mb-3">결제 내역</p>
       <Table
-        className="h-full"
+        className="h-full max-w-min"
         dataSource={data?.nodes}
         loading={isLoading}
         columns={columns}
         rowKey="id"
-        scroll={{ x: 800 }}
+        scroll={{ x: 1000 }}
         pagination={{
           total: data?.total,
           current: purchaseFilter.page,

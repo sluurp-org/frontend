@@ -11,20 +11,25 @@ import {
   useEvents,
   useUpdateEvent,
 } from "@/hooks/queries/useEvent";
-import { EventsDto, EventsFilters } from "@/types/events";
-import { OrderStatus, OrderStatusMap } from "@/types/orders";
+import { EventsDto, EventsFilters, UpdateEventDto } from "@/types/events";
+import { OrderStatus } from "@/types/orders";
 import toast from "react-hot-toast";
 import {
   DisconnectOutlined,
+  FlagOutlined,
   MessageOutlined,
   ProductOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import Error from "@/components/Error";
+import EventTypeUpdate from "@/components/event/EventTypeUpdate";
+import EventTimeUpdate from "@/components/event/EventTimeUpdate";
+import EventCreateDrawer from "@/components/event/EventCreateDrawer";
 
 export default function ProductListPage() {
   const router = useRouter();
   const workspaceId = Number(router.query.id);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [filters, setFilters] = useState<EventsFilters>({
     size: 15,
     page: 1,
@@ -33,19 +38,19 @@ export default function ProductListPage() {
   const { mutateAsync: deleteEvent } = useDeleteEvent(workspaceId);
   const { mutateAsync: updateEvent } = useUpdateEvent(workspaceId);
 
-  const handleUpdateEvent = async (eventId: number, enabled: boolean) => {
-    await toast.promise(updateEvent({ eventId, enabled }), {
-      loading: "상태 변경중...",
-      success: "상태가 변경되었습니다.",
-      error: "상태 변경 도중 오류가 발생하였습니다.",
+  const handleUpdateEvent = async (eventId: number, dto: UpdateEventDto) => {
+    await toast.promise(updateEvent({ eventId, dto }), {
+      loading: "발송 설정 변경중...",
+      success: "발송 설정이 변경되었습니다.",
+      error: (error) => errorHandler(error) || "발송 설정 변경 실패",
     });
   };
 
   const handleDeleteEvent = async (id: number) => {
     await toast.promise(deleteEvent(id), {
-      loading: "메세지 연결 해제 중...",
-      success: "메세지 연결 해제이 해제되었습니다.",
-      error: "메세지 연결 해제 실패",
+      loading: "메시지 연결 해제 중...",
+      success: "메시지 연결 해제이 해제되었습니다.",
+      error: "메시지 연결 해제 실패",
     });
   };
 
@@ -90,7 +95,7 @@ export default function ProductListPage() {
       ),
     },
     {
-      title: "발송 메세지",
+      title: "발송 메시지",
       dataIndex: ["message", "name"],
       key: "store",
       width: "150px",
@@ -107,20 +112,32 @@ export default function ProductListPage() {
     {
       title: "주문 상태",
       dataIndex: "type",
-      key: "type",
-      width: "10%",
-      render: (text: OrderStatus) => <span>{OrderStatusMap[text]}</span>,
+      render: (type: OrderStatus, obj: EventsDto) => (
+        <EventTypeUpdate
+          orderStatus={type}
+          onSave={(orderStatus) => {
+            handleUpdateEvent(obj.id, {
+              type: orderStatus,
+            });
+          }}
+        />
+      ),
     },
     {
       title: "발송 일시",
-      dataIndex: "scheduledAt",
-      render: (_: any, obj: EventsDto) => {
-        const { delayDays, sendHour } = obj;
-        if (!delayDays && !sendHour) return "즉시";
-        if (delayDays && !sendHour) return `${delayDays}일 후`;
-        if (!delayDays && sendHour) return `발송 후 ${sendHour}시`;
-        return `${delayDays}일 후 ${sendHour}시`;
-      },
+      dataIndex: "id",
+      render: (_: any, obj: EventsDto) => (
+        <EventTimeUpdate
+          delayDays={obj.delayDays}
+          sendHour={obj.sendHour}
+          onSave={(delayDays, sendHour) => {
+            handleUpdateEvent(obj.id, {
+              delayDays,
+              sendHour,
+            });
+          }}
+        />
+      ),
     },
     {
       title: "활성화 여부",
@@ -130,7 +147,11 @@ export default function ProductListPage() {
       render: (enabled: boolean, obj: EventsDto) => (
         <Switch
           checked={enabled}
-          onChange={(checked) => handleUpdateEvent(obj.id, checked)}
+          onChange={(checked) =>
+            handleUpdateEvent(obj.id, {
+              enabled: checked,
+            })
+          }
         />
       ),
     },
@@ -172,32 +193,47 @@ export default function ProductListPage() {
   }
 
   return (
-    <Component>
-      <Header
-        title="자동발송 목록"
-        description="워크스페이스의 모든 자동발송 목록"
+    <>
+      <EventCreateDrawer
+        workspaceId={workspaceId}
+        open={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
       />
-
-      <Card className="p-0">
-        <Table
-          columns={columns}
-          dataSource={data?.nodes}
-          rowKey="id"
-          scroll={{ x: "1500px" }}
-          rowClassName={"cursor-pointer"}
-          pagination={{
-            total: data?.total,
-            pageSize: filters.size,
-            current: filters.page,
-            onChange: handlePageChange,
-            onShowSizeChange: handlePageChange,
-            pageSizeOptions: ["15", "20", "30", "40"],
-            showSizeChanger: true,
-            showTotal: (total) => `총 ${total} 개`,
-            className: "pr-4",
-          }}
+      <Component>
+        <Header
+          title="자동발송 목록"
+          description="워크스페이스의 모든 자동발송 목록"
         />
-      </Card>
-    </Component>
+
+        <Button
+          icon={<FlagOutlined />}
+          type="primary"
+          className="mb-3"
+          onClick={() => setIsDrawerOpen(true)}
+        >
+          자동발송 추가
+        </Button>
+        <Card className="p-0">
+          <Table
+            columns={columns}
+            dataSource={data?.nodes}
+            rowKey="id"
+            scroll={{ x: "1500px" }}
+            rowClassName={"cursor-pointer"}
+            pagination={{
+              total: data?.total,
+              pageSize: filters.size,
+              current: filters.page,
+              onChange: handlePageChange,
+              onShowSizeChange: handlePageChange,
+              pageSizeOptions: ["15", "20", "30", "40"],
+              showSizeChanger: true,
+              showTotal: (total) => `총 ${total} 개`,
+              className: "pr-4",
+            }}
+          />
+        </Card>
+      </Component>
+    </>
   );
 }
