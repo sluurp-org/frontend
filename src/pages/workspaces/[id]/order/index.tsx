@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Component from "@/components/Container";
-import { Button, Table, Tag } from "antd";
+import { Button, Cascader, Input, Select, Table, Tag } from "antd";
 import { useState } from "react";
 import {
   OrdersFilters,
@@ -16,6 +16,16 @@ import { Card } from "@/components/common/Card";
 import { FormOutlined, ReloadOutlined } from "@ant-design/icons";
 import Error from "@/components/Error";
 import toast from "react-hot-toast";
+import { useStore } from "@/hooks/queries/useStore";
+import useDebounce from "@/hooks/useDebounce";
+import { PaginatedProductsResponse } from "@/types/product";
+import { useProducts } from "@/hooks/queries/useProduct";
+
+interface Option {
+  value: number;
+  label: string;
+  children?: Option[];
+}
 
 export default function WorkspaceOrderList() {
   const router = useRouter();
@@ -23,7 +33,39 @@ export default function WorkspaceOrderList() {
   const [createOrderDrawerOpen, setCreateOrderDrawerOpen] = useState(false);
 
   const workspaceId = Number(router.query.id);
-  const { data, isLoading, error, refetch } = useOrders(workspaceId, filters);
+  const debouncedFilters = useDebounce(filters, 500);
+  const { data, isLoading, error, refetch } = useOrders(workspaceId, {
+    ...debouncedFilters,
+    page: filters.page,
+    size: filters.size,
+  });
+  const { data: productData, isLoading: productLoading } =
+    useProducts(workspaceId);
+  const { data: store, isLoading: storeLoading } = useStore(workspaceId);
+
+  const groupByStore = (product: PaginatedProductsResponse | undefined) => {
+    if (!product) return [];
+    const grouped: Record<number, Option> = {};
+
+    product.nodes.map((node) => {
+      const storeId = node.store.id;
+
+      if (!grouped[storeId]) {
+        grouped[storeId] = {
+          value: storeId,
+          label: node.store.name,
+          children: [],
+        };
+      }
+
+      grouped[storeId].children?.push({
+        value: node.id,
+        label: node.name,
+      });
+    });
+
+    return Object.values(grouped);
+  };
 
   if (error) {
     toast.error(errorHandler(error));
@@ -102,7 +144,14 @@ export default function WorkspaceOrderList() {
         open={createOrderDrawerOpen}
         onClose={() => setCreateOrderDrawerOpen(false)}
       />
-      <div className="flex gap-3">
+      <div className="flex gap-3 mb-3">
+        <Button
+          type="primary"
+          onClick={() => setCreateOrderDrawerOpen(true)}
+          icon={<FormOutlined />}
+        >
+          주문 생성
+        </Button>
         <Button
           icon={<ReloadOutlined />}
           loading={isLoading}
@@ -110,14 +159,73 @@ export default function WorkspaceOrderList() {
         >
           새로고침
         </Button>
-        <Button
-          type="primary"
-          onClick={() => setCreateOrderDrawerOpen(true)}
-          className="mb-4"
-          icon={<FormOutlined />}
+      </div>
+      <div className="flex gap-3 mb-3">
+        <Input
+          placeholder="주문 번호"
+          className="w-64"
+          onChange={(e) =>
+            setFilters({ ...filters, orderId: e.target.value || undefined })
+          }
+        />
+        <Input
+          placeholder="상품 주문 번호"
+          className="w-64"
+          onChange={(e) =>
+            setFilters({
+              ...filters,
+              productOrderId: e.target.value || undefined,
+            })
+          }
+        />
+        <Select
+          placeholder="주문 상태"
+          className="w-28"
+          onChange={(value) => setFilters({ ...filters, status: value })}
+          allowClear
         >
-          주문 생성
-        </Button>
+          {Object.entries(OrderStatusMap).map(([key, value]) => (
+            <Select.Option key={key} value={key}>
+              {value}
+            </Select.Option>
+          ))}
+        </Select>
+        <Select
+          placeholder="스토어"
+          className="w-auto"
+          loading={storeLoading}
+          filterOption={(input, option) =>
+            (option?.children ?? "")
+              .toString()
+              .toLowerCase()
+              .indexOf(input.toLowerCase()) >= 0
+          }
+          onChange={(value) => setFilters({ ...filters, storeId: value })}
+          showSearch
+          allowClear
+        >
+          {store?.nodes.map((store) => (
+            <Select.Option key={store.id} value={store.id}>
+              {store.name}
+            </Select.Option>
+          ))}
+        </Select>
+        <Cascader
+          placeholder="상품"
+          loading={productLoading}
+          disabled={productLoading}
+          multiple={false}
+          className="w-auto"
+          onChange={(value) => {
+            const productId = value ? value[value.length - 1] : undefined;
+            setFilters({
+              ...filters,
+              productId,
+            });
+          }}
+          showSearch
+          options={groupByStore(productData)}
+        />
       </div>
       <Card className="p-0">
         <Table

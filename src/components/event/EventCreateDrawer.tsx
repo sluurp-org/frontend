@@ -179,6 +179,12 @@ export default function EventCreateDrawer({
               loading={productOptionLoading}
               disabled={productOptionLoading}
               allowClear
+              filterOption={(input, option) =>
+                (option?.children ?? "")
+                  .toString()
+                  .toLowerCase()
+                  .indexOf(input.toLowerCase()) >= 0
+              }
               showSearch
               placeholder="상품 옵션을 선택해주세요."
             >
@@ -212,7 +218,17 @@ export default function EventCreateDrawer({
           label="메시지 선택"
           rules={[{ required: true, message: "메시지를 선택해주세요." }]}
         >
-          <Select loading={messageLoading} placeholder="메시지를 선택해주세요.">
+          <Select
+            loading={messageLoading}
+            placeholder="메시지를 선택해주세요."
+            showSearch
+            filterOption={(input, option) =>
+              (option?.children ?? "")
+                .toString()
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) >= 0
+            }
+          >
             {messageData?.nodes.map((message) => (
               <Select.Option key={message.id} value={message.id}>
                 {message.name}

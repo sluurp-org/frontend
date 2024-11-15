@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Component from "../../../../components/Container";
 import { useRouter } from "next/router";
-import { Table, Input, Collapse } from "antd";
+import { Table, Input, Collapse, Select } from "antd";
 import { useState } from "react";
 import { useProducts } from "@/hooks/queries/useProduct";
 import Loading from "@/components/Loading";
@@ -11,6 +11,8 @@ import { Events } from "@/components/event/Events";
 import { ProductsFilters } from "@/types/product";
 import toast from "react-hot-toast";
 import Error from "@/components/Error";
+import useDebounce from "@/hooks/useDebounce";
+import { useStore } from "@/hooks/queries/useStore";
 
 const { Search } = Input;
 
@@ -21,15 +23,17 @@ export default function ProductListPage() {
     size: 15,
     page: 1,
   });
-  const { data, isLoading, error } = useProducts(workspaceId, filters);
+  const debouncedFilters = useDebounce(filters, 500);
+  const { data, isLoading, error } = useProducts(workspaceId, {
+    ...debouncedFilters,
+    page: filters.page,
+    size: filters.size,
+  });
+
+  const { data: store, isLoading: isStoreLoading } = useStore(workspaceId);
 
   const handlePageChange = (page: number, pageSize: number) => {
     setFilters({ ...filters, page, size: pageSize });
-  };
-
-  const handleSearch = (value: string) => {
-    const name = value === "" ? undefined : value.trim();
-    setFilters({ ...filters, name, page: 1 });
   };
 
   const columns = [
@@ -89,13 +93,36 @@ export default function ProductListPage() {
         접기
       </Collapse>
 
-      <div className="flex justify-start mb-4">
-        <Search
+      <div className="flex justify-start mb-4 gap-3">
+        <Input
           placeholder="상품명 검색"
-          onSearch={handleSearch}
-          enterButton
-          className="w-full md:w-1/3"
+          className="w-80"
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              name: e.target.value || undefined,
+            });
+          }}
         />
+        <Select
+          placeholder="스토어 선택"
+          className="w-48"
+          loading={isStoreLoading}
+          allowClear
+          defaultValue={undefined}
+          onChange={(value) => {
+            setFilters({
+              ...filters,
+              storeId: value || undefined,
+            });
+          }}
+        >
+          {store?.nodes.map((store) => (
+            <Select.Option key={store.id} value={store.id}>
+              {store.name}
+            </Select.Option>
+          ))}
+        </Select>
       </div>
       <Card className="p-0">
         <Table

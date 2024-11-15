@@ -66,14 +66,17 @@ export default function StoreDrawer({
     }
   }, [data, form]);
 
-  if (isLoading) return <Loading isFullPage={false} />;
   if (error) {
     toast.error(errorHandler(error));
     setIsOpen(false);
     return null;
   }
 
-  if (!data) return null;
+  if (!data) {
+    setIsOpen(false);
+    return null;
+  }
+  if (isLoading) return null;
 
   const handleStoreNameChange = async (newName: string) => {
     toast.promise(updateStore.mutateAsync({ id: storeId, name: newName }), {

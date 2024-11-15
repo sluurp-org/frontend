@@ -13,6 +13,7 @@ import {
   TruckOutlined,
   UserOutlined,
   MenuOutlined,
+  ClockCircleOutlined,
 } from "@ant-design/icons";
 import { ConfigProvider, Menu, MenuProps, Drawer, Popover } from "antd";
 import Link from "next/link";
@@ -58,6 +59,15 @@ const getItems = (workspaceId?: string): MenuItem[] => [
         ),
         icon: <TruckOutlined />,
         children: [
+          {
+            key: `/workspaces/${workspaceId}/history`,
+            label: (
+              <Popover content="자동 발송 이력을 확인합니다." placement="right">
+                자동 발송 이력
+              </Popover>
+            ),
+            icon: <ClockCircleOutlined />,
+          },
           {
             key: `/workspaces/${workspaceId}/event`,
             label: (
@@ -178,6 +188,7 @@ function Sidebar() {
       `/workspaces/${id}/product`,
       `/workspaces/${id}/message`,
       `/workspaces/${id}/content`,
+      `/workspaces/${id}/history`,
     ];
     const matchingPath = workspacePaths.find((path) =>
       currentPath.startsWith(path)
@@ -192,6 +203,7 @@ function Sidebar() {
       `/workspaces/${id}/product`,
       `/workspaces/${id}/message`,
       `/workspaces/${id}/content`,
+      `/workspaces/${id}/history`,
     ];
 
     const matchingBasePath = basePaths.find((path) =>

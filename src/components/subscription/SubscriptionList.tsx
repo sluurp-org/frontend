@@ -139,7 +139,7 @@ export default function SubscriptionList({
     <Card className="max-h-[800px] h-full w-full">
       <p className="text-lg font-bold mb-3">결제 내역</p>
       <Table
-        className="h-full max-w-min"
+        className="h-full"
         dataSource={data?.nodes}
         loading={isLoading}
         columns={columns}

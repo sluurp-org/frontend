@@ -78,7 +78,7 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
 
     try {
       const res = await axiosClient.post(
-        `/workspace/${workspaceId}/kakao/image`,
+        `/workspaces/${workspaceId}/kakao/image`,
         fmData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

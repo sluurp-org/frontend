@@ -69,6 +69,7 @@ export interface OrdersFilters {
   id?: number;
   storeId?: number;
   productOrderId?: string;
+  productId?: number;
   orderId?: string;
   status?: OrderStatus;
 }

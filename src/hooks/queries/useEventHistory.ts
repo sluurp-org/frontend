@@ -1,7 +1,25 @@
 import { useMutation, useQuery } from "react-query";
 import axiosClient from "@/utils/axios";
-import { EventHistory, UpdateEventHistoryDto } from "@/types/event-history";
+import {
+  EventHistory,
+  EventHistoryFilter,
+  PaginatedEventHistory,
+  UpdateEventHistoryDto,
+} from "@/types/event-history";
 import { queryClient } from "@/pages/_app";
+
+const fetchEventHistories = async (
+  workspaceId: number,
+  dto: EventHistoryFilter
+) => {
+  const { data } = await axiosClient.get<PaginatedEventHistory>(
+    `/workspace/${workspaceId}/event-history`,
+    {
+      params: dto,
+    }
+  );
+  return data;
+};
 
 const fetchEventHistory = async (
   workspaceId: number,
@@ -22,6 +40,7 @@ const updateEventHistory = async (
     `/workspace/${workspaceId}/event-history/${eventHistoryContentId}`,
     dto
   );
+
   return data;
 };
 
@@ -32,7 +51,21 @@ const resetEventHistoryDownloadCount = async (
   const { data } = await axiosClient.put<EventHistory>(
     `/workspace/${workspaceId}/event-history/${eventHistoryContentId}/reset-download-count`
   );
+
   return data;
+};
+
+export const useEventHistories = (
+  workspaceId: number,
+  dto: EventHistoryFilter
+) => {
+  return useQuery(
+    ["event-histories", workspaceId, dto],
+    () => fetchEventHistories(workspaceId, dto),
+    {
+      enabled: !!workspaceId,
+    }
+  );
 };
 
 export const useEventHistory = (

@@ -17,6 +17,22 @@ export const EventHistoryStatusMap: Record<EventHistoryStatus, string> = {
   FAILED: "발송 실패",
 } as const;
 
+export interface EventHistoryFilter {
+  page?: number;
+  size?: number;
+  id?: string;
+  eventId?: number;
+  productId?: number;
+  productVariantId?: number;
+  messageId?: number;
+  status?: EventHistoryStatus;
+}
+
+export interface PaginatedEventHistory {
+  total: number;
+  nodes: EventHistory[];
+}
+
 export interface EventHistory {
   id: string;
   contents: {

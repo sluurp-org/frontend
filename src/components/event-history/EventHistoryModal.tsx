@@ -242,7 +242,7 @@ export default function EventHistoryModal({
   workspaceId: number;
   eventHistoryId: string;
 }) {
-  const { data, isLoading, isError, refetch } = useEventHistory(
+  const { data, isLoading, error, isError, refetch } = useEventHistory(
     workspaceId,
     eventHistoryId
   );
@@ -253,10 +253,16 @@ export default function EventHistoryModal({
     }
   }, [open, refetch]);
 
-  if (isLoading) return <Loading isFullPage={false} />;
-  if (isError) return <Error isFullPage={false} />;
-  if (!data)
-    return <Error isFullPage={false} message="데이터를 불러올 수 없습니다." />;
+  if (isLoading) return null;
+  if (isError) {
+    toast.error(errorHandler(error));
+    onClose();
+    return null;
+  }
+  if (!data) {
+    onClose();
+    return null;
+  }
 
   const messageVariables = data?.messageVariables;
   const keyToVarName = Object.fromEntries(
@@ -321,7 +327,7 @@ export default function EventHistoryModal({
           {data.eventMessage && (
             <InfoRow className="flex-col" label="발송 메시지 상세보기">
               <Link
-                href={`/workspace/${workspaceId}/message/${data.eventMessage.id}`}
+                href={`/workspaces/${workspaceId}/message/${data.eventMessage.id}`}
                 className="text-indigo-500"
               >
                 <MessageOutlined className="mr-1" />

@@ -28,7 +28,12 @@ export default function WorkspaceOrderDetail() {
   const { data, isLoading, error } = useOrder(workspaceId, orderId);
 
   if (isLoading) return <Loading />;
-  if (error || !data) {
+  if (!data && !isLoading) {
+    toast.error("주문 정보를 불러오는 중 오류가 발생했습니다.");
+    return <Error />;
+  }
+
+  if (error) {
     toast.error(errorHandler(error));
     return <Error />;
   }

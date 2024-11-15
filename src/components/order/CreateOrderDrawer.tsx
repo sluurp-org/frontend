@@ -164,6 +164,12 @@ export default function CreateOrderDrawer({
               disabled={productOptionLoading}
               allowClear
               showSearch
+              filterOption={(input, option) =>
+                (option?.children ?? "")
+                  .toString()
+                  .toLowerCase()
+                  .indexOf(input.toLowerCase()) >= 0
+              }
               placeholder="상품 옵션을 선택해주세요."
             >
               {productOptionData?.nodes.map((productOption) => (

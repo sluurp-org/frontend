@@ -26,7 +26,7 @@ import EventTypeUpdate from "@/components/event/EventTypeUpdate";
 import EventTimeUpdate from "@/components/event/EventTimeUpdate";
 import EventCreateDrawer from "@/components/event/EventCreateDrawer";
 
-export default function ProductListPage() {
+export default function EventListPage() {
   const router = useRouter();
   const workspaceId = Number(router.query.id);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -63,13 +63,13 @@ export default function ProductListPage() {
       title: "아이디",
       dataIndex: "id",
       key: "id",
-      width: "5%",
+      width: 100,
     },
     {
       title: "상품 명",
       dataIndex: ["product", "name"],
       key: "product.name",
-      width: "200px",
+      width: 200,
       render: (text: string, obj: EventsDto) =>
         text ? (
           <Link
@@ -87,7 +87,7 @@ export default function ProductListPage() {
       title: "옵션 명",
       dataIndex: ["productVariant", "name"],
       key: "store",
-      width: "200px",
+      width: 200,
       render: (text: string) => (
         <div className="flex items-center">
           <span>{text || "모든 옵션"}</span>
@@ -98,7 +98,7 @@ export default function ProductListPage() {
       title: "발송 메시지",
       dataIndex: ["message", "name"],
       key: "store",
-      width: "150px",
+      width: 200,
       render: (text: string, obj: EventsDto) => (
         <Link
           href={`/workspaces/${workspaceId}/message/${obj.messageId}`}
@@ -112,6 +112,7 @@ export default function ProductListPage() {
     {
       title: "주문 상태",
       dataIndex: "type",
+      width: 200,
       render: (type: OrderStatus, obj: EventsDto) => (
         <EventTypeUpdate
           orderStatus={type}
@@ -126,6 +127,7 @@ export default function ProductListPage() {
     {
       title: "발송 일시",
       dataIndex: "id",
+      width: 200,
       render: (_: any, obj: EventsDto) => (
         <EventTimeUpdate
           delayDays={obj.delayDays}
@@ -143,7 +145,7 @@ export default function ProductListPage() {
       title: "활성화 여부",
       dataIndex: "enabled",
       key: "enabled",
-      width: "10%",
+      width: 100,
       render: (enabled: boolean, obj: EventsDto) => (
         <Switch
           checked={enabled}
@@ -159,7 +161,7 @@ export default function ProductListPage() {
       title: "삭제",
       dataIndex: "id",
       key: "type",
-      width: "10px",
+      width: 100,
       render: (id: number) => (
         <Popover
           content={
@@ -218,7 +220,7 @@ export default function ProductListPage() {
             columns={columns}
             dataSource={data?.nodes}
             rowKey="id"
-            scroll={{ x: "1500px" }}
+            scroll={{ x: 1300 }}
             rowClassName={"cursor-pointer"}
             pagination={{
               total: data?.total,
