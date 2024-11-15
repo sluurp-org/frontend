@@ -32,6 +32,7 @@ export interface EventsFilters {
   size?: number;
   productId?: number | null;
   productVariantId?: number | null;
+  messageId?: number | null;
 }
 
 export interface EventDto {

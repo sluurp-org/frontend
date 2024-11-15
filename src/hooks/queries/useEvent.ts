@@ -20,6 +20,7 @@ const fetchEvents = async (
         productId: filters.productId === null ? "" : filters.productId,
         productVariantId:
           filters.productVariantId === null ? "" : filters.productVariantId,
+        messageId: filters.messageId === null ? "" : filters.messageId,
         page: filters.page,
         size: filters.size,
       },

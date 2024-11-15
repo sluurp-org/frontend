@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Component from "../../../../components/Container";
 import { useRouter } from "next/router";
-import { Table, Button, Popover, Switch } from "antd";
+import { Table, Button, Popover, Switch, Select, Cascader } from "antd";
 import { useState } from "react";
 import Loading from "@/components/Loading";
 import errorHandler from "@/utils/error";
@@ -25,6 +25,15 @@ import Error from "@/components/Error";
 import EventTypeUpdate from "@/components/event/EventTypeUpdate";
 import EventTimeUpdate from "@/components/event/EventTimeUpdate";
 import EventCreateDrawer from "@/components/event/EventCreateDrawer";
+import { useProducts } from "@/hooks/queries/useProduct";
+import { useMessages } from "@/hooks/queries/useMessage";
+import { PaginatedProductsResponse } from "@/types/product";
+
+interface Option {
+  value: number;
+  label: string;
+  children?: Option[];
+}
 
 export default function EventListPage() {
   const router = useRouter();
@@ -52,6 +61,38 @@ export default function EventListPage() {
       success: "메시지 연결 해제이 해제되었습니다.",
       error: "메시지 연결 해제 실패",
     });
+  };
+
+  const { data: productData, isLoading: productLoading } = useProducts(
+    workspaceId,
+    {}
+  );
+
+  const { data: messageData, isLoading: messageLoading } =
+    useMessages(workspaceId);
+
+  const groupByStore = (product: PaginatedProductsResponse | undefined) => {
+    if (!product) return [];
+    const grouped: Record<number, Option> = {};
+
+    product.nodes.map((node) => {
+      const storeId = node.store.id;
+
+      if (!grouped[storeId]) {
+        grouped[storeId] = {
+          value: storeId,
+          label: node.store.name,
+          children: [],
+        };
+      }
+
+      grouped[storeId].children?.push({
+        value: node.id,
+        label: node.name,
+      });
+    });
+
+    return Object.values(grouped);
   };
 
   const handlePageChange = (page: number, pageSize: number) => {
@@ -188,7 +229,6 @@ export default function EventListPage() {
     },
   ];
 
-  if (isLoading) return <Loading />;
   if (error) {
     errorHandler(error);
     return <Error />;
@@ -215,11 +255,56 @@ export default function EventListPage() {
         >
           자동발송 추가
         </Button>
+        <div className="flex items-center gap-3 mb-4">
+          <Cascader
+            placeholder="상품을 선택해주세요."
+            loading={productLoading}
+            disabled={productLoading}
+            multiple={false}
+            className="w-auto"
+            allowClear
+            onChange={(value) => {
+              const productId = value ? value[value.length - 1] : undefined;
+              setFilters({
+                ...filters,
+                productId,
+              });
+            }}
+            showSearch
+            options={groupByStore(productData)}
+          />
+          <Select
+            placeholder="메세지를 선택해주세요."
+            loading={messageLoading}
+            allowClear
+            showSearch
+            filterOption={(input, option) =>
+              (option?.children ?? "")
+                .toString()
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) >= 0
+            }
+            onChange={(value) =>
+              setFilters({
+                ...filters,
+                messageId: value || undefined,
+              })
+            }
+            className="w-auto"
+          >
+            {messageData?.nodes.map((message) => (
+              <Select.Option key={message.id} value={message.id}>
+                {message.name}
+              </Select.Option>
+            ))}
+          </Select>
+        </div>
         <Card className="p-0">
           <Table
             columns={columns}
             dataSource={data?.nodes}
             rowKey="id"
+            loading={isLoading}
             scroll={{ x: 1300 }}
             rowClassName={"cursor-pointer"}
             pagination={{

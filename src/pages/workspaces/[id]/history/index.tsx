@@ -159,19 +159,22 @@ export default function EventHistoryPage() {
       dataIndex: "processedAt",
       key: "processedAt",
       width: 250,
-      render: (processedAt: string) => (
-        <div className="flex items-center">
-          <p>{moment(processedAt).format("YYYY시 MM월 DD일 HH시 mm분")}</p>
-          <p className="ml-2 text-xs text-gray-400">
-            (
-            {formatDistanceToNow(new Date(processedAt), {
-              addSuffix: true,
-              locale: ko,
-            })}
-            )
-          </p>
-        </div>
-      ),
+      render: (processedAt: string) =>
+        processedAt ? (
+          <div className="flex items-center">
+            <p>{moment(processedAt).format("YYYY시 MM월 DD일 HH시 mm분")}</p>
+            <p className="ml-2 text-xs text-gray-400">
+              (
+              {formatDistanceToNow(new Date(processedAt), {
+                addSuffix: true,
+                locale: ko,
+              })}
+              )
+            </p>
+          </div>
+        ) : (
+          "-"
+        ),
     },
   ];
 
