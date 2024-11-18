@@ -7,13 +7,23 @@ import { ConfigProvider } from "antd";
 import ko_KR from "antd/es/locale/ko_KR";
 import "moment/locale/ko";
 import { DefaultSeo } from "next-seo";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import moment from "moment";
-import { ChannelProvider, useChannel } from "@/contexts/ChannelContext";
-import { StepbyProvider, useStepby } from "@/contexts/StepbyContext";
-import { useUserMe } from "@/hooks/queries/useUser";
-import { useEffect } from "react";
+import { ChannelProvider } from "@/contexts/ChannelContext";
+import { StepbyProvider } from "@/contexts/StepbyContext";
+import { ReactElement } from "react";
+import { ReactNode } from "react";
+import { NextPage } from "next";
 moment.locale("ko");
+
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -58,6 +68,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <DefaultSeo {...DEFAULT_SEO} />
         <Toaster position="top-center" reverseOrder={false} />
         <PagesTopLoader color="#818cf8" height={5} showSpinner={false} />
+        <GoogleAnalytics gaId="G-NY5LVEW8RS" />
         <ChannelProvider>
           <StepbyProvider>
             <ConfigProvider locale={ko_KR}>
