@@ -100,7 +100,7 @@ export default function Notice({
           <div className="flex min-h-[500px] sm:flex-row flex-col gap-8 mt-10 mx-auto justify-center">
             <div>
               {rootPageId && (
-                <div className="w-full text-center mb-5">
+                <div className="w-full">
                   <Link
                     className="font-semibold text-lg"
                     href={`/notice/${rootPageId}`}
@@ -111,7 +111,8 @@ export default function Notice({
               )}
               <NotionRenderer
                 recordMap={data}
-                fullPage={false}
+                fullPage={rootPageId ? true : false}
+                disableHeader={true}
                 darkMode={false}
                 mapPageUrl={(pageId) =>
                   `/notice/${pageId}${

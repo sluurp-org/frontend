@@ -57,6 +57,18 @@ input:focus {
   display: none !important;
 }
 
+.notion-page-icon {
+  display: none !important;
+}
 .notion-list-item-property {
   display: flex;
+}
+
+.notion-app {
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+
+.notion-page {
+  padding: 0 !important;
 }
