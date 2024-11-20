@@ -52,3 +52,11 @@ input:focus {
     opacity: 1;
   }
 }
+
+.notion-page-title {
+  display: none !important;
+}
+
+.notion-list-item-property {
+  display: flex;
+}
