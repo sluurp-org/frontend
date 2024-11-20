@@ -35,6 +35,9 @@ export const refreshIntercepter = async (err: AxiosError | Error) => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
 
+    if (!window.location.pathname.startsWith("/workspaces"))
+      return Promise.reject(error); // Redirect to login page if not in workspace page
+
     const pathname = window.location.pathname || "/workspaces";
     window.location.href = `/auth/login?redirect=${pathname}`;
     return Promise.reject(error);

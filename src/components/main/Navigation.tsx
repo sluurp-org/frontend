@@ -54,6 +54,7 @@ export default function Navigation() {
         <Link href="https://docs.sluurp.io">이용 가이드</Link>
         <Link href="/templates">알림톡 예제</Link>
         <Link href="/pricing">요금 안내</Link>
+        <Link href="/notice">공지사항</Link>
       </nav>
 
       <div className="md:hidden flex items-center">
@@ -76,6 +77,7 @@ export default function Navigation() {
           <Link href="https://docs.sluurp.io">이용 가이드</Link>
           <Link href="/templates">알림톡 예제</Link>
           <Link href="/pricing">요금 안내</Link>
+          <Link href="/notice">공지사항</Link>
           <Link
             href={isLoggedIn ? "/workspaces" : "/auth/login"}
             className="w-full px-3"
