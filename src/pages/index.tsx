@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import AlimTalk from "@/components/kakao/AlimTalk";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import Image from "next/image";
@@ -10,6 +10,8 @@ import {
   InboxOutlined,
   PhoneOutlined,
   MessageOutlined,
+  CustomerServiceOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import Footer from "@/components/main/Footer";
 import Navigation from "@/components/main/Navigation";
@@ -22,6 +24,58 @@ const reviewRequestAlimTalkContentSample =
   "안녕하세요! 임태현 고객님 :)\n스르륵 스토어에서 주문하신 영어 한큐에 pdf 상품은 만족스러우신가요?\n\n7일 동안 사용해보신 후 만족하셨다면 리뷰를 남겨주세요 :)\n\n고객님의 소중한 리뷰가 저희에게 큰 힘이 됩니다!";
 const downloadAlimTalkContentSample =
   "#{구매자명} 고객님, 상품을 구매해주셔서 감사합니다.\n\n▶ 주문번호: #{주문번호}\n▶ 상품 주문번호: #{상품주문번호}\n\n▶ 상품: #{상품명}\n▶ 옵션명: #{상품옵션명}\n\n스르륵에서 주문 수집 시 발송되는 알림톡 입니다!\n\n메시지에 디지털 컨텐츠를 첨부하거나 구매 확정 또는 리뷰 작성 요청을 할 수 있습니다 ☺️";
+
+const comments: {
+  author: string;
+  content: ReactElement;
+}[] = [
+  {
+    author: "안OO",
+    content: (
+      <>
+        스르륵을 사용하기 전에는 배송 안내를 직접 하고 톡톡으로 들어오는
+        문의들에 대해서 일일이 대응하여야 하였는데,
+        <span className="text-indigo-500">
+          {" "}
+          스르륵을 이용하고 나서부터는 배송 상태가 변경될 때마다 카톡을 보낼 수
+          있어서 고객 문의가 많이 줄었습니다!
+        </span>{" "}
+        그리고 리뷰 작성 요청 알림톡을 사용하여 고객 실제 리뷰를 많이 수집할 수
+        있게 되어 잘 도입하였다는 생각이 들어요.
+      </>
+    ),
+  },
+  {
+    author: "김OO",
+    content: (
+      <>
+        스마트 스토어를 통해 변질되기 쉬운 음식을 판매하고 있는데{" "}
+        <span className="text-indigo-500">
+          스르륵을 통하여 보관 방법 및 가장 맛있는 조리방법등을 카카오
+          알림톡으로 발송하여 고객들의 만족도가 높아져 후기 작성률이
+          높아졌습니다.
+        </span>{" "}
+        또한 상품에 대해 자주 안내하는 사항을 알림톡으로 발송하여 반복되는
+        문의도 줄어 업무시간을 효율적으로 이용할 수 있게 되었습니다.
+      </>
+    ),
+  },
+  {
+    author: "이OO",
+    content: (
+      <>
+        이전부터 다운로드 상품을 발송하기 위하여 주문을 매일 확인하고 발송하는
+        번거로움이 있었는데,{" "}
+        <span className="text-indigo-500">
+          스르륵을 사용하고 나서 부터는 재고를 추가하는것 이외에는 별도로 작업이
+          필요없어져 일상 생활의 자유를 찾을 수 있었어요!{" "}
+        </span>
+        그리고 주문 즉시 카카오톡으로 알림톡이 발송되니 고객분들도 만족해주시고
+        배송 문의도 아예 안들어오는 수준이 되어 정말 만족스러워요!! ☺️
+      </>
+    ),
+  },
+];
 
 export default function HomePage() {
   const { mutateAsync: requestMessage, isLoading: messageLoading } =
@@ -114,6 +168,54 @@ export default function HomePage() {
             />
             <p className="text-center mt-2">스마트 스토어</p>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-gray-50 py-16 px-4 flex flex-col items-center">
+        <h2 className="text-4xl font-bold text-center mb-2">
+          국민 모두가 사용하는 메신저
+        </h2>
+        <p className="text-gray-600 text-center max-w-xl mb-12">
+          하루 평균 72번 열어보는 국민 메신저 카카오톡, 이제 선택 아닌 필수
+          입니다.
+        </p>
+
+        <div className="max-w-xl justify-center bg-white flex p-10 rounded-xl shadow-lg border gap-10 items-center flex-col sm:flex-row">
+          <Image
+            className="rounded-lg border shadow-md hover:shadow-lg"
+            src="/main/kakao.png"
+            alt="카카오"
+            width={100}
+            height={100}
+          />
+          <p className="text-lg break-keep text-center sm:text-left">
+            스마트 스토어와 카카오 알림톡을 연동하여, 주문 상태 알림, 배송지
+            확인, 리뷰 작성 요청, 구매 확정 등 다양한 메시지를 고객에게
+            보내보세요.
+          </p>
+        </div>
+      </section>
+
+      <section className="bg-gray-50 py-16 px-4 flex flex-col items-center">
+        <p className="bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full mb-4 shadow-sm">
+          <CustomerServiceOutlined className="mr-1" /> 고객 후기
+        </p>
+        <h2 className="text-4xl font-bold text-center mb-2">
+          스르륵과 함께한 고객님들
+        </h2>
+        <p className="text-gray-600 text-center max-w-xl mb-12">
+          스르륵을 이용하신 고객님들의 솔직한 후기를 확인해 보세요.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl">
+          {comments.map((comment, index) => (
+            <div key={index} className="bg-white rounded-lg shadow-md p-6">
+              <p className="text-indigo-400 mb-2 text-lg">
+                {comment.author} 사장님
+              </p>
+              <p className="text-gray-800 text-base">{comment.content}</p>
+            </div>
+          ))}
         </div>
       </section>
       <section className="bg-gray-50 py-16 px-4 flex flex-col items-center">

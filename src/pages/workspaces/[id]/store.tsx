@@ -38,10 +38,6 @@ export default function StoreList() {
     [router]
   );
 
-  const handleCloseStoreDrawer = useCallback(() => {
-    setSelectedStoreId(null);
-  }, [setSelectedStoreId]);
-
   const columns = useMemo(
     () => [
       {
@@ -89,7 +85,7 @@ export default function StoreList() {
           workspaceId={workspaceId}
           storeId={storeId}
           isOpen={!!storeId}
-          setIsOpen={handleCloseStoreDrawer}
+          setIsOpen={() => setSelectedStoreId(null)}
         />
       )}
       <CreateStoreDrawer

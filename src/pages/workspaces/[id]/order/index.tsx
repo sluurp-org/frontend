@@ -160,7 +160,7 @@ export default function WorkspaceOrderList() {
           새로고침
         </Button>
       </div>
-      <div className="flex gap-3 mb-3">
+      <div className="flex gap-3 mb-3 flex-col sm:flex-row">
         <Input
           placeholder="주문 번호"
           className="w-64"

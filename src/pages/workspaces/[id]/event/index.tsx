@@ -255,7 +255,7 @@ export default function EventListPage() {
         >
           자동발송 추가
         </Button>
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex  gap-3 mb-4 flex-col sm:flex-row">
           <Cascader
             placeholder="상품을 선택해주세요."
             loading={productLoading}

@@ -200,7 +200,7 @@ export default function EventHistoryPage() {
           description="워크스페이스의 모든 자동발송 이력"
         />
 
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex gap-3 mb-4 flex-col sm:flex-row">
           <Input
             className="w-64"
             placeholder="아이디를 입력해주세요."

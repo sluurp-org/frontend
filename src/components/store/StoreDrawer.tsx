@@ -26,8 +26,6 @@ import { StoreType, UpdateStoreDto } from "@/types/store";
 import moment from "moment";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import Error from "@/components/Error";
-
 const { Text } = Typography;
 
 export default function StoreDrawer({
@@ -41,7 +39,6 @@ export default function StoreDrawer({
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }) {
-  const router = useRouter();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { data, isLoading, error } = useStoreDetail(workspaceId, storeId);
   const updateStore = useUpdateStore(workspaceId);

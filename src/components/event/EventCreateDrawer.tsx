@@ -12,6 +12,7 @@ import errorHandler from "@/utils/error";
 import { Button, Cascader, Drawer, Form, InputNumber, Select } from "antd";
 import { getJosaPicker } from "josa";
 import { min } from "moment";
+import Link from "next/link";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -216,6 +217,7 @@ export default function EventCreateDrawer({
         <Form.Item
           name="messageId"
           label="메시지 선택"
+          className="mb-0"
           rules={[{ required: true, message: "메시지를 선택해주세요." }]}
         >
           <Select
@@ -236,10 +238,18 @@ export default function EventCreateDrawer({
             ))}
           </Select>
         </Form.Item>
+        <Form.Item noStyle>
+          <Link
+            href={`/workspaces/${workspaceId}/message/create`}
+            className="mt-1 text-indigo-400"
+          >
+            또는 메시지 생성하기
+          </Link>
+        </Form.Item>
         <Form.Item
           label="발송 지연 일수"
           name="delayDays"
-          className="w-full"
+          className="w-full mt-6"
           rules={[
             { type: "number", message: "숫자만 입력해주세요." },
             {

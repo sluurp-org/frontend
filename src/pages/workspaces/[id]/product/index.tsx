@@ -93,7 +93,7 @@ export default function ProductListPage() {
         접기
       </Collapse>
 
-      <div className="flex justify-start mb-4 gap-3">
+      <div className="flex justify-start mb-4 gap-3 flex-col sm:flex-row">
         <Input
           placeholder="상품명 검색"
           className="w-80"
