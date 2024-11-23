@@ -86,8 +86,12 @@ export const useContentGroup = (
   workspaceId: number,
   contentGroupId: number
 ) => {
-  return useQuery(["contentGroup", workspaceId, contentGroupId], () =>
-    fetchContentGroup(workspaceId, contentGroupId)
+  return useQuery(
+    ["contentGroup", workspaceId, contentGroupId],
+    () => fetchContentGroup(workspaceId, contentGroupId),
+    {
+      enabled: !!workspaceId && !!contentGroupId,
+    }
   );
 };
 

@@ -73,7 +73,7 @@ export const useEventHistory = (
   eventHistoryId: string
 ) => {
   return useQuery(
-    ["event-history", workspaceId, eventHistoryId],
+    ["event-history", workspaceId],
     () => fetchEventHistory(workspaceId, eventHistoryId),
     {
       enabled: !!eventHistoryId,
@@ -81,29 +81,24 @@ export const useEventHistory = (
   );
 };
 
-export const useUpdateEventHistory = (
-  workspaceId: number,
-  eventHistoryContentId: number
-) => {
+export const useUpdateEventHistory = (workspaceId: number) => {
   return useMutation({
-    mutationFn: (dto: UpdateEventHistoryDto) =>
-      updateEventHistory(workspaceId, eventHistoryContentId, dto),
+    mutationFn: ({
+      eventHistoryContentId,
+      dto,
+    }: {
+      eventHistoryContentId: number;
+      dto: UpdateEventHistoryDto;
+    }) => updateEventHistory(workspaceId, eventHistoryContentId, dto),
     onSuccess: () => {
-      queryClient.invalidateQueries([
-        "event-history",
-        workspaceId,
-        eventHistoryContentId,
-      ]);
+      queryClient.invalidateQueries(["event-history", workspaceId]);
     },
   });
 };
 
-export const useResetEventHistoryDownloadCount = (
-  workspaceId: number,
-  eventHistoryContentId: number
-) => {
+export const useResetEventHistoryDownloadCount = (workspaceId: number) => {
   return useMutation({
-    mutationFn: () =>
+    mutationFn: (eventHistoryContentId: number) =>
       resetEventHistoryDownloadCount(workspaceId, eventHistoryContentId),
     onSuccess: () => {
       queryClient.invalidateQueries(["event-history", workspaceId]);

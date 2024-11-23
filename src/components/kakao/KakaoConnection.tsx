@@ -1,11 +1,9 @@
 import {
-  useCreateKakaoConnection,
-  useCreateKakaoConnectionToken,
   useDeleteKakaoConnection,
   useKakaoConnection,
 } from "@/hooks/queries/useKakao";
 import Error from "../Error";
-import { Button, Popover } from "antd";
+import { Button, Popover, Skeleton } from "antd";
 import toast from "react-hot-toast";
 import errorHandler from "@/utils/error";
 import { isAxiosError } from "axios";
@@ -14,6 +12,7 @@ import { CreateKakaoConnection } from "./CreateKakaoConnection";
 export function KakaoConnection({ workspaceId }: { workspaceId: number }) {
   const {
     data: kakaoConnection,
+    isLoading,
     isError,
     error,
   } = useKakaoConnection(workspaceId);
@@ -47,6 +46,7 @@ export function KakaoConnection({ workspaceId }: { workspaceId: number }) {
     <>
       <h2 className="text-lg font-bold text-gray-800">카카오톡 채널 연동</h2>
       <div className="flex flex-col mt-3">
+        {isLoading ? <Skeleton active /> : null}
         {kakaoConnection && (
           <>
             <p className="text-[17px] font-semibold">연동된 카카오톡 채널</p>

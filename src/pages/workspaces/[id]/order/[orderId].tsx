@@ -3,7 +3,7 @@ import Component from "../../../../components/Container";
 import { useRouter } from "next/router";
 import { useOrder } from "@/hooks/queries/useOrder";
 import Loading from "@/components/Loading";
-import { OrderStatus, OrderStatusColor, OrderStatusMap } from "@/types/orders";
+import { OrderStatusColor, OrderStatusMap } from "@/types/orders";
 import OrderHistory from "@/components/order/OrderHistory";
 import InfoRow from "@/components/InfoRow";
 import moment from "moment";

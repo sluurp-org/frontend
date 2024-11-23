@@ -70,7 +70,7 @@ export default function WorkspaceUpdate({
       <Card>
         <KakaoConnection workspaceId={workspaceId} />
       </Card>
-      <Popover
+      {/* <Popover
         title="워크스페이스 삭제"
         trigger="click"
         content={
@@ -89,10 +89,10 @@ export default function WorkspaceUpdate({
           </div>
         }
       >
-        <Button type="primary" className="w-min" danger>
+        <Button type="primary" className="w-min" danger disabled>
           워크스페이스 삭제
         </Button>
-      </Popover>
+      </Popover> */}
     </div>
   );
 }

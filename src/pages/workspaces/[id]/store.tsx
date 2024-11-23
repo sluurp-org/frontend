@@ -38,37 +38,34 @@ export default function StoreList() {
     [router]
   );
 
-  const columns = useMemo(
-    () => [
-      {
-        title: "아이디",
-        dataIndex: "id",
-        width: "70px",
+  const columns = [
+    {
+      title: "아이디",
+      dataIndex: "id",
+      width: "70px",
+    },
+    {
+      title: "유형",
+      dataIndex: "type",
+      render: (type: StoreType) => StoreType[type],
+      width: "120px",
+    },
+    {
+      title: "이름",
+      dataIndex: "name",
+    },
+    {
+      title: "상태",
+      dataIndex: "enabled",
+      render: (enabled: boolean) => {
+        return enabled ? (
+          <Tag color="green">활성화</Tag>
+        ) : (
+          <Tag color="red">비활성화</Tag>
+        );
       },
-      {
-        title: "유형",
-        dataIndex: "type",
-        render: (type: StoreType) => StoreType[type],
-        width: "120px",
-      },
-      {
-        title: "이름",
-        dataIndex: "name",
-      },
-      {
-        title: "상태",
-        dataIndex: "enabled",
-        render: (enabled: boolean) => {
-          return enabled ? (
-            <Tag color="green">활성화</Tag>
-          ) : (
-            <Tag color="red">비활성화</Tag>
-          );
-        },
-      },
-    ],
-    []
-  );
+    },
+  ];
 
   if (isLoading) return <Loading />;
   if (error) {

@@ -84,7 +84,6 @@ export const useOrder = (workspaceId: number, id: number) => {
     () => fetchOrder(workspaceId, id),
     {
       refetchInterval: 5000,
-      refetchIntervalInBackground: true,
       refetchOnWindowFocus: true,
       enabled: !!workspaceId && !!id,
     }

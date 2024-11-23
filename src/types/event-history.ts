@@ -33,24 +33,26 @@ export interface PaginatedEventHistory {
   nodes: EventHistory[];
 }
 
+export interface EventHistoryContent {
+  id: number;
+  downloadCount: number;
+  downloadLimit: number | null;
+  disableDownload: boolean;
+  lastDownloadAt: Date | null;
+  firstDownloadAt: Date | null;
+  expiredAt: Date | null;
+  content: {
+    id: number;
+    contentGroupId: number;
+    text: string | null;
+    type: ContentType;
+    name: string;
+  };
+}
+
 export interface EventHistory {
   id: string;
-  contents: {
-    id: number;
-    downloadCount: number;
-    downloadLimit: number | null;
-    disableDownload: boolean;
-    lastDownloadAt: Date | null;
-    firstDownloadAt: Date | null;
-    expiredAt: Date | null;
-    content: {
-      id: number;
-      contentGroupId: number;
-      text: string | null;
-      type: ContentType;
-      name: string;
-    };
-  }[];
+  contents: EventHistoryContent[];
   status: EventHistoryStatus;
   rawMessage: string | null;
   messageId: number | null;

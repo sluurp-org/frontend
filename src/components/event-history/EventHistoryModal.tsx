@@ -3,11 +3,21 @@ import {
   useResetEventHistoryDownloadCount,
   useUpdateEventHistory,
 } from "@/hooks/queries/useEventHistory";
-import Loading from "../Loading";
-import Error from "../Error";
-import { Button, DatePicker, Modal, Popover, Switch, Tag } from "antd";
+import {
+  Button,
+  DatePicker,
+  Modal,
+  Popover,
+  Switch,
+  Table,
+  TableColumnsType,
+  Tag,
+} from "antd";
 import moment from "moment";
-import { EventHistory, EventHistoryStatusMap } from "@/types/event-history";
+import {
+  EventHistoryContent,
+  EventHistoryStatusMap,
+} from "@/types/event-history";
 import InfoRow from "../InfoRow";
 import {
   CalendarOutlined,
@@ -24,26 +34,20 @@ import { Card } from "../common/Card";
 import { useEffect } from "react";
 import AlimTalk from "../kakao/AlimTalk";
 
-function ContentItem({
-  item,
-  index,
+function Contents({
+  data,
   workspaceId,
   refetch,
 }: {
-  item: EventHistory["contents"][number];
-  index: number;
+  data: EventHistoryContent[];
   workspaceId: number;
   refetch: () => Promise<unknown>;
 }) {
-  const { mutateAsync: resetDownloadCount } = useResetEventHistoryDownloadCount(
-    workspaceId,
-    item.id
-  );
+  const { mutateAsync: resetDownloadCount } =
+    useResetEventHistoryDownloadCount(workspaceId);
 
-  const { mutateAsync: updateEventHistory } = useUpdateEventHistory(
-    workspaceId,
-    item.id
-  );
+  const { mutateAsync: updateEventHistory, isLoading: isUpdateLoading } =
+    useUpdateEventHistory(workspaceId);
 
   const downloadFile = async (url: string) => {
     const a = document.createElement("a");
@@ -52,9 +56,12 @@ function ContentItem({
     a.click();
   };
 
-  const handleDownloadFileContent = async (id: number) => {
+  const handleDownloadFileContent = async (
+    contentGroupId: number,
+    contentId: number
+  ) => {
     toast.promise(
-      fetchDownloadFileContent(workspaceId, item.content.contentGroupId, id),
+      fetchDownloadFileContent(workspaceId, contentGroupId, contentId),
       {
         loading: "파일 다운로드 대기중...",
         success: ({ url }) => {
@@ -69,8 +76,8 @@ function ContentItem({
     );
   };
 
-  const handleResetDownloadCount = async () => {
-    toast.promise(resetDownloadCount(), {
+  const handleResetDownloadCount = async (eventHistoryContentId: number) => {
+    toast.promise(resetDownloadCount(eventHistoryContentId), {
       loading: "다운로드 횟수 초기화 중...",
       success: () => {
         refetch();
@@ -83,10 +90,16 @@ function ContentItem({
     });
   };
 
-  const handleUpdateDisableDownload = async (checked: boolean) => {
+  const handleUpdateDisableDownload = async (
+    eventHistoryContentId: number,
+    checked: boolean
+  ) => {
     toast.promise(
       updateEventHistory({
-        disableDownload: checked,
+        eventHistoryContentId,
+        dto: {
+          disableDownload: checked,
+        },
       }),
       {
         loading: "디지털 컨텐츠 열람 제한 수정 중...",
@@ -102,10 +115,14 @@ function ContentItem({
     );
   };
 
-  const handleUpdateExpiredAt = async (newExpiredAt: Date | undefined) => {
+  const handleUpdateExpiredAt = async (
+    eventHistoryContentId: number,
+    newExpiredAt: Date | undefined
+  ) => {
     toast.promise(
       updateEventHistory({
-        expiredAt: newExpiredAt,
+        eventHistoryContentId,
+        dto: { expiredAt: newExpiredAt },
       }),
       {
         loading: "다운로드 만료일 수정 중...",
@@ -121,29 +138,30 @@ function ContentItem({
     );
   };
 
-  return (
-    <div key={item.id} className="flex flex-col gap-2">
-      <Card>
-        <p className="font-semibold text-indigo-500 text-[16px]">
-          디지털 컨텐츠 #{index + 1}
-        </p>
+  const expandedRowRender = (record: EventHistoryContent) => {
+    return (
+      <div>
         <InfoRow className="flex-col" label="발송한 디지털 컨텐츠">
           <div className="flex items-center gap-2">
-            <p>{item.content.name || item.content.text || "-"}</p>
             <Link
-              href={`/workspaces/${workspaceId}/content/${item.content.contentGroupId}`}
+              href={`/workspaces/${workspaceId}/content/${record.content.contentGroupId}`}
               className="text-indigo-500"
             >
               <Button size="small" icon={<FileOutlined />} type="link">
                 디지털 컨텐츠 목록
               </Button>
             </Link>
-            {item.content.type === "FILE" && (
+            {record.content.type === "FILE" && (
               <Button
                 icon={<DownloadOutlined />}
                 type="primary"
                 size="small"
-                onClick={() => handleDownloadFileContent(item.id)}
+                onClick={() =>
+                  handleDownloadFileContent(
+                    record.content.contentGroupId,
+                    record.content.id
+                  )
+                }
               >
                 다운로드
               </Button>
@@ -152,17 +170,17 @@ function ContentItem({
         </InfoRow>
         <InfoRow className="flex-col" label="다운로드 횟수">
           <div className="flex flex-col items-start">
-            {item.downloadCount || 0}회{" "}
-            {item.downloadLimit &&
-              item.downloadLimit > 0 &&
-              `(${item.downloadLimit}회 다운로드 가능)`}
+            {record.downloadCount || 0}회{" "}
+            {record.downloadLimit &&
+              record.downloadLimit > 0 &&
+              `(${record.downloadLimit}회 다운로드 가능)`}
             <Button
               size="small"
               type="link"
               className="pl-0"
               danger
               icon={<DeleteOutlined />}
-              onClick={() => handleResetDownloadCount()}
+              onClick={() => handleResetDownloadCount(record.id)}
             >
               다운로드 횟수 초기화
             </Button>
@@ -170,8 +188,10 @@ function ContentItem({
         </InfoRow>
         <InfoRow className="flex-col" label="다운로드 만료일">
           <div className="flex flex-col items-start">
-            {item.expiredAt
-              ? moment(item.expiredAt).format("YYYY년 MM월 DD일 HH시 mm분 ss초")
+            {record.expiredAt
+              ? moment(record.expiredAt).format(
+                  "YYYY년 MM월 DD일 HH시 mm분 ss초"
+                )
               : "-"}
             <Popover
               title="다운로드 만료일 수정"
@@ -180,7 +200,10 @@ function ContentItem({
                   <DatePicker
                     showTime
                     onChange={(value) =>
-                      handleUpdateExpiredAt(value ? value.toDate() : undefined)
+                      handleUpdateExpiredAt(
+                        record.id,
+                        value ? value.toDate() : undefined
+                      )
                     }
                   />
                 </div>
@@ -200,15 +223,15 @@ function ContentItem({
           </div>
         </InfoRow>
         <InfoRow className="flex-col" label="최초 다운로드 일시">
-          {item.firstDownloadAt
-            ? moment(item.firstDownloadAt).format(
+          {record.firstDownloadAt
+            ? moment(record.firstDownloadAt).format(
                 "YYYY년 MM월 DD일 HH시 mm분 ss초"
               )
             : "-"}
         </InfoRow>
         <InfoRow className="flex-col" label="마지막 다운로드 일시">
-          {item.lastDownloadAt
-            ? moment(item.lastDownloadAt).format(
+          {record.lastDownloadAt
+            ? moment(record.lastDownloadAt).format(
                 "YYYY년 MM월 DD일 HH시 mm분 ss초"
               )
             : "-"}
@@ -216,18 +239,72 @@ function ContentItem({
         <InfoRow className="flex-col" label="디지털 컨텐츠 열람 제한">
           <div className="flex items-center gap-2">
             <Switch
-              checked={item.disableDownload}
-              onChange={(checked) => handleUpdateDisableDownload(checked)}
+              checked={record.disableDownload}
+              onChange={(checked) =>
+                handleUpdateDisableDownload(record.id, checked)
+              }
             />
-            {item.disableDownload ? (
+            {record.disableDownload ? (
               <Tag color="red">다운로드 제한됨</Tag>
             ) : (
               <Tag color="green">다운로드 가능</Tag>
             )}
           </div>
         </InfoRow>
-      </Card>
-    </div>
+      </div>
+    );
+  };
+
+  const columns: TableColumnsType<EventHistoryContent> = [
+    {
+      title: "아이디",
+      key: "id",
+      dataIndex: "id",
+      width: 100,
+    },
+    {
+      title: "내용",
+      key: "content",
+      dataIndex: "content",
+      render: (_, obj) => obj.content.name || obj.content.text,
+    },
+    {
+      title: "다운로드 비활성화",
+      key: "disableDownload",
+      dataIndex: "disableDownload",
+      render: (v, obj) => (
+        <div className="flex items-center gap-2">
+          <Switch
+            checked={v}
+            loading={isUpdateLoading}
+            disabled={isUpdateLoading}
+            onClick={() =>
+              handleUpdateDisableDownload(obj.id, !obj.disableDownload)
+            }
+          />
+          {v ? (
+            <Tag color="red">다운로드 제한됨</Tag>
+          ) : (
+            <Tag color="green">다운로드 가능</Tag>
+          )}
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <Card className="p-0">
+      <Table
+        dataSource={data}
+        scroll={{ x: 550 }}
+        columns={columns}
+        expandable={{
+          expandRowByClick: true,
+          rowExpandable: (record) => record !== undefined,
+          expandedRowRender: (record) => expandedRowRender(record),
+        }}
+      />
+    </Card>
   );
 }
 
@@ -289,10 +366,10 @@ export default function EventHistoryModal({
       onCancel={onClose}
       onOk={onClose}
       title="이벤트 상세"
-      width={data.contents.length > 0 ? "max-content" : 600}
+      width={data.contents.length > 0 ? "min-content" : 600}
     >
-      <div className="flex gap-10 lg:flex-row flex-col lg:h-[800px]">
-        <div className={`w-full ${data.contents.length > 0 && "lg:w-[600px]"}`}>
+      <div className="flex gap-10 lg:flex-row flex-col lg:h-min-[800px]">
+        <div className={`${data.contents.length > 0 && "lg:w-[300px]"} w-full`}>
           <InfoRow
             className="flex-col"
             label="발송 고유아이디"
@@ -340,25 +417,19 @@ export default function EventHistoryModal({
           </InfoRow>
         </div>
         {data.contents.length > 0 && (
-          <div className="w-full">
+          <div>
             <p className="font-semibold text-indigo-500 text-[16px]">
               발송한 디지털 컨텐츠
             </p>
             <p className="text-gray-500 text-[14px] mb-3">
               총 {data.contents.length}개의 디지털 컨텐츠를 발송하였습니다.
             </p>
-            <div className="lg:overflow-y-auto w-full h-[calc(100%-60px)] rounded-lg">
-              <div className="flex flex-col gap-3 w-full">
-                {data.contents.map((item, index) => (
-                  <ContentItem
-                    key={item.id}
-                    item={item}
-                    index={index}
-                    workspaceId={workspaceId}
-                    refetch={refetch}
-                  />
-                ))}
-              </div>
+            <div className="lg:overflow-y-auto max-w-[600px] h-[calc(100%-60px)] rounded-lg">
+              <Contents
+                data={data.contents}
+                workspaceId={workspaceId}
+                refetch={refetch}
+              />
             </div>
           </div>
         )}
