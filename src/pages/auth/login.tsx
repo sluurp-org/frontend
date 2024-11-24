@@ -23,7 +23,7 @@ export default function Login() {
 
   const apiUrl = process.env.NEXT_PUBLIC_API_HOST;
   return (
-    <div className="flex items-center justify-center h-screen select-none">
+    <div className="flex items-center justify-center h-screen select-none bg-[#F9FAFB]">
       <div className="w-screen p-8 sm:p-0 sm:w-[400px]">
         <div className="items-center justify-center mt-6">
           <button
@@ -40,10 +40,37 @@ export default function Login() {
             스르륵과 함께 자유를 누리세요.
           </p>
         </div>
+        <div className="mt-5 gap-2 flex flex-col">
+          <Link href={`${apiUrl}/auth/naver`}>
+            <div className="shadow-sm hover:shadow-md bg-[#04C75B] hover:bg-[#54b759] w-full rounded-md flex h-11 items-center justify-center">
+              <Image
+                src="/login/naver.png"
+                alt="네이버 로그인"
+                width={750}
+                height={200}
+                className="w-10 h-10"
+              />
+              <p className="text-center text-white">네이버 로그인</p>
+            </div>
+          </Link>
+          <Link href={`${apiUrl}/auth/kakao`}>
+            <div className="shadow-sm hover:shadow-md bg-[#FEE501] hover:bg-[#e0d14a] w-full rounded-md flex h-11 items-center justify-center">
+              <Image
+                src="/login/kakao.png"
+                alt="카카오 로그인"
+                width={750}
+                height={200}
+                className="w-7 h-7"
+              />
+              <p className="text-center text-[#181600]">카카오 로그인</p>
+            </div>
+          </Link>
+        </div>
+        <div className="border-t my-4 border-gray-300" />
         <div>
           <form onSubmit={handleLogin}>
             <div>
-              <label className="block mt-6 text-gray-600">아이디</label>
+              <label className="block mt-3 text-gray-600">아이디</label>
               <input
                 type="text"
                 required
@@ -66,28 +93,12 @@ export default function Login() {
                 className="w-full mt-2 p-3 border border-gray-200 rounded-md"
               />
             </div>
-            <div className="flex flex-col gap-3">
-              <button
-                type="submit"
-                className="w-full h-12 mt-6 p-3 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 duration-75"
-              >
-                로그인
-              </button>
-              <Link href={`${apiUrl}/auth/naver`}>
-                <div className="bg-[#04C75B] w-full rounded-md flex h-12 items-center justify-center">
-                  <Image
-                    src="/login/naver.png"
-                    alt="네이버 로그인"
-                    width={750}
-                    height={200}
-                    className="w-10 h-10"
-                  />
-                  <p className="text-center text-white text-lg">
-                    네이버로 로그인
-                  </p>
-                </div>
-              </Link>
-            </div>
+            <button
+              type="submit"
+              className="shadow-sm hover:shadow-md w-full h-12 mt-6 p-3 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 duration-75"
+            >
+              로그인
+            </button>
           </form>
         </div>
         <p

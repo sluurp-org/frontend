@@ -24,6 +24,13 @@ const naverLogin = async (code: string): Promise<TokenDto> => {
   return data;
 };
 
+const kakaoLogin = async (code: string): Promise<TokenDto> => {
+  const { data } = await axiosClient.get("/auth/kakao/callback", {
+    params: { code },
+  });
+  return data;
+};
+
 const logout = async (): Promise<void> => {
   await axiosClient.post("/auth/logout");
 };
@@ -76,6 +83,18 @@ export const useNaverLogin = () => {
   const queryClient = useQueryClient();
 
   return useMutation((code: string) => naverLogin(code), {
+    onSuccess: (data) => {
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      queryClient.invalidateQueries("user");
+    },
+  });
+};
+
+export const useKakaoLogin = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation((code: string) => kakaoLogin(code), {
     onSuccess: (data) => {
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);

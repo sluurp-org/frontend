@@ -93,7 +93,7 @@ export default function ChangePassword() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen select-none">
+    <div className="flex items-center justify-center h-screen select-none bg-[#F9FAFB]">
       <div className="w-screen p-8 sm:p-0 sm:w-[400px]">
         <div className="items-center justify-center mt-6">
           <button
