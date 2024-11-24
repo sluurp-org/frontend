@@ -17,6 +17,13 @@ const login = async (credentials: LoginDto): Promise<TokenDto> => {
   return data;
 };
 
+const naverLogin = async (code: string): Promise<TokenDto> => {
+  const { data } = await axiosClient.get("/auth/naver/callback", {
+    params: { code },
+  });
+  return data;
+};
+
 const logout = async (): Promise<void> => {
   await axiosClient.post("/auth/logout");
 };
@@ -61,6 +68,18 @@ export const useLogin = () => {
     },
     onError: (error: AxiosError) => {
       toast.error("아이디와 비밀번호를 확인해주세요.");
+    },
+  });
+};
+
+export const useNaverLogin = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation((code: string) => naverLogin(code), {
+    onSuccess: (data) => {
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      queryClient.invalidateQueries("user");
     },
   });
 };

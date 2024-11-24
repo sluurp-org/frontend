@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { LeftOutlined } from "@ant-design/icons";
 import { LoginDto } from "@/types/auth";
 import { useLogin } from "@/hooks/queries/useAuth";
+import Link from "next/link";
 
 export default function Login() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function Login() {
   };
   const handleReturn = () => router.push("/");
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_HOST;
   return (
     <div className="flex items-center justify-center h-screen select-none">
       <div className="w-screen p-8 sm:p-0 sm:w-[400px]">
@@ -64,16 +66,32 @@ export default function Login() {
                 className="w-full mt-2 p-3 border border-gray-200 rounded-md"
               />
             </div>
-            <button
-              type="submit"
-              className="w-full mt-6 p-3 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 duration-75"
-            >
-              로그인
-            </button>
+            <div className="flex flex-col gap-3">
+              <button
+                type="submit"
+                className="w-full h-12 mt-6 p-3 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 duration-75"
+              >
+                로그인
+              </button>
+              <Link href={`${apiUrl}/auth/naver`}>
+                <div className="bg-[#04C75B] w-full rounded-md flex h-12 items-center justify-center">
+                  <Image
+                    src="/login/naver.png"
+                    alt="네이버 로그인"
+                    width={750}
+                    height={200}
+                    className="w-10 h-10"
+                  />
+                  <p className="text-center text-white text-lg">
+                    네이버로 로그인
+                  </p>
+                </div>
+              </Link>
+            </div>
           </form>
         </div>
         <p
-          className="mt-6 text-center text-indigo-500 cursor-pointer"
+          className="mt-4 text-center text-indigo-500 cursor-pointer"
           onClick={() => router.push("/auth/register")}
         >
           계정이 없으신가요? 회원가입
