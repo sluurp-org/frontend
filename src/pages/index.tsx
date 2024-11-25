@@ -12,6 +12,9 @@ import {
   MessageOutlined,
   CustomerServiceOutlined,
   UserOutlined,
+  LockOutlined,
+  CloudOutlined,
+  FileOutlined,
 } from "@ant-design/icons";
 import Footer from "@/components/main/Footer";
 import Navigation from "@/components/main/Navigation";
@@ -425,6 +428,57 @@ export default function HomePage() {
               </h3>
             </div>
           ))}
+        </div>
+      </section>
+      <section className="bg-gray-50 py-16 px-4 flex flex-col items-center w-full">
+        <p className="bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full mb-4 shadow-sm flex items-center">
+          <LockOutlined className="mr-1" /> 보안 및 안전
+        </p>
+        <h2 className="text-4xl font-bold text-center mb-8">
+          강력하고 안전한 보안
+        </h2>
+
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-start w-full md:w-80">
+            <div className="text-center w-full my-3">
+              <LockOutlined className="text-5xl" />
+            </div>
+            <h3 className="text-xl font-semibold mt-4 mb-2">
+              데이터 보호 및 암호화
+            </h3>
+            <p className="text-gray-600 mb-4">
+              데이터 교환에 SSL 암호화 프로토콜이 적용되어 있어요. 사용자의
+              개인정보와 중요 데이터는 암호화되어 안전하게 보호됩니다.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-start w-full md:w-80">
+            <div className="text-center w-full my-3">
+              <CloudOutlined className="text-5xl" />
+            </div>
+            <h3 className="text-xl font-semibold mt-4 mb-2">
+              AWS 최고의 보안 적용
+            </h3>
+            <p className="text-gray-600 mb-4">
+              99.9% 이상의 가용성을 보장하는 AWS 클라우드 서비스를 사용하여 최고
+              수준의 보안을 제공합니다. 장애가 발생하더라도 데이터는 안전하게
+              보관됩니다.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-start w-full md:w-80">
+            <div className="text-center w-full my-3">
+              <FileOutlined className="text-5xl" />
+            </div>
+            <h3 className="text-xl font-semibold mt-4 mb-2">
+              S3 Presigned Url
+            </h3>
+            <p className="text-gray-600 mb-4">
+              파일 저장과 열람시에 Presigned URL이 적용되어 있습니다. 서버에서
+              인증된 URL로만 저장과 읽기가 가능하며, 접근 시간 제한이
+              존재합니다.
+            </p>
+          </div>
         </div>
       </section>
       <section className="bg-gray-50 py-16 px-4 flex flex-col items-center w-full">
