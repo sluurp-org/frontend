@@ -1,6 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import AlimTalk from "@/components/kakao/AlimTalk";
-import Cal, { getCalApi } from "@calcom/embed-react";
 import Image from "next/image";
 import moment from "moment";
 import {
@@ -22,6 +21,7 @@ import Link from "next/link";
 import { Button, Form, Input } from "antd";
 import { useRequestMessageSample } from "@/hooks/queries/useApp";
 import toast from "react-hot-toast";
+import Calendar from "@/components/Calendar";
 
 const reviewRequestAlimTalkContentSample =
   "안녕하세요! 임태현 고객님 :)\n스르륵 스토어에서 주문하신 영어 한큐에 pdf 상품은 만족스러우신가요?\n\n7일 동안 사용해보신 후 만족하셨다면 리뷰를 남겨주세요 :)\n\n고객님의 소중한 리뷰가 저희에게 큰 힘이 됩니다!";
@@ -83,15 +83,6 @@ const comments: {
 export default function HomePage() {
   const { mutateAsync: requestMessage, isLoading: messageLoading } =
     useRequestMessageSample();
-
-  useEffect(() => {
-    (async function () {
-      const cal = await getCalApi({ namespace: "meeting" });
-      cal("ui", {
-        hideEventTypeDetails: false,
-      });
-    })();
-  }, []);
 
   const handleRequestMessage = async (to: string) => {
     toast.promise(requestMessage({ to }), {
@@ -539,12 +530,7 @@ export default function HomePage() {
         </p>
 
         <div className="max-w-6xl w-full sm:h-full h-[500px] overflow-y-auto sm:overflow-y-hidden">
-          <Cal
-            className="w-full"
-            namespace="meeting"
-            calLink="sluurp/meeting"
-            config={{ layout: "month_view", theme: "light" }}
-          />
+          <Calendar />
         </div>
       </section>
       <section className="w-full max-w-6xl min-h-64 flex flex-col items-center text-center justify-center mt-16 mb-12 bg-white p-10 rounded-xl shadow-md border border-gray-200">
