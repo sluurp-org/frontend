@@ -4,11 +4,12 @@ import errorHandler from "@/utils/error";
 import WorkspaceCard from "@/components/workspace/WorkspaceCard";
 import Header from "@/components/Header";
 import { useWorkspaces } from "@/hooks/queries/useWorkspace";
-import { Button } from "antd";
+import { Alert, Button } from "antd";
 import WorkspaceModal from "@/components/workspace/WorkspaceModal";
 import { useState } from "react";
 import Loading from "@/components/Loading";
 import toast from "react-hot-toast";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 export default function Workspaces() {
   const { data, isLoading, error } = useWorkspaces();
@@ -26,6 +27,16 @@ export default function Workspaces() {
         onClose={() => setIsModalOpen(false)}
       />
       <Header title="워크스페이스" description="워크스페이스 목록" />
+      {data?.length === 0 && (
+        <Alert
+          message={
+            "워크스페이스가 없습니다.\n워크스페이스를 생성하고 메시지 발송을 시작해보세요."
+          }
+          icon={<InfoCircleOutlined />}
+          showIcon
+          className="mb-3 whitespace-pre-line"
+        />
+      )}
       <Button
         type="primary"
         className="hover:shadow-sm"
