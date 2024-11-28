@@ -14,6 +14,7 @@ import {
   UserOutlined,
   MenuOutlined,
   ClockCircleOutlined,
+  BellOutlined,
 } from "@ant-design/icons";
 import { ConfigProvider, Menu, MenuProps, Drawer, Popover } from "antd";
 import Link from "next/link";
@@ -156,6 +157,15 @@ const getItems = (workspaceId?: string): MenuItem[] => [
         icon: <UserOutlined />,
       },
       {
+        key: "notice",
+        label: (
+          <Popover content="공지사항" placement="right">
+            공지사항
+          </Popover>
+        ),
+        icon: <BellOutlined />,
+      },
+      {
         key: "/auth/logout",
         label: (
           <Popover content="로그아웃합니다" placement="right">
@@ -176,6 +186,13 @@ function Sidebar() {
 
   // 메뉴 클릭 핸들러
   const handleMenuClick: MenuProps["onClick"] = (e) => {
+    if (!e.key.startsWith("/")) {
+      router.push(`/${e.key}`);
+      setDrawerOpen(false);
+
+      return;
+    }
+
     const path = e.key.replace("[id]", id as string);
     router.push(path);
     setDrawerOpen(false); // 모바일에서는 메뉴 클릭 시 드로어 닫기

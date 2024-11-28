@@ -1,6 +1,6 @@
 import Component from "@/components/Container";
 import Header from "@/components/Header";
-import WorkspaceDrawer from "@/components/workspace/WorkspaceDrawer";
+import WorkspaceDrawer from "@/components/workspace/WorkspaceModal";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import StoreAlert from "@/components/workspace-home/StoreAlert";
@@ -22,7 +22,7 @@ export default function Workspace() {
       <Header title="워크스페이스 홈" description="워크스페이스 홈" />
       <div className="grid gap-3 grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
         <GuideAlert />
-        <BillingAlert workspaceId={workspaceId} />
+        {/* <BillingAlert workspaceId={workspaceId} /> */}
         <StoreAlert workspaceId={workspaceId} />
       </div>
     </Component>

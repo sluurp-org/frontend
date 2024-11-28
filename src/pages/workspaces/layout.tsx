@@ -5,7 +5,7 @@ import WorkspaceCard from "@/components/workspace/WorkspaceCard";
 import Header from "@/components/Header";
 import { useWorkspaces } from "@/hooks/queries/useWorkspace";
 import { Button } from "antd";
-import WorkspaceDrawer from "@/components/workspace/WorkspaceDrawer";
+import WorkspaceDrawer from "@/components/workspace/WorkspaceModal";
 import { useState } from "react";
 import Loading from "@/components/Loading";
 import toast from "react-hot-toast";
