@@ -1,7 +1,5 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
-import { LeftOutlined } from "@ant-design/icons";
 import { LoginDto } from "@/types/auth";
 import { useLogin } from "@/hooks/queries/useAuth";
 import AuthLayout from "@/components/auth/AuthLayout";
@@ -32,18 +30,32 @@ export default function Login() {
   const apiUrl = process.env.NEXT_PUBLIC_API_HOST;
   return (
     <AuthLayout>
-      <Link href={`${apiUrl}/auth/naver`}>
-        <div className="bg-[#04C75B] w-full rounded-md flex h-12 items-center justify-center">
-          <Image
-            src="/login/naver.png"
-            alt="네이버 로그인"
-            width={750}
-            height={200}
-            className="w-10 h-10"
-          />
-          <p className="text-center text-white text-lg">네이버로 로그인</p>
-        </div>
-      </Link>
+      <div className="flex flex-col gap-2">
+        <Link href={`${apiUrl}/auth/naver`}>
+          <div className="bg-[#04C75B] w-full rounded-md flex h-12 items-center justify-center hover:shadow-md duration-150 hover:bg-[#04c75cc2]">
+            <Image
+              src="/login/naver.png"
+              alt="네이버 로그인"
+              width={100}
+              height={100}
+              className="w-4 h-4 mr-2"
+            />
+            <p className="text-center text-white text-lg">네이버로 로그인</p>
+          </div>
+        </Link>
+        <Link href={`${apiUrl}/auth/google`}>
+          <div className="bg-white border w-full rounded-md flex h-12 items-center justify-center hover:shadow-md duration-150 hover:bg-gray-100">
+            <Image
+              src="/login/google.png"
+              alt="구글 로그인"
+              width={100}
+              height={100}
+              className="w-5 h-5 mr-2"
+            />
+            <p className="text-center text-gray-600 text-lg">구글로 로그인</p>
+          </div>
+        </Link>
+      </div>
       <div className="w-full border-t border-gray-200 my-4" />
       <Form form={form} layout="vertical" onFinish={onSubmit}>
         <Form.Item

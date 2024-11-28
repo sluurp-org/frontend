@@ -6,6 +6,7 @@ import {
   TokenDto,
   RequestPasswordResetCodeDto,
   ChangePasswordDto,
+  SignupByProviderDto,
 } from "@/types/auth";
 import axiosClient from "@/utils/axios";
 import toast from "react-hot-toast";
@@ -24,12 +25,25 @@ const naverLogin = async (code: string): Promise<TokenDto> => {
   return data;
 };
 
+const googleLogin = async (code: string): Promise<TokenDto> => {
+  const { data } = await axiosClient.get("/auth/google/callback", {
+    params: { code },
+  });
+  return data;
+};
+
 const logout = async (): Promise<void> => {
   await axiosClient.post("/auth/logout");
 };
 
 const register = async (credentials: SignupDto): Promise<void> => {
   await axiosClient.post("/users", credentials);
+};
+
+const registerByProvider = async (
+  credentials: SignupByProviderDto
+): Promise<void> => {
+  await axiosClient.post("/users/provider", credentials);
 };
 
 const requestSignupCode = async (dto: RequestSignupCodeDto): Promise<void> => {
@@ -72,6 +86,26 @@ export const useNaverLogin = () => {
 
   return useMutation((code: string) => naverLogin(code), {
     onSuccess: (data) => {
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      queryClient.invalidateQueries("user");
+    },
+  });
+};
+
+export const useRegisterByProvider = () => {
+  return useMutation((credentials: SignupByProviderDto) =>
+    registerByProvider(credentials)
+  );
+};
+
+export const useGoogleLogin = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation((code: string) => googleLogin(code), {
+    onSuccess: (data) => {
+      if (data.isRegister) return;
+
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       queryClient.invalidateQueries("user");

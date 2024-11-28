@@ -1,3 +1,4 @@
+import AuthLayout from "@/components/auth/AuthLayout";
 import { useNaverLogin } from "@/hooks/queries/useAuth";
 import errorHandler from "@/utils/error";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -29,14 +30,11 @@ export default function NaverLogin() {
   }, [code, mutateAsync, router]);
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
-      <div className="text-center">
-        <LoadingOutlined className="text-5xl text-indigo-400" />
-        <p className="mt-5 font-bold text-lg">네이버 아이디로 로그인 중...</p>
-        <Link href="/" className="text-indigo-400 mt-5">
-          홈으로 가기
-        </Link>
+    <AuthLayout>
+      <div className="mt-12 flex items-center">
+        <LoadingOutlined className="text-lg text-indigo-400 mr-3" />
+        <p className="text-lg">네이버 아이디로 로그인 중...</p>
       </div>
-    </div>
+    </AuthLayout>
   );
 }

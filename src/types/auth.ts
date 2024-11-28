@@ -11,9 +11,21 @@ export interface SignupDto {
   password: string;
 }
 
+export type Provider = "NAVER" | "KAKAO" | "GOOGLE";
+
+export interface SignupByProviderDto {
+  name: string;
+  phone: string;
+  code: string;
+  providerId: string;
+  provider: Provider;
+}
+
 export interface TokenDto {
   accessToken: string;
   refreshToken: string;
+  isRegister?: boolean;
+  id?: string;
 }
 
 export interface RequestSignupCodeDto {
