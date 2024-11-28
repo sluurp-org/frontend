@@ -82,13 +82,13 @@ export default function Billing({ workspaceId }: { workspaceId: number }) {
             type="primary"
             className="mt-4 w-full"
             onClick={() => setOpen(true)}
-            disabled
+            // disabled
           >
             카드 등록
           </Button>
-          <p className="text-xs text-gray-400 w-full text-center mt-3">
+          {/* <p className="text-xs text-gray-400 w-full text-center mt-3">
             현재는 카드를 등록 할 수 없습니다.
-          </p>
+          </p> */}
         </>
       )}
     </div>
