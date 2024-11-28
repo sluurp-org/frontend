@@ -63,11 +63,6 @@ export const useLogin = () => {
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       queryClient.invalidateQueries("user");
-      toast.success("로그인 성공");
-      router.push("/workspaces");
-    },
-    onError: (error: AxiosError) => {
-      toast.error("아이디와 비밀번호를 확인해주세요.");
     },
   });
 };

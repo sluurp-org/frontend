@@ -13,7 +13,7 @@ export default function Calendar() {
 
   return (
     <Cal
-      className="w-full"
+      className="w-full bg-[#F9FAFB] shadow-none border-none"
       namespace="meeting"
       calLink="sluurp/meeting"
       config={{ layout: "month_view", theme: "light" }}

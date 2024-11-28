@@ -4,105 +4,95 @@ import { FormEvent, useState } from "react";
 import { LeftOutlined } from "@ant-design/icons";
 import { LoginDto } from "@/types/auth";
 import { useLogin } from "@/hooks/queries/useAuth";
+import AuthLayout from "@/components/auth/AuthLayout";
 import Link from "next/link";
+import { Form, Input } from "antd";
+import { useForm } from "antd/es/form/Form";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const router = useRouter();
+  const [form] = useForm<LoginDto>();
 
-  const [credentials, setCredentials] = useState<LoginDto>({
-    loginId: "",
-    password: "",
-  });
-  const loginMutation = useLogin();
+  const { mutateAsync } = useLogin();
 
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    loginMutation.mutate(credentials);
+  const onSubmit = async () => {
+    const data = await form.validateFields();
+
+    toast.promise(mutateAsync(data), {
+      loading: "로그인 중...",
+      success: () => {
+        router.push("/workspaces");
+        return "로그인 성공";
+      },
+      error: "아이디와 비밀번호를 확인해주세요.",
+    });
   };
-  const handleReturn = () => router.push("/");
 
   const apiUrl = process.env.NEXT_PUBLIC_API_HOST;
   return (
-    <div className="flex items-center justify-center h-screen select-none">
-      <div className="w-screen p-8 sm:p-0 sm:w-[400px]">
-        <div className="items-center justify-center mt-6">
+    <AuthLayout>
+      <Link href={`${apiUrl}/auth/naver`}>
+        <div className="bg-[#04C75B] w-full rounded-md flex h-12 items-center justify-center">
+          <Image
+            src="/login/naver.png"
+            alt="네이버 로그인"
+            width={750}
+            height={200}
+            className="w-10 h-10"
+          />
+          <p className="text-center text-white text-lg">네이버로 로그인</p>
+        </div>
+      </Link>
+      <div className="w-full border-t border-gray-200 my-4" />
+      <Form form={form} layout="vertical" onFinish={onSubmit}>
+        <Form.Item
+          name="loginId"
+          label="아이디"
+          rules={[
+            {
+              required: true,
+              message: "아이디를 입력해주세요.",
+            },
+          ]}
+        >
+          <Input id="id" size="large" placeholder="아이디" />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          label="비밀번호"
+          rules={[
+            {
+              required: true,
+              message: "비밀번호를 입력해주세요.",
+            },
+          ]}
+        >
+          <Input.Password id="password" size="large" placeholder="비밀번호" />
+        </Form.Item>
+        <Form.Item>
           <button
-            onClick={handleReturn}
-            className="text-indigo-400 font-bold mb-2"
+            type="submit"
+            className="w-full p-3 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 duration-75"
           >
-            <LeftOutlined className="mr-1" />
-            뒤로가기
+            로그인
           </button>
-          <Image alt="스르륵" src="/logo.png" width={120} height={80} />
-          <p className="mt-3">
-            더 이상 자동 발송, 고민하지 마세요.
-            <br />
-            스르륵과 함께 자유를 누리세요.
-          </p>
-        </div>
-        <div>
-          <form onSubmit={handleLogin}>
-            <div>
-              <label className="block mt-6 text-gray-600">아이디</label>
-              <input
-                type="text"
-                required
-                placeholder="아이디"
-                onChange={(e) =>
-                  setCredentials({ ...credentials, loginId: e.target.value })
-                }
-                className="w-full mt-2 p-3 border border-gray-200 rounded-md"
-              />
-            </div>
-            <div className="mt-4">
-              <label className="block text-gray-600">비밀번호</label>
-              <input
-                type="password"
-                required
-                placeholder="비밀번호"
-                onChange={(e) =>
-                  setCredentials({ ...credentials, password: e.target.value })
-                }
-                className="w-full mt-2 p-3 border border-gray-200 rounded-md"
-              />
-            </div>
-            <div className="flex flex-col gap-3">
-              <button
-                type="submit"
-                className="w-full h-12 mt-6 p-3 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 duration-75"
-              >
-                로그인
-              </button>
-              <Link href={`${apiUrl}/auth/naver`}>
-                <div className="bg-[#04C75B] w-full rounded-md flex h-12 items-center justify-center">
-                  <Image
-                    src="/login/naver.png"
-                    alt="네이버 로그인"
-                    width={750}
-                    height={200}
-                    className="w-10 h-10"
-                  />
-                  <p className="text-center text-white text-lg">
-                    네이버로 로그인
-                  </p>
-                </div>
-              </Link>
-            </div>
-          </form>
-        </div>
-        <p
+        </Form.Item>
+      </Form>
+      <div className="flex flex-col w-center justify-center gap-1">
+        <Link
           className="mt-4 text-center text-indigo-500 cursor-pointer"
-          onClick={() => router.push("/auth/register")}
+          href={"/auth/register"}
         >
           계정이 없으신가요? 회원가입
-        </p>
-        <p
+        </Link>
+        <Link
           className="mt-1 text-center text-indigo-500 cursor-pointer"
-          onClick={() => router.push("/auth/password")}
+          href={"/auth/password"}
         >
           또는 비밀번호 찾기
-        </p>
+        </Link>
       </div>
-    </div>
+    </AuthLayout>
   );
 }
