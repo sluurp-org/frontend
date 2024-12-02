@@ -19,7 +19,8 @@ export default function CreateStoreDrawer({
 }) {
   const ChannelService = useChannel();
   const [form] = Form.useForm<CreateStoreDto>();
-  const { mutateAsync: createStore } = useCreateStore(workspaceId);
+  const { mutateAsync: createStore, isLoading: isStoreCreating } =
+    useCreateStore(workspaceId);
   const { mutateAsync: syncStoreProduct } = useSyncStoreProduct(workspaceId);
 
   const syncProduct = (storeId: number) => {
@@ -220,7 +221,12 @@ export default function CreateStoreDrawer({
         </Form.Item>
         <Form.Item>
           <div className="flex gap-3">
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={isStoreCreating}
+              disabled={isStoreCreating}
+            >
               저장
             </Button>
             <Button type="primary" danger onClick={() => setIsOpen(false)}>

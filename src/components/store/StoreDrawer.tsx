@@ -37,7 +37,8 @@ export default function StoreDrawer({
 }) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { data, isLoading, error } = useStoreDetail(workspaceId, storeId);
-  const updateStore = useUpdateStore(workspaceId);
+  const { mutateAsync: updateStore, isLoading: isStoreUpdating } =
+    useUpdateStore(workspaceId);
   const [form] = Form.useForm<UpdateStoreDto>();
   const [editingStoreName, setEditingStoreName] = useState(false);
   const { mutateAsync: deleteStore } = useDeleteStore(workspaceId);
@@ -76,7 +77,7 @@ export default function StoreDrawer({
   if (isLoading) return null;
 
   const handleStoreNameChange = async (newName: string) => {
-    toast.promise(updateStore.mutateAsync({ id: storeId, name: newName }), {
+    toast.promise(updateStore({ id: storeId, name: newName }), {
       loading: "스토어명 변경중...",
       success: () => {
         setEditingStoreName(false);
@@ -89,7 +90,7 @@ export default function StoreDrawer({
   };
 
   const onFinish = async (values: any) => {
-    toast.promise(updateStore.mutateAsync({ id: storeId, ...values }), {
+    toast.promise(updateStore({ id: storeId, ...values }), {
       loading: "스토어 정보 업데이트중...",
       success: () => {
         return "스토어 정보 업데이트 완료";
@@ -116,7 +117,7 @@ export default function StoreDrawer({
   const handleStoreEnabledChange = async (checked: boolean) => {
     setEnabled(checked);
 
-    toast.promise(updateStore.mutateAsync({ id: storeId, enabled: checked }), {
+    toast.promise(updateStore({ id: storeId, enabled: checked }), {
       loading: "스토어 상태 변경중...",
       success: () => {
         setEnabled(checked);
@@ -306,7 +307,12 @@ export default function StoreDrawer({
           )}
           <Form.Item>
             <div className="flex gap-3">
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={isStoreUpdating}
+                disabled={isStoreUpdating}
+              >
                 저장
               </Button>
               <Popover
