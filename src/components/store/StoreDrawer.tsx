@@ -201,25 +201,52 @@ export default function StoreDrawer({
               : "네이버 스마트플레이스"}{" "}
             설정
           </h3>
-          <Form.Item noStyle>
-            <Alert
-              icon={<InfoCircleOutlined />}
-              showIcon
-              className="mb-3"
-              message={
-                <div>
-                  <p>아래 문서를 참고해서 스마트스토어 연동을 진행해주세요.</p>
-                  <Link
-                    className="text-blue-500"
-                    target="_blank"
-                    href="https://docs.sluurp.io/ko/articles/d180665d"
-                  >
-                    스마트 스토어(스토어팜) 연동 방법
-                  </Link>
-                </div>
-              }
-              type="info"
-            />
+          <Form.Item noStyle dependencies={["type"]} shouldUpdate>
+            {({ getFieldValue }) => {
+              return getFieldValue("type") === "SMARTSTORE" ? (
+                <Alert
+                  icon={<InfoCircleOutlined />}
+                  showIcon
+                  className="mb-3"
+                  message={
+                    <div className="flex flex-col items-start">
+                      <p>
+                        아래 문서를 참고해서 스마트스토어 연동을 진행해주세요.
+                      </p>
+                      <Link
+                        className="text-indigo-500"
+                        target="_blank"
+                        href="https://docs.sluurp.io/ko/articles/d180665d"
+                      >
+                        스마트 스토어(스토어팜) 연동 방법
+                      </Link>
+                    </div>
+                  }
+                  type="info"
+                />
+              ) : getFieldValue("type") === "SMARTPLACE" ? (
+                <Alert
+                  icon={<InfoCircleOutlined />}
+                  showIcon
+                  className="mb-3"
+                  message={
+                    <div className="flex flex-col items-start">
+                      <p>
+                        아래 문서를 참고해서 스마트플레이스 연동을 진행해주세요.
+                      </p>
+                      <Link
+                        className="text-indigo-500"
+                        target="_blank"
+                        href="https://docs.sluurp.io/ko/articles/1ce5c2d5"
+                      >
+                        스마트플레이스 연동 방법
+                      </Link>
+                    </div>
+                  }
+                  type="info"
+                />
+              ) : null;
+            }}
           </Form.Item>
           {data.type === "SMARTSTORE" && (
             <>
