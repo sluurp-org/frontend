@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import {
   useGoogleLogin,
-  useRegister,
   useRegisterByProvider,
   useRequestSignupCode,
 } from "@/hooks/queries/useAuth";

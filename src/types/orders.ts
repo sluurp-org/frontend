@@ -22,7 +22,11 @@ export type OrderStatus =
   | "EXCHANGE"
   | "CANCEL"
   | "REFUND"
-  | "CANCEL_NOPAY";
+  | "CANCEL_NOPAY"
+  | "REQUEST"
+  | "CONFIRM"
+  | "DONE"
+  | "NOSHOW";
 
 export const OrderStatusColor: Record<OrderStatus, string> = {
   PAY_WAITING: "yellow",
@@ -35,6 +39,10 @@ export const OrderStatusColor: Record<OrderStatus, string> = {
   DELIVERED: "green",
   EXCHANGE: "default",
   CANCEL_NOPAY: "default",
+  REQUEST: "yellow",
+  CONFIRM: "green",
+  DONE: "green",
+  NOSHOW: "red",
 };
 
 export interface OrderListDto {
@@ -85,6 +93,10 @@ export const OrderStatusMap: Record<OrderStatus, string> = {
   CANCEL: "취소 완료",
   REFUND: "환불 완료",
   CANCEL_NOPAY: "미결제 취소",
+  REQUEST: "신청",
+  CONFIRM: "확정",
+  DONE: "이용 완료",
+  NOSHOW: "노쇼",
 };
 
 export interface PaginatedOrdersResponse {

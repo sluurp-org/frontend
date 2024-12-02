@@ -106,10 +106,12 @@ export default function ProductDetailPage() {
             <h2 className="text-2xl font-semibold mb-4">상품 발송 메시지</h2>
             <Events workspaceId={workspaceId} productId={productId} />
           </Card>
-          <Card>
-            <h2 className="text-2xl font-semibold mb-4">상품 옵션</h2>
-            <ProductOptions workspaceId={workspaceId} productId={productId} />
-          </Card>
+          {data.store.type !== "SMARTPLACE" && (
+            <Card>
+              <h2 className="text-2xl font-semibold mb-4">상품 옵션</h2>
+              <ProductOptions workspaceId={workspaceId} productId={productId} />
+            </Card>
+          )}
         </div>
       </div>
     </Component>

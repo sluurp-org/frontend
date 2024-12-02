@@ -1,11 +1,9 @@
 import {
   Drawer,
   Button,
-  Tag,
   Form,
   Input,
   Typography,
-  message,
   Popover,
   Switch,
   Alert,
@@ -17,9 +15,7 @@ import {
   useSyncStoreProduct,
   useUpdateStore,
 } from "@/hooks/queries/useStore";
-import Loading from "../Loading";
 import errorHandler from "@/utils/error";
-import { useRouter } from "next/router";
 import InfoRow from "@/components/InfoRow";
 import { EditOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { StoreType, UpdateStoreDto } from "@/types/store";
@@ -57,6 +53,10 @@ export default function StoreDrawer({
           applicationId: data.smartStoreCredentials?.applicationId || "",
           applicationSecret:
             data.smartStoreCredentials?.applicationSecret || "",
+        },
+        smartPlaceCredentials: {
+          username: data.smartPlaceCredentials?.username || "",
+          password: data.smartPlaceCredentials?.password || "",
         },
       });
       setEnabled(data.enabled);
@@ -196,9 +196,11 @@ export default function StoreDrawer({
       <Form form={form} layout="vertical" onFinish={onFinish}>
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-2">
-            네이버 스마트스토어 설정
+            {data.type === "SMARTSTORE"
+              ? "네이버 스마트스토어"
+              : "네이버 스마트플레이스"}{" "}
+            설정
           </h3>
-
           <Form.Item noStyle>
             <Alert
               icon={<InfoCircleOutlined />}
@@ -219,25 +221,62 @@ export default function StoreDrawer({
               type="info"
             />
           </Form.Item>
-
-          <Form.Item
-            name={["smartStoreCredentials", "applicationId"]}
-            label="애플리케이션 아이디"
-            rules={[
-              { required: true, message: "애플리케이션 아이디를 입력해주세요" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name={["smartStoreCredentials", "applicationSecret"]}
-            label="애플리케이션 시크릿"
-            rules={[
-              { required: true, message: "애플리케이션 시크릿을 입력해주세요" },
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
+          {data.type === "SMARTSTORE" && (
+            <>
+              <Form.Item
+                name={["smartStoreCredentials", "applicationId"]}
+                label="애플리케이션 아이디"
+                rules={[
+                  {
+                    required: true,
+                    message: "애플리케이션 아이디를 입력해주세요",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name={["smartStoreCredentials", "applicationSecret"]}
+                label="애플리케이션 시크릿"
+                rules={[
+                  {
+                    required: true,
+                    message: "애플리케이션 시크릿을 입력해주세요",
+                  },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+            </>
+          )}
+          {data.type === "SMARTPLACE" && (
+            <>
+              <Form.Item
+                name={["smartPlaceCredentials", "username"]}
+                label="네이버 아이디"
+                rules={[
+                  {
+                    required: true,
+                    message: "네이버 아이디를 입력해주세요",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name={["smartPlaceCredentials", "password"]}
+                label="네이버 비밀번호"
+                rules={[
+                  {
+                    required: true,
+                    message: "네이버 비밀번호를 입력해주세요",
+                  },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+            </>
+          )}
           <Form.Item>
             <div className="flex gap-3">
               <Button type="primary" htmlType="submit">

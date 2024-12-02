@@ -1,3 +1,5 @@
+import { StoreType } from "./store";
+
 export interface ProductsDto {
   id: number;
   name: string;
@@ -6,6 +8,7 @@ export interface ProductsDto {
   store: {
     id: number;
     name: string;
+    type: StoreType;
   };
 }
 

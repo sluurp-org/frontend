@@ -83,57 +83,140 @@ export default function CreateStoreDrawer({
             ))}
           </Select>
         </Form.Item>
-        <Form.Item noStyle>
-          <Alert
-            icon={<InfoCircleOutlined />}
-            showIcon
-            className="mb-3"
-            message={
-              <div className="flex flex-col items-start">
-                <p>아래 문서를 참고해서 스마트스토어 연동을 진행해주세요.</p>
-                <Link
-                  className="text-indigo-500"
-                  target="_blank"
-                  href="https://docs.sluurp.io/ko/articles/d180665d"
-                >
-                  스마트 스토어(스토어팜) 연동 방법
-                </Link>
-                <Button
-                  type="link"
-                  size="small"
-                  className="pl-0 text-indigo-500"
-                  onClick={onStoreCreateRequest}
-                >
-                  또는 스토어 연결 대행 요청하기
-                </Button>
-              </div>
-            }
-            type="info"
-          />
+        <Form.Item noStyle dependencies={["type"]} shouldUpdate>
+          {({ getFieldValue }) => {
+            return getFieldValue("type") === "SMARTSTORE" ? (
+              <Alert
+                icon={<InfoCircleOutlined />}
+                showIcon
+                className="mb-3"
+                message={
+                  <div className="flex flex-col items-start">
+                    <p>
+                      아래 문서를 참고해서 스마트스토어 연동을 진행해주세요.
+                    </p>
+                    <Link
+                      className="text-indigo-500"
+                      target="_blank"
+                      href="https://docs.sluurp.io/ko/articles/d180665d"
+                    >
+                      스마트 스토어(스토어팜) 연동 방법
+                    </Link>
+                    <Button
+                      type="link"
+                      size="small"
+                      className="pl-0 text-indigo-500"
+                      onClick={onStoreCreateRequest}
+                    >
+                      또는 스토어 연결 대행 요청하기
+                    </Button>
+                  </div>
+                }
+                type="info"
+              />
+            ) : getFieldValue("type") === "SMARTPLACE" ? (
+              <Alert
+                icon={<InfoCircleOutlined />}
+                showIcon
+                className="mb-3"
+                message={
+                  <div className="flex flex-col items-start">
+                    <p>
+                      아래 문서를 참고해서 스마트플레이스 연동을 진행해주세요.
+                    </p>
+                    <Link
+                      className="text-indigo-500"
+                      target="_blank"
+                      href="https://docs.sluurp.io/ko/articles/1ce5c2d5"
+                    >
+                      스마트플레이스 연동 방법
+                    </Link>
+                    <Button
+                      type="link"
+                      size="small"
+                      className="pl-0 text-indigo-500"
+                      onClick={onStoreCreateRequest}
+                    >
+                      또는 스토어 연결 대행 요청하기
+                    </Button>
+                  </div>
+                }
+                type="info"
+              />
+            ) : null;
+          }}
         </Form.Item>
-        <Form.Item
-          name={["smartStoreCredentials", "applicationId"]}
-          label="스마트스토어 애플리케이션 ID"
-          rules={[
-            {
-              required: true,
-              message: "스마트스토어 애플리케이션 ID를 입력해주세요",
-            },
-          ]}
-        >
-          <Input placeholder="스마트스토어 애플리케이션 ID를 입력해주세요" />
-        </Form.Item>
-        <Form.Item
-          name={["smartStoreCredentials", "applicationSecret"]}
-          label="스마트스토어 애플리케이션 시크릿"
-          rules={[
-            {
-              required: true,
-              message: "스마트스토어 애플리케이션 시크릿을 입력해주세요",
-            },
-          ]}
-        >
-          <Input.Password placeholder="스마트스토어 애플리케이션 시크릿을 입력해주세요" />
+        <Form.Item dependencies={["type"]} noStyle shouldUpdate>
+          {({ getFieldValue }) => {
+            return getFieldValue("type") === "SMARTSTORE" ? (
+              <>
+                <Form.Item
+                  name={["smartStoreCredentials", "applicationId"]}
+                  label="스마트스토어 애플리케이션 ID"
+                  rules={[
+                    {
+                      required: true,
+                      message: "스마트스토어 애플리케이션 ID를 입력해주세요",
+                    },
+                  ]}
+                >
+                  <Input placeholder="스마트스토어 애플리케이션 ID를 입력해주세요" />
+                </Form.Item>
+                <Form.Item
+                  name={["smartStoreCredentials", "applicationSecret"]}
+                  label="스마트스토어 애플리케이션 시크릿"
+                  rules={[
+                    {
+                      required: true,
+                      message:
+                        "스마트스토어 애플리케이션 시크릿을 입력해주세요",
+                    },
+                  ]}
+                >
+                  <Input.Password placeholder="스마트스토어 애플리케이션 시크릿을 입력해주세요" />
+                </Form.Item>
+              </>
+            ) : getFieldValue("type") === "SMARTPLACE" ? (
+              <>
+                <Form.Item
+                  name={["smartPlaceCredentials", "channelId"]}
+                  label="비즈니스 아이디"
+                  rules={[
+                    {
+                      required: true,
+                      message: "비즈니스 아이디를 입력해주세요",
+                    },
+                  ]}
+                >
+                  <Input placeholder="비즈니스 아이디를 입력해주세요" />
+                </Form.Item>
+                <Form.Item
+                  name={["smartPlaceCredentials", "username"]}
+                  label="네이버 아이디"
+                  rules={[
+                    {
+                      required: true,
+                      message: "네이버 아이디를 입력해주세요",
+                    },
+                  ]}
+                >
+                  <Input placeholder="네이버 아이디를 입력해주세요" />
+                </Form.Item>
+                <Form.Item
+                  name={["smartPlaceCredentials", "password"]}
+                  label="네이버 비밀번호"
+                  rules={[
+                    {
+                      required: true,
+                      message: "네이버 비밀번호를 입력해주세요",
+                    },
+                  ]}
+                >
+                  <Input.Password placeholder="네이버 비밀번호를 입력해주세요" />
+                </Form.Item>
+              </>
+            ) : null;
+          }}
         </Form.Item>
         <Form.Item>
           <div className="flex gap-3">

@@ -43,7 +43,10 @@ const deleteStore = async (workspaceId: number, storeId: number) => {
 const updateStore = async (workspaceId: number, storeData: UpdateStoreDto) => {
   const { data } = await axiosClient.patch<StoreDetailDto>(
     `/workspace/${workspaceId}/store/${storeData.id}`,
-    storeData
+    storeData,
+    {
+      timeout: 1000 * 60, // 1 minute
+    }
   );
   return data;
 };

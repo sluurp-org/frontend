@@ -8,8 +8,10 @@ import {
 import { CreateEventDto } from "@/types/events";
 import { OrderStatus, OrderStatusMap } from "@/types/orders";
 import { PaginatedProductsResponse } from "@/types/product";
+import { StoreType } from "@/types/store";
 import errorHandler from "@/utils/error";
 import { Button, Cascader, Drawer, Form, InputNumber, Select } from "antd";
+import { set } from "date-fns";
 import { getJosaPicker } from "josa";
 import { min } from "moment";
 import Link from "next/link";
@@ -32,6 +34,7 @@ export default function EventCreateDrawer({
   onClose: () => void;
 }) {
   const [form] = Form.useForm<CreateEventDto>();
+  const [storeType, setStoreType] = useState<StoreType>();
 
   const { mutateAsync: createEvent } = useCreateEvent(workspaceId);
   const {
@@ -57,6 +60,9 @@ export default function EventCreateDrawer({
     const productId = value[value.length - 1] as number;
 
     setSelectedProduct(productId);
+    setStoreType(
+      productData?.nodes.find((node) => node.id === productId)?.store.type
+    );
     form.setFieldsValue({ productVariantId: undefined, productId });
   };
 
@@ -161,7 +167,7 @@ export default function EventCreateDrawer({
             ]}
           />
         </Form.Item>
-        {productOptionData?.total === 0 && (
+        {productOptionData?.total === 0 && storeType !== "SMARTPLACE" && (
           <div className="text-red-500">
             <span>선택한 상품에 옵션이 없습니다. 또는</span>
             <Button type="link" size="small" onClick={handleSyncOptions}>
@@ -203,10 +209,10 @@ export default function EventCreateDrawer({
         <div className="w-full border-b border-gray-200 my-2 mt-6" />
         <Form.Item
           name="type"
-          label="주문 상태"
-          rules={[{ required: true, message: "주문 상태를 선택해주세요." }]}
+          label="상태"
+          rules={[{ required: true, message: "상태를 선택해주세요." }]}
         >
-          <Select placeholder="주문 상태를 선택해주세요.">
+          <Select placeholder="상태를 선택해주세요.">
             {Object.entries(OrderStatusMap).map(([key, value]) => (
               <Select.Option key={key} value={key}>
                 {value}

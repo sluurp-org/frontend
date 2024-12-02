@@ -110,13 +110,15 @@ export default function WorkspaceOrderDetail() {
           <Card>
             <h2 className="text-2xl font-semibold mb-4">결제 상품 정보</h2>
             <div className="flex flex-col md:flex-row items-center gap-6">
-              <Image
-                src={data.product.productImageUrl}
-                alt={data.product.name}
-                className="w-32 h-32 object-cover rounded-md"
-                width={128}
-                height={128}
-              />
+              {data?.product?.productImageUrl && (
+                <Image
+                  src={data.product.productImageUrl}
+                  alt={data.product.name}
+                  className="w-32 h-32 object-cover rounded-md"
+                  width={128}
+                  height={128}
+                />
+              )}
               <div>
                 <Link
                   href={`/workspaces/${workspaceId}/product/${data.product.id}`}
@@ -127,9 +129,11 @@ export default function WorkspaceOrderDetail() {
                   <span>{data.product.name}</span>
                 </Link>
                 <InfoRow label="상품명">{data.product.name}</InfoRow>
-                <InfoRow label="옵션명">
-                  {data.productVariant?.name || "-"}
-                </InfoRow>
+                {data.productVariant?.name && (
+                  <InfoRow label="옵션명">
+                    {data.productVariant?.name || "-"}
+                  </InfoRow>
+                )}
                 <InfoRow label="상품 스토어">
                   <Link
                     href={`/workspaces/${workspaceId}/store?storeId=${data.store.id}`}
