@@ -838,22 +838,6 @@ const CreateKakaoMessage = ({ workspaceId }: { workspaceId: number }) => {
                 )
               }
             </Form.Item>
-            <Form.Item
-              name="completeDelivery"
-              noStyle
-              valuePropName="checked"
-              initialValue={false}
-            >
-              <Checkbox
-                className="mt-2"
-                checked={form.getFieldValue("completeDelivery")}
-                onChange={(e) => {
-                  form.setFieldsValue({ completeDelivery: e.target.checked });
-                }}
-              >
-                발송 완료 시 주문을 배송 완료로 변경
-              </Checkbox>
-            </Form.Item>
             <Form.Item noStyle dependencies={["type"]}>
               {(form: FormInstance<MessageCreateDto>) =>
                 form.getFieldValue("type") === "FULLY_CUSTOM" && (

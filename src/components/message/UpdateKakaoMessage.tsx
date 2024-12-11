@@ -857,15 +857,6 @@ const UpdateKakaoMessage = ({
                 }
               </Form.Item>
               <Form.Item
-                name="completeDelivery"
-                noStyle
-                valuePropName="checked"
-              >
-                <Checkbox defaultChecked={false}>
-                  발송 완료 시 주문을 배송 완료로 변경
-                </Checkbox>
-              </Form.Item>
-              <Form.Item
                 name="inspection"
                 noStyle
                 valuePropName="checked"

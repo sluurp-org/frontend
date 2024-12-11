@@ -83,7 +83,6 @@ export default function KakaoMessageDetail({
     id,
     createdAt,
     updatedAt,
-    completeDelivery,
   } = message;
 
   const router = useRouter();
@@ -390,11 +389,6 @@ export default function KakaoMessageDetail({
                   <span>버튼이 없습니다.</span>
                 )}
               </div>
-            </InfoRow>
-            <InfoRow label="배송 완료 처리">
-              {completeDelivery
-                ? "메시지 발송시 배송 완료 처리됨"
-                : "수동으로 배송 완료 처리 필요"}
             </InfoRow>
             <InfoRow label="메시지 발송 대상">
               {MessageTargetMapping[target]}

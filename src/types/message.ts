@@ -75,7 +75,6 @@ export interface MessageDto {
   type: MessageType;
   content?: string;
   contentGroupId?: number;
-  completeDelivery: boolean;
   contentGroup?: {
     id: number;
     name: string;
@@ -138,7 +137,6 @@ export interface MessageCreateDto {
   sendType: MessageSendType;
   content: string;
   contentGroupId: number;
-  completeDelivery?: boolean;
   kakaoTemplate: KakaoTemplateCreateDto;
   kakaoTemplateId?: number;
   target: MessageTarget;
@@ -163,7 +161,6 @@ export interface MessageUpdateDto {
   name?: string | undefined;
   content?: string | undefined;
   contentGroupId?: number | undefined;
-  completeDelivery?: boolean;
   variables?:
     | {
         key: string;

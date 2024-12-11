@@ -101,6 +101,7 @@ export const useMessages = (
     () => fetchMessages(workspaceId, filters),
     {
       keepPreviousData: true,
+      enabled: !!workspaceId,
     }
   );
 };

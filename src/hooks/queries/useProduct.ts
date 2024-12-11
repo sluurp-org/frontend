@@ -90,6 +90,7 @@ export const useProducts = (
     () => fetchProducts(workspaceId, params),
     {
       keepPreviousData: true,
+      enabled: !!workspaceId,
     }
   );
 };
